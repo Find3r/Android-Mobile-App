@@ -23,11 +23,7 @@
         <activity
             android:name="com.nansoft.find3r.activity.MainActivity"
             android:label="@string/app_name" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name="com.nansoft.find3r.activity.PerfilUsuarioActivity"
@@ -56,6 +52,12 @@
         <activity
             android:name="com.nansoft.find3r.activity.LoginActivity"
             android:label="@string/app_name" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name="com.nansoft.find3r.activity.InfoNoticiaActivity"
