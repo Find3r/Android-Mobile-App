@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.nansoft.find3r" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
+
+    <uses-feature
+        android:name="android.hardware.telephony"
+        android:required="false" />
+
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="21" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name="com.nansoft.find3r.activity.MainActivity"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.nansoft.find3r.activity.PerfilUsuarioActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="com.nansoft.find3r.activity.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.nansoft.find3r.activity.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.nansoft.find3r.activity.ComentarioActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="com.nansoft.find3r.activity.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.nansoft.find3r.activity.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.nansoft.find3r.activity.NoticiasCategoriaActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="com.nansoft.find3r.activity.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.nansoft.find3r.activity.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.nansoft.find3r.activity.LoginActivity"
+            android:label="@string/app_name" >
+        </activity>
+        <activity
+            android:name="com.nansoft.find3r.activity.InfoNoticiaActivity"
+            android:label="@string/app_name"
+            android:parentActivityName="com.nansoft.find3r.activity.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.nansoft.find3r.activity.MainActivity" />
+        </activity>
+    </application>
+
+</manifest>

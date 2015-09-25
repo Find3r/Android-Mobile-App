@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layInfoNoticia"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+        >
+
+    <TextView
+        android:id="@+id/txtvInfoNombreNoticia"
+        android:layout_gravity="center"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="@color/anaranjado"
+        android:textSize="20dp" />
+
+    <ImageView
+        android:id="@+id/imgvInfoNoticia"
+        android:layout_below="@id/txtvInfoNombreNoticia"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginBottom="10dp"
+        android:layout_centerHorizontal="true" />
+
+    <LinearLayout
+        android:id="@+id/layInfoEstado"
+        android:layout_below="@id/imgvInfoNoticia"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        >
+
+
+        <ImageView
+            android:id="@+id/imgvInfoEstado"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/lost"/>
+
+        <ImageView
+            android:id="@+id/imgvFollow"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_weight="1"
+            android:src="@drawable/lost"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layInfoEstado2"
+        android:layout_below="@id/layInfoEstado"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="2"
+        android:orientation="horizontal"
+        >
+
+        <TextView
+            android:id="@+id/txtvInfoEstado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/anaranjado"
+            android:text="@string/lost"
+            android:layout_weight="1"
+            android:gravity="center"/>
+
+        <TextView
+            android:id="@+id/txtvInfoFollow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/anaranjado"
+            android:text="@string/lost"
+            android:layout_weight="1"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/txtvInfoSubFecha"
+        android:layout_below="@id/layInfoEstado2"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_width="fill_parent"
+        android:textColor="@color/cafeoscuro"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:layout_centerHorizontal="true" />
+
+
+    <TextView
+        android:id="@+id/txtvInfoSubDescripcion"
+        android:layout_below="@id/txtvInfoSubFecha"
+        android:textColor="@color/anaranjado"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textSize="15dp"
+        android:text="@string/descripcion"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/txtvInfoDescripcion"
+        android:layout_below="@id/txtvInfoSubDescripcion"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/cafeoscuro"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:id="@+id/txtvInfoTitulo"
+        android:layout_below="@id/txtvInfoDescripcion"
+        android:text="@string/instrucciones"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:textStyle="bold"
+        android:textColor="@color/cafeoscuro"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:textSize="15dp"
+        android:layout_centerHorizontal="true" />
+
+    <ImageView
+        android:id="@+id/imgvInfoTelefono"
+        android:layout_below="@id/txtvInfoTitulo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:src="@drawable/phone"
+        android:layout_marginTop="20dp"
+        android:contentDescription="Llamar"
+        android:layout_centerHorizontal="true" />
+
+</RelativeLayout>

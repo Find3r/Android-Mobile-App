@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <attr name="colorForeground" />
+
+    <declare-styleable name="CircularProgressBar">
+        <attr name="cpb_hasShadow" format="boolean"/>
+        <attr name="cpb_progressColor" format="string"/>
+        <attr name="cpb_backgroundColor" format="string"/>
+        <attr name="cpb_title" format="string"/>
+        <attr name="cpb_titleColor" format="string"/>
+        <attr name="cpb_subtitle" format="string"/>
+        <attr name="cpb_subtitleColor" format="string"/>
+        <attr name="cpb_strokeWidth" format="integer"/>
+    </declare-styleable>
+
+    <declare-styleable name="CircularImageView">
+        <attr name="border" format="boolean"></attr>
+        <attr name="border_width" format="dimension"></attr>
+        <attr name="border_color" format="color"></attr>
+        <attr name="shadow" format="boolean"></attr>
+    </declare-styleable>
+
+    <declare-styleable name="Theme">
+        <attr name="circularImageViewStyle" format="reference"></attr>
+    </declare-styleable>
+
+
+
+</resources>

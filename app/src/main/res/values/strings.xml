@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="comentar">Comentar</string>
+    <string name="app_name">Find3r</string>
+    <string name="action_contact">Contact</string>
+    <string name="test">Test</string>
+    <string name="name">Título noticia</string>
+    <string name="location">Dirección</string>
+    <string name="infocontacto">Información de contacto</string>
+    <string name="login">Bienvenid@ por favor inicia sesión</string>
+    <string name="loginRegistrarse">Registrarse</string>
+    <string name="loginFacebook">Facebook</string>
+    <string name="facebook_app_id">1664245403804714</string>
+    <string name="instrucciones">En caso de haber visto una persona o vehículo de los que se presentan por favor comunicarse al 911</string>
+    <string name="descripcion">Descripción</string>
+    <string name="fechaDesaparecido">Se perdió el </string>
+    <string name="lost">Desaparecido(a)</string>
+    <string name="found">Encontrado(a)</string>
+    <string name="noconnection">Verifica la conexión a internet e intenta de nuevo</string>
+    <string name="nodata">¡Vaya parece que aún no hay reportes de esta categoría!</string>
+    <string name="report">Reportar</string>
+    <string name="ayudar">Ayudar</string>
+
+    <string name="nombreProyecto">Nombre</string>
+    <string name="imagenProyecto">Imagen</string>
+    <string name="descripcionProyecto">Descripción</string>
+
+    <string name="estado">Estado</string>
+    <string name="email">Email</string>
+    <string name="website">Sitio web</string>
+
+    <string name="nombreCompleto">Nombre</string>
+    <string name="cargo">Cargo</string>
+    <string name="title_activity_proyecto">ProyectoActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_update">Actualizar</string>
+    <string name="title_activity_perfil_usuario">PerfilUsuarioActivity</string>
+    <string name="title_activity_comentario">ComentarioActivity</string>
+    <string name="title_activity_noticias_categoria">NoticiasCategoriaActivity</string>
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_info_noticia">InfoNoticiaActivity</string>
+
+</resources>

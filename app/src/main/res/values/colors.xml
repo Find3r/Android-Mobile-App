@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="azul">#0073e7</color>
+    <color name="background">#F9FAFB</color>
+    <color name="alternative_background">#e8e8e8</color>
+    <color name="gray">#7d7d7d</color>
+    <color name="blue">#055f87</color>
+    <color name="divider">#f8f8f8</color>
+
+    <color name="white">#FFF</color>
+
+    <color name="crema">#F8EDCD</color>
+    <color name="verdeoscuro">#ff80a51e</color>
+    <color name="verdeclaro">#A7CD2C</color>
+    <color name="cafeoscuro">#5F4C0B</color>
+    <color name="anaranjado">#FF8000</color>
+    <color name="GrayLight">#eeeeee</color>
+    <color name="GrayHot">#272727</color>
+
+
+    <color name="background_window">#FFE5E5E5</color>
+    <color name="dark_green">#2E8466</color>
+    <color name="light_green">#60B99A</color>
+    <color name="greenBlue">#2996AC</color>
+    <color name="green">#689F38</color>
+    <color name="greenDark">#3E5F22</color>
+    <color name="banana">#FFCC00</color>
+    <color name="opacity_black">#B3000000</color>
+    <color name="black">#FF000000</color>
+    <color name="android_blue">#FF33b5e5</color>
+    <color name="android_darkblue">#FF0099cc</color>
+    <color name="android_green">#FF99cc00</color>
+    <color name="android_darkgreen">#FF669900</color>
+    <color name="android_red">#FFff4444</color>
+    <color name="android_darkred">#FFcc0000</color>
+    <color name="android_yellow">#FFffd75a</color>
+    <color name="android_darkyellow">#FFffc40d</color>
+    <color name="android_orange">#FFffbb33</color>
+    <color name="android_darkorange">#FFff8800</color>
+    <color name="android_pink">#FFd9698c</color>
+    <color name="android_darkpink">#FFc3325f</color>
+    <color name="android_purple">#FFaa66cc</color>
+    <color name="android_darkpurple">#FF9933cc</color>
+
+    <color name="pressed_styled">#CC669900</color>
+
+
+
+    <color name="azure">#69D2E7</color>
+
+
+    <color name="circular_progress_default_progress">#bada55</color>
+    <color name="circular_progress_default_background">#787878</color>
+    <color name="circular_progress_default_title">#bada55</color>
+    <color name="circular_progress_default_subtitle">#D1D1D1</color>
+</resources>

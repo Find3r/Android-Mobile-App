@@ -1,0 +1,68 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context="com.nansoft.find3r.activity.InfoNoticiaActivity">
+
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swprlInfoNoticia"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="150dp"
+        android:padding="10dp">
+
+            <ListView
+                android:id="@+id/lstvComentarioPost"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:dividerHeight="10dp"
+                android:divider="@null"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/borde"
+        android:padding="5dp">
+
+        <ImageView
+            android:id="@+id/imgvLogoUsuario_add_comment"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/user"
+            android:layout_below="@+id/txtvNombreUsuario_add_comment"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:id="@+id/txtvNombreUsuario_add_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imgvLogoUsuario_add_comment"
+            android:text="Nombre usuario"/>
+
+        <EditText
+            android:id="@+id/edtDescripcionComentario_add_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/imgvLogoUsuario_add_comment"
+            android:hint="@string/location"
+            android:layout_below="@id/txtvNombreUsuario_add_comment"
+            android:lines="2" />
+
+        <Button
+            style="@style/button"
+            android:id="@+id/btnChekComment"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/edtDescripcionComentario_add_comment"
+            android:text="Agregar comentario"
+            android:layout_marginTop="10dp"/>
+
+    </RelativeLayout>
+
+</RelativeLayout>
