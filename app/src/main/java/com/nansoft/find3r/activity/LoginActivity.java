@@ -1,6 +1,7 @@
 package com.nansoft.find3r.activity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Pair;
@@ -115,6 +116,10 @@ public class LoginActivity extends ActionBarActivity {
 
 
     private void authenticate() {
+
+        final ProgressDialog progress = ProgressDialog.show(this, "Cargando",
+                "Espere un momemento...", true);
+
         // We first try to load a token cache if one exists.
         if (loadUserTokenCache(mClient))
         {
@@ -131,7 +136,18 @@ public class LoginActivity extends ActionBarActivity {
 
                 @Override
                 public void onSuccess(UsuarioFacebook result) {
-                    createAndShowDialog(result.name + " item(s) marked as complete.", "Completed Items");
+                    String informacionUsuario = "";
+                    informacionUsuario += result.name + "\n";
+                    informacionUsuario += result.gender + "\n";
+                    informacionUsuario += result.link + "\n";
+                    informacionUsuario += result.data.PictureURL.PictureURL + "\n";
+
+                    createAndShowDialog(informacionUsuario, "Completed Items");
+
+                    if(progress.isShowing())
+                    {
+                        progress.dismiss();
+                    }
 
                 }
             });
@@ -165,8 +181,19 @@ public class LoginActivity extends ActionBarActivity {
 
                         @Override
                         public void onSuccess(UsuarioFacebook result) {
-                            createAndShowDialog(result.name + " item(s) marked as complete.", "Completed Items");
 
+                            String informacionUsuario = "";
+                            informacionUsuario += result.name + "\n";
+                            informacionUsuario += result.gender + "\n";
+                            informacionUsuario += result.link + "\n";
+                            informacionUsuario += result.data.PictureURL + "\n";
+
+                            createAndShowDialog(informacionUsuario, "Completed Items");
+
+                            if(progress.isShowing())
+                            {
+                                progress.dismiss();
+                            }
                         }
                     });
                 }

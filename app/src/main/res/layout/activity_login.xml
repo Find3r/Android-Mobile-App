@@ -7,35 +7,26 @@
     tools:context="com.nansoft.find3r.activity.LoginActivity"
     android:background="@drawable/login">
 
-    <LinearLayout
-        android:orientation="vertical"
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:layout_alignParentBottom="true" >
+        android:text="@string/login"
+        android:textAlignment="center"
+        android:gravity="center"
+        android:layout_centerInParent="true"
+        android:textColor="@color/white"
+        android:textSize="25dp"/>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/login"
-            android:textAlignment="center"
-            android:gravity="center"
-            android:textColor="@color/white"
-            android:textSize="18dp"/>
 
-        <Button
-            style="@style/btnLogin"
-            android:id="@+id/btnFacebook"
-            android:padding="10dp"
-            android:layout_margin="4dp"
-            android:text="@string/loginFacebook" />
 
-        <Button
-            style="@style/btnLogin"
-            android:id="@+id/btnRegistrarse"
-            android:text="@string/loginRegistrarse" />
-
-    </LinearLayout>
+    <Button
+        style="@style/btnLogin"
+        android:id="@+id/btnFacebook"
+        android:padding="10dp"
+        android:layout_margin="4dp"
+        android:layout_alignParentBottom="true"
+        android:text="@string/loginFacebook" />
 
 
 

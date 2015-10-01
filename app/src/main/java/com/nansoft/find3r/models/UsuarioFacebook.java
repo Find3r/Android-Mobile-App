@@ -31,14 +31,14 @@ public class UsuarioFacebook
     public class Data
     {
         @SerializedName("data")
-        public Data2 PictureURL;
+        public  Data2 PictureURL;
 
     }
 
     public class Data2
     {
         @SerializedName("url")
-        public String PictureURL;
+        public  String PictureURL;
 
 
     }
