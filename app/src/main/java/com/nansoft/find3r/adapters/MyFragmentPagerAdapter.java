@@ -21,7 +21,7 @@ public class MyFragmentPagerAdapter extends FragmentPagerAdapter implements Page
     List<Fragment> fragments;
 
     //private int tabIcons[] = {R.drawable.news, R.drawable.category, R.drawable.notification,R.drawable.user};
-    private int tabIcons[] = {R.drawable.news_active, R.drawable.user};
+    private int tabIcons[] = {R.drawable.news_active,R.drawable.news, R.drawable.user_active};
     Context mContext;
     /**
      * Constructor
