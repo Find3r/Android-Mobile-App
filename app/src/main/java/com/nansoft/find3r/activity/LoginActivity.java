@@ -2,6 +2,7 @@ package com.nansoft.find3r.activity;
 
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Pair;
@@ -39,38 +40,21 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.ExecutionException;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceException;
+import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.UsuarioFacebook;
 
 public class LoginActivity extends ActionBarActivity {
 
-    private MobileServiceClient mClient;
 
-    // variables para almacenar el token del usuario
-    public static final String SHAREDPREFFILE = "temp";
-    public static final String USERIDPREF = "uid";
-    public static final String TOKENPREF = "tkn";
-
-    public boolean bAuthenticating = false;
-    public final Object mAuthenticationLock = new Object();
+    MobileServiceCustom customClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        try {
-            // Create the Mobile Service Client instance, using the provided
-            // Mobile Service URL and key
-            mClient = new MobileServiceClient(
-                    "https://wantedapp.azure-mobile.net/",
-                    "MIqlLCMyhKNIonsgsNuFlpBXzqqNWj11",
-                    this);
 
+        customClient = new MobileServiceCustom(this);
 
-
-
-        } catch (MalformedURLException e) {
-            createAndShowDialog(new Exception("There was an error creating the Mobile Service. Verify the URL"), "Error");
-        }
         Button btnFacebook = (Button) findViewById(R.id.btnFacebook);
         btnFacebook.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,11 +65,32 @@ public class LoginActivity extends ActionBarActivity {
             }
         });
 
+        // se verifica si el usuario ya está registrado
+        if(checkUser())
+        {
+            // si es así se inicia la acitivuty principal
+            Intent intent = new Intent(this,MainActivity.class);
+            startActivity(intent);
+
+            // se finaliza para que no pueda volver acá
+            finish();
+        }
 
 
 
+    }
 
-
+    private boolean checkUser()
+    {
+        // We first try to load a token cache if one exists.
+        if (customClient.loadUserTokenCache(customClient.mClient))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
 
@@ -121,11 +126,11 @@ public class LoginActivity extends ActionBarActivity {
                 "Espere un momemento...", true);
 
         // We first try to load a token cache if one exists.
-        if (loadUserTokenCache(mClient))
+        if (customClient.loadUserTokenCache(customClient.mClient))
         {
             List<Pair<String, String> > lp = new ArrayList<Pair<String, String> >();
-            lp.add(new Pair("id", mClient.getCurrentUser().getUserId()));
-            ListenableFuture<UsuarioFacebook> result = mClient.invokeApi("userlogin", "GET", null, UsuarioFacebook.class);
+            lp.add(new Pair("id", customClient.mClient.getCurrentUser().getUserId()));
+            ListenableFuture<UsuarioFacebook> result = customClient.mClient.invokeApi("userlogin", "GET", null, UsuarioFacebook.class);
 
 
             Futures.addCallback(result, new FutureCallback<UsuarioFacebook>() {
@@ -156,7 +161,7 @@ public class LoginActivity extends ActionBarActivity {
         else
         {
             // Login using the Google provider.
-            ListenableFuture<MobileServiceUser> mLogin = mClient.login(MobileServiceAuthenticationProvider.Facebook);
+            ListenableFuture<MobileServiceUser> mLogin = customClient.mClient.login(MobileServiceAuthenticationProvider.Facebook);
 
             Futures.addCallback(mLogin, new FutureCallback<MobileServiceUser>() {
                 @Override
@@ -165,37 +170,9 @@ public class LoginActivity extends ActionBarActivity {
                 }
                 @Override
                 public void onSuccess(MobileServiceUser user) {
-                    createAndShowDialog(String.format(
-                            "You are now logged in - %1$2s",
-                            user.getUserId()), "Success");
-                    cacheUserToken(mClient.getCurrentUser());
-                    List<Pair<String, String> > lp = new ArrayList<Pair<String, String> >();
-                    lp.add(new Pair("id", user.getUserId()));
-                    ListenableFuture<UsuarioFacebook> result = mClient.invokeApi("userlogin", "GET", null, UsuarioFacebook.class);
 
-                    Futures.addCallback(result, new FutureCallback<UsuarioFacebook>() {
-                        @Override
-                        public void onFailure(Throwable exc) {
-                            createAndShowDialog((Exception) exc, "Error");
-                        }
+                    customClient.cacheUserToken(customClient.mClient.getCurrentUser());
 
-                        @Override
-                        public void onSuccess(UsuarioFacebook result) {
-
-                            String informacionUsuario = "";
-                            informacionUsuario += result.name + "\n";
-                            informacionUsuario += result.gender + "\n";
-                            informacionUsuario += result.link + "\n";
-                            informacionUsuario += result.data.PictureURL + "\n";
-
-                            createAndShowDialog(informacionUsuario, "Completed Items");
-
-                            if(progress.isShowing())
-                            {
-                                progress.dismiss();
-                            }
-                        }
-                    });
                 }
             });
         }
@@ -204,32 +181,6 @@ public class LoginActivity extends ActionBarActivity {
 
     }
 
-    // guarda el id de usuario y token con acceso privado
-    private void cacheUserToken(MobileServiceUser user)
-    {
-        SharedPreferences prefs = getSharedPreferences(SHAREDPREFFILE, Context.MODE_PRIVATE);
-        Editor editor = prefs.edit();
-        editor.putString(USERIDPREF, user.getUserId());
-        editor.putString(TOKENPREF, user.getAuthenticationToken());
-        editor.commit();
-    }
-
-    private boolean loadUserTokenCache(MobileServiceClient client)
-    {
-        SharedPreferences prefs = getSharedPreferences(SHAREDPREFFILE, Context.MODE_PRIVATE);
-        String userId = prefs.getString(USERIDPREF, "undefined");
-        if (userId == "undefined")
-            return false;
-        String token = prefs.getString(TOKENPREF, "undefined");
-        if (token == "undefined")
-            return false;
-
-        MobileServiceUser user = new MobileServiceUser(userId);
-        user.setAuthenticationToken(token);
-        client.setCurrentUser(user);
-
-        return true;
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
