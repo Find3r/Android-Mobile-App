@@ -128,34 +128,12 @@ public class LoginActivity extends ActionBarActivity {
         // We first try to load a token cache if one exists.
         if (customClient.loadUserTokenCache(customClient.mClient))
         {
-            List<Pair<String, String> > lp = new ArrayList<Pair<String, String> >();
-            lp.add(new Pair("id", customClient.mClient.getCurrentUser().getUserId()));
-            ListenableFuture<UsuarioFacebook> result = customClient.mClient.invokeApi("userlogin", "GET", null, UsuarioFacebook.class);
+            // si es así se inicia la acitivuty principal
+            Intent intent = new Intent(this,MainActivity.class);
+            startActivity(intent);
 
-
-            Futures.addCallback(result, new FutureCallback<UsuarioFacebook>() {
-                @Override
-                public void onFailure(Throwable exc) {
-                    createAndShowDialog((Exception) exc, "Error");
-                }
-
-                @Override
-                public void onSuccess(UsuarioFacebook result) {
-                    String informacionUsuario = "";
-                    informacionUsuario += result.name + "\n";
-                    informacionUsuario += result.gender + "\n";
-                    informacionUsuario += result.link + "\n";
-                    informacionUsuario += result.data.PictureURL.PictureURL + "\n";
-
-                    createAndShowDialog(informacionUsuario, "Completed Items");
-
-                    if(progress.isShowing())
-                    {
-                        progress.dismiss();
-                    }
-
-                }
-            });
+            // se finaliza para que no pueda volver acá
+            finish();
         }
         // If we failed to load a token cache, login and create a token cache
         else
@@ -172,7 +150,12 @@ public class LoginActivity extends ActionBarActivity {
                 public void onSuccess(MobileServiceUser user) {
 
                     customClient.cacheUserToken(customClient.mClient.getCurrentUser());
+                    // si es así se inicia la acitivuty principal
+                    Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                    startActivity(intent);
 
+                    // se finaliza para que no pueda volver acá
+                    finish();
                 }
             });
         }
