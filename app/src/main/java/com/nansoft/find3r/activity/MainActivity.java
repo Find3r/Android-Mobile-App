@@ -3,17 +3,27 @@ package com.nansoft.find3r.activity;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Pair;
 import android.util.TypedValue;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.animacion.ZoomOutPageTransformer;
 import com.nansoft.find3r.adapters.MyFragmentPagerAdapter;
 import com.nansoft.find3r.fragments.CategoriaFragment;
 import com.nansoft.find3r.fragments.NoticiaFragment;
 import com.nansoft.find3r.fragments.PerfilFragment;
+import com.nansoft.find3r.helpers.MobileServiceCustom;
+import com.nansoft.find3r.models.UsuarioFacebook;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends ActionBarActivity implements ViewPager.OnPageChangeListener {
 
@@ -32,16 +42,13 @@ public class MainActivity extends ActionBarActivity implements ViewPager.OnPageC
     private ViewPager pager = null;
     private MyFragmentPagerAdapter adapter;
 
+
+
+
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         this.setContentView(R.layout.main_activity);
-
-
-        // listview
-
-
-
 
 
         // Instantiate a ViewPager
@@ -71,7 +78,11 @@ public class MainActivity extends ActionBarActivity implements ViewPager.OnPageC
 
         tabs.setOnPageChangeListener(this);
 
+
     }
+
+
+
 
 
 
