@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.authentication.MobileServiceUser;
+import com.nansoft.find3r.models.UsuarioFacebook;
 
 import java.net.MalformedURLException;
 
@@ -16,6 +17,7 @@ public class MobileServiceCustom
 {
     private final String URL_MOBILE_SERVICES =  "https://wantedapp.azure-mobile.net/";
     private final String KEY_MOBILE_SERVICES =  "MIqlLCMyhKNIonsgsNuFlpBXzqqNWj11";
+
 
     private Context contex;
     public static MobileServiceClient mClient;
