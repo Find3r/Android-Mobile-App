@@ -51,9 +51,21 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
 
             viewHolder.imgvEstado = (ImageView) row.findViewById(R.id.imgvEstado);
 
+            viewHolder.imgvComentario = (ImageView) row.findViewById(R.id.imgvComentario);
+
+            viewHolder.imgvSeguimiento = (ImageView) row.findViewById(R.id.imgvSeguimiento);
+
             viewHolder.txtvEstado = (TextView) row.findViewById(R.id.txtvEstado);
 
             viewHolder.txtvFecha = (TextView) row.findViewById(R.id.txtvFechaNoticia);
+
+            viewHolder.imgvSeguimiento.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v)
+                {
+
+                }
+            });
 
             row.setTag(viewHolder);
         }
@@ -105,6 +117,8 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
         public TextView txtvFecha;
         public ImageView imgvImagen;
         public ImageView imgvEstado;
+        public ImageView imgvSeguimiento;
+        public ImageView imgvComentario;
     }
 
 }
