@@ -23,7 +23,9 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.nansoft.find3r.R;
+import com.nansoft.find3r.adapters.ComentarioAdapter;
 import com.nansoft.find3r.adapters.NoticiaAdapter;
+import com.nansoft.find3r.models.Comentario;
 import com.nansoft.find3r.models.Noticia;
 
 import java.net.MalformedURLException;
@@ -32,16 +34,8 @@ public class InfoNoticiaActivity extends ActionBarActivity {
 
     String idNoticia;
     public static SwipeRefreshLayout mSwipeRefreshLayout;
-    ImageView imgvPerfil;
-    ImageView imgvInfoEstado;
-    TextView txtvNombre;
-    TextView txtvDescripcion;
-    TextView txtvFecha;
-    TextView txtvInfoEstado;
-    RelativeLayout layout;
-    ImageView imgvSad;
-    TextView txtvSad;
-    NoticiaAdapter adapter;
+
+    ComentarioAdapter adapter;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -51,60 +45,27 @@ public class InfoNoticiaActivity extends ActionBarActivity {
 
         final ListView listview = (ListView) findViewById(R.id.lstvComentarioPost);
 
-        adapter = new NoticiaAdapter(this, R.layout.noticia_item);
-
+        //adapter = new NoticiaAdapter(this, R.layout.noticia_item);
+        adapter = new ComentarioAdapter(this, R.layout.comment_item);
 
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+                /*
                 Intent intent = new Intent(view.getContext(), InfoNoticiaActivity.class);
                 intent.putExtra("idNoticia",adapter.getItem(i).getId());
                 startActivity(intent);
+                */
             }
         });
 
-        /*
-        View includedLayout = findViewById(R.id.sindatos);
-        imgvSad = (ImageView) includedLayout.findViewById(R.id.imgvInfoProblema);
-        txtvSad = (TextView) includedLayout.findViewById(R.id.txtvInfoProblema);
-        txtvSad.setText(getResources().getString(R.string.noconnection));
-        */
 
-        View headerListView = getLayoutInflater().inflate(R.layout.info_noticia_header,null);
-
-        layout = (RelativeLayout) headerListView.findViewById(R.id.layInfoNoticia);
-        imgvPerfil = (ImageView) headerListView.findViewById(R.id.imgvInfoNoticia);
-        imgvInfoEstado = (ImageView) headerListView.findViewById(R.id.imgvInfoEstado);
-        txtvNombre = (TextView) headerListView.findViewById(R.id.txtvInfoNombreNoticia);
-        txtvDescripcion = (TextView) headerListView.findViewById(R.id.txtvInfoDescripcion);
-        txtvFecha = (TextView) headerListView.findViewById(R.id.txtvInfoSubFecha);
-        txtvInfoEstado = (TextView) headerListView.findViewById(R.id.txtvInfoEstado);
-
-        listview.addHeaderView(headerListView);
         listview.setAdapter(adapter);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swprlInfoNoticia);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.android_darkorange, R.color.green, R.color.android_blue);
-
-        ImageView imgvLlamada = (ImageView) findViewById(R.id.imgvInfoTelefono);
-        imgvLlamada.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                try
-                {
-
-                    Intent Llamada = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:911"));
-                    startActivity(Llamada);
-
-                } catch (ActivityNotFoundException activityException) {
-
-                    Toast.makeText(getBaseContext(), "Error al realizar la llamada, intente más tarde", Toast.LENGTH_SHORT).show();
-
-                }
-            }
-        });
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -151,7 +112,7 @@ public class InfoNoticiaActivity extends ActionBarActivity {
         new AsyncTask<Void, Void, Boolean>() {
 
             MobileServiceClient mClient;
-            MobileServiceTable<Noticia> mNoticiaTable;
+            MobileServiceTable<Comentario> comentarioTable;
             Noticia result;
             @Override
             protected void onPreExecute()
@@ -165,23 +126,26 @@ public class InfoNoticiaActivity extends ActionBarActivity {
                 } catch (MalformedURLException e) {
 
                 }
-                mNoticiaTable = mClient.getTable("noticia", Noticia.class);
+                comentarioTable = mClient.getTable("comentario", Comentario.class);
 
             }
 
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
-                    result = mNoticiaTable.lookUp(idNoticia).get();
-                    final MobileServiceList<Noticia> result = mNoticiaTable.execute().get();
+
+                    final MobileServiceList<Comentario> result = comentarioTable.where().field("idnoticia").eq(idNoticia).execute().get();
                     runOnUiThread(new Runnable() {
 
                         @Override
                         public void run() {
 
 
-                            for (Noticia item : result) {
-                                adapter.add(item);
+                            for (Comentario item : result) {
+                                for (int i = 0; i < 40; i++) {
+                                    adapter.add(item);
+                                }
+
                                 adapter.notifyDataSetChanged();
                             }
 
@@ -214,29 +178,8 @@ public class InfoNoticiaActivity extends ActionBarActivity {
                     txtvSad.setVisibility(View.INVISIBLE);
                     layout.setVisibility(View.VISIBLE);
                     */
-                    txtvNombre.setText(result.getNombre());
-                    txtvDescripcion.setText(result.getDescripcion());
-                    txtvFecha.setText("Se desapareció el " + result.getFechadesaparicion());
 
 
-                    if (result.getIdestado().equals("0"))
-                    {
-                        txtvInfoEstado.setText(R.string.lost);
-                        imgvInfoEstado.setImageResource(R.drawable.lost);
-                    }
-                    else
-                    {
-                        txtvInfoEstado.setText(R.string.found);
-                        imgvInfoEstado.setImageResource(R.drawable.found);
-                    }
-
-                    Glide.with(getApplicationContext())
-                            .load(result.getUrlimagen().trim())
-                            .asBitmap()
-                            .fitCenter()
-                            .placeholder(R.drawable.picture_default)
-                            .error(R.drawable.error_image)
-                            .into(imgvPerfil);
                 }
 
             }
