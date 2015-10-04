@@ -45,9 +45,9 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
 
             viewHolder.imgvImagen = (ImageView) row.findViewById(R.id.imgvNoticia);
 
-            viewHolder.txtvTitulo = (TextView) row.findViewById(R.id.txtvNombreUsuarioNoticia);
+            viewHolder.txtvTitulo = (TextView) row.findViewById(R.id.txtvNombreNoticia);
 
-           // viewHolder.txtvSubtitulo = (TextView) row.findViewById(R.id.txtvSubtituloNoticia);
+            viewHolder.txtvDescripcion = (TextView) row.findViewById(R.id.txtvDescripcionNoticia);
 
             viewHolder.imgvEstado = (ImageView) row.findViewById(R.id.imgvEstado);
 
@@ -71,9 +71,9 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
 
         viewHolder.txtvTitulo.setText(currentItem.getNombre());
 
-       // viewHolder.txtvSubtitulo.setText(currentItem.getDescripcion());
+        viewHolder.txtvDescripcion.setText(currentItem.getDescripcion());
 
-        viewHolder.txtvFecha.setText(currentItem.getFechadesaparicion());
+        viewHolder.txtvFecha.setText("Desaparecido(a) el " + currentItem.getFechadesaparicion());
 
         if(currentItem.getIdestado().trim().equals("0"))
         {
@@ -100,7 +100,7 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
     static class ViewHolder
     {
         public TextView txtvTitulo;
-        public TextView txtvSubtitulo;
+        public TextView txtvDescripcion;
         public TextView txtvEstado;
         public TextView txtvFecha;
         public ImageView imgvImagen;
