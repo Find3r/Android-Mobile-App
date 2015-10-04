@@ -1,15 +1,28 @@
 package com.nansoft.find3r.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by User on 6/27/2015.
  */
 public class Comentario
 {
+    @SerializedName("id")
     private String id;
+
+    @SerializedName("descripcion")
     private String descripcion;
+
+    @SerializedName("idusuario")
     private String idUsuario;
+
+    @SerializedName("idnoticia")
     private String idNoticia;
+
+    @SerializedName("fecha")
     private String fecha;
+
+    @SerializedName("hora")
     private String hora;
 
     public Comentario(String id, String descripcion, String idUsuario,String fecha, String hora, String idNoticia) {
