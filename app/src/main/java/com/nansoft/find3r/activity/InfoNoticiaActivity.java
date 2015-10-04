@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,9 +27,13 @@ import com.nansoft.find3r.R;
 import com.nansoft.find3r.adapters.ComentarioAdapter;
 import com.nansoft.find3r.adapters.NoticiaAdapter;
 import com.nansoft.find3r.models.Comentario;
+import com.nansoft.find3r.models.ComentarioCompleto;
 import com.nansoft.find3r.models.Noticia;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.Dictionary;
+import java.util.List;
 
 public class InfoNoticiaActivity extends ActionBarActivity {
 
@@ -132,8 +137,10 @@ public class InfoNoticiaActivity extends ActionBarActivity {
 
             @Override
             protected Boolean doInBackground(Void... params) {
-                try {
+                try
+                {
 
+                   // mClient.invokeApi("postcomments", "POST", new Pair<String,String>("id",idNoticia), ComentarioCompleto.class);
                     final MobileServiceList<Comentario> result = comentarioTable.where().field("idnoticia").eq(idNoticia).execute().get();
                     runOnUiThread(new Runnable() {
 

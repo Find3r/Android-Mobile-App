@@ -25,6 +25,9 @@ public class Comentario
     @SerializedName("hora")
     private String hora;
 
+    public Comentario() {
+    }
+
     public Comentario(String id, String descripcion, String idUsuario,String fecha, String hora, String idNoticia) {
         this.id = id;
         this.descripcion = descripcion;
