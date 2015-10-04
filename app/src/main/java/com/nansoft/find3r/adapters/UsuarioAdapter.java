@@ -43,7 +43,7 @@ public class UsuarioAdapter extends ArrayAdapter<Usuario>
             ViewHolder holder = new ViewHolder();
 
             //holder.txtvTitulo = (TextView) row.findViewById(R.id.txtvSubtituloNoticia);
-            holder.txtvSubtitulo = (TextView) row.findViewById(R.id.txtvNombreUsuarioNoticia);
+            //holder.txtvSubtitulo = (TextView) row.findViewById(R.id.txtvNombreNoticia);
 
             row.setTag(holder);
         }
