@@ -20,6 +20,7 @@
     <string name="nodata">¡Vaya parece que aún no hay reportes de esta categoría!</string>
     <string name="report">Reportar</string>
     <string name="ayudar">Ayudar</string>
+    <string name="seguir">Seguir</string>
 
     <string name="nombreProyecto">Nombre</string>
     <string name="imagenProyecto">Imagen</string>
