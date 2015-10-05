@@ -1,5 +1,7 @@
 package com.nansoft.find3r.models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
 /**
@@ -7,19 +9,35 @@ import java.text.ParseException;
  */
 public class Noticia
 {
+    @SerializedName("id")
     private String id;
+
+    @SerializedName("nombre")
     private String nombre;
+
+    @SerializedName("descripcion")
     private String descripcion;
+
+    @SerializedName("urlimagen")
     private String urlimagen;
+
+    @SerializedName("fechadesaparicion")
     private String fechadesaparicion;
-    private String hora;
-    private String idprovincia;
-    private String idcanton;
-    private String iddistrito;
+
+    @SerializedName("idusuario")
     private String idusuario;
-    private String idcategoria;
+
+    @SerializedName("idestado")
     private String idestado;
-    private boolean eliminado;
+
+    @SerializedName("idcategoria")
+    private String idCategoria;
+
+    @SerializedName("Column8")
+    private String nombreUsuario;
+
+    @SerializedName("Column9")
+    private String urlImagenUsuario;
 
     public Noticia() {
     }
@@ -29,12 +47,8 @@ public class Noticia
         this.descripcion = descripcion;
         this.urlimagen = urlimagen;
         this.fechadesaparicion = fechadesaparicion;
-        this.hora = hora;
-        this.idprovincia = idprovincia;
-        this.idcanton = idcanton;
-        this.iddistrito = iddistrito;
+
         this.idusuario = idusuario;
-        this.idcategoria = idcategoria;
         this.idestado = idEstado;
     }
 
@@ -96,38 +110,6 @@ public class Noticia
         this.fechadesaparicion = fechadesaparicion;
     }
 
-    public String getHora() {
-        return hora;
-    }
-
-    public void setHora(String hora) {
-        this.hora = hora;
-    }
-
-    public String getIdprovincia() {
-        return idprovincia;
-    }
-
-    public void setIdprovincia(String idprovincia) {
-        this.idprovincia = idprovincia;
-    }
-
-    public String getIdcanton() {
-        return idcanton;
-    }
-
-    public void setIdcanton(String idcanton) {
-        this.idcanton = idcanton;
-    }
-
-    public String getIddistrito() {
-        return iddistrito;
-    }
-
-    public void setIddistrito(String iddistrito) {
-        this.iddistrito = iddistrito;
-    }
-
     public String getIdusuario() {
         return idusuario;
     }
@@ -137,11 +119,11 @@ public class Noticia
     }
 
     public String getIdcategoria() {
-        return idcategoria;
+        return idCategoria;
     }
 
     public void setIdcategoria(String idcategoria) {
-        this.idcategoria = idcategoria;
+        this.idCategoria = idcategoria;
     }
 
     public String getIdestado() {
@@ -150,5 +132,29 @@ public class Noticia
 
     public void setIdestado(String idestado) {
         this.idestado = idestado;
+    }
+
+    public String getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(String idCategoria) {
+        this.idCategoria = idCategoria;
+    }
+
+    public String getNombreUsuario() {
+        return nombreUsuario;
+    }
+
+    public void setNombreUsuario(String nombreUsuario) {
+        this.nombreUsuario = nombreUsuario;
+    }
+
+    public String getUrlImagenUsuario() {
+        return urlImagenUsuario;
+    }
+
+    public void setUrlImagenUsuario(String urlImagenUsuario) {
+        this.urlImagenUsuario = urlImagenUsuario;
     }
 }
