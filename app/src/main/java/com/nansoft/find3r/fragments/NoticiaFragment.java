@@ -28,6 +28,7 @@ import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.InfoNoticiaActivity;
 import com.nansoft.find3r.adapters.NoticiaAdapter;
+import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Noticia;
 
 import java.net.MalformedURLException;
@@ -41,6 +42,7 @@ public class NoticiaFragment extends Fragment
 {
     public static NoticiaAdapter adapter;
     public static SwipeRefreshLayout mSwipeRefreshLayout;
+    MobileServiceCustom mobileService;
     private Context mContext;
     ImageView imgvSad;
     TextView txtvSad;
@@ -61,6 +63,8 @@ public class NoticiaFragment extends Fragment
 
         adapter = new NoticiaAdapter(view.getContext(), R.layout.noticia_item);
         mContext = view.getContext();
+
+        mobileService = new MobileServiceCustom(view.getContext());
 
 
         listview.setAdapter(adapter);
@@ -118,18 +122,14 @@ public class NoticiaFragment extends Fragment
         MobileServiceTable<Noticia> mNoticiaTable;
 
         try {
-            mClient = new MobileServiceClient(
-                    "https://wantedapp.azure-mobile.net/",
-                    "MIqlLCMyhKNIonsgsNuFlpBXzqqNWj11",
-                    activity.getApplicationContext()
-            );
 
-            mNoticiaTable = mClient.getTable("noticia", Noticia.class);
+
+            mNoticiaTable = mobileService.mClient.getTable("noticia", Noticia.class);
 
             adapter.clear();
 
-            List<Pair<String,String>> parameters = new ArrayList<Pair<String, String>>();
-            ListenableFuture<JsonElement> lst = mClient.invokeApi("last_news","GET",parameters);
+            List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
+            ListenableFuture<JsonElement> lst = mobileService.mClient.invokeApi("last_news", "GET", parameters);
 
             Futures.addCallback(lst, new FutureCallback<JsonElement>() {
                 @Override
@@ -173,8 +173,6 @@ public class NoticiaFragment extends Fragment
 
                 }
             });
-
-        } catch (MalformedURLException e) {
 
         }
         catch (Exception e )
