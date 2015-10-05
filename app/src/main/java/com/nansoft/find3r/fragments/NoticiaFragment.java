@@ -24,13 +24,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
-import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.InfoNoticiaActivity;
 import com.nansoft.find3r.adapters.NoticiaAdapter;
-import com.nansoft.find3r.models.LastNews;
 import com.nansoft.find3r.models.Noticia;
 
 import java.net.MalformedURLException;
@@ -116,134 +113,98 @@ public class NoticiaFragment extends Fragment
         imgvSad.setVisibility(View.INVISIBLE);
         txtvSad.setVisibility(View.INVISIBLE);
         mSwipeRefreshLayout.setEnabled(false);
-        new AsyncTask<Void, Void, Boolean>() {
 
-            MobileServiceClient mClient;
-            MobileServiceTable<Noticia> mNoticiaTable;
+        MobileServiceClient mClient;
+        MobileServiceTable<Noticia> mNoticiaTable;
 
-            @Override
-            protected void onPreExecute()
-            {
-                try {
-                    mClient = new MobileServiceClient(
-                            "https://wantedapp.azure-mobile.net/",
-                            "MIqlLCMyhKNIonsgsNuFlpBXzqqNWj11",
-                            activity.getApplicationContext()
-                    );
-                    adapter.clear();
-                } catch (MalformedURLException e) {
+        try {
+            mClient = new MobileServiceClient(
+                    "https://wantedapp.azure-mobile.net/",
+                    "MIqlLCMyhKNIonsgsNuFlpBXzqqNWj11",
+                    activity.getApplicationContext()
+            );
 
+            mNoticiaTable = mClient.getTable("noticia", Noticia.class);
+
+            adapter.clear();
+
+            List<Pair<String,String>> parameters = new ArrayList<Pair<String, String>>();
+            ListenableFuture<JsonElement> lst = mClient.invokeApi("last_news","GET",parameters);
+
+            Futures.addCallback(lst, new FutureCallback<JsonElement>() {
+                @Override
+                public void onFailure(Throwable exc) {
+
+                    estadoAdapter(true);
                 }
-                mNoticiaTable = mClient.getTable("noticia", Noticia.class);
 
-            }
+                @Override
+                public void onSuccess(JsonElement result) {
 
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                try {
-                    List<Pair<String,String>> parameters = new ArrayList<Pair<String, String>>();
-                    ListenableFuture<JsonElement> lst = mClient.invokeApi("last_news","GET",parameters);
+                    // se verifica si el resultado es un array Json
+                    if (result.isJsonArray()) {
+                        // obtenemos el resultado como un JsonArray
+                        JsonArray jsonArray = result.getAsJsonArray();
+                        Gson objGson = new Gson();
+                        // recorremos cada elemento del array
+                        for (JsonElement element : jsonArray) {
 
-                    Futures.addCallback(lst, new FutureCallback<JsonElement>() {
-                        @Override
-                        public void onFailure(Throwable exc) {
+                            // se deserializa cada objeto JSON
+                            final Noticia objLastNews = objGson.fromJson(element, Noticia.class);
 
-                            Toast.makeText(activity.getApplicationContext(), "error " + exc.toString(), Toast.LENGTH_SHORT).show();
-                        }
+                            activity.runOnUiThread(new Runnable() {
 
-                        @Override
-                        public void onSuccess(JsonElement result) {
-
-                            // se verifica si el resultado es un array Json
-                            if(result.isJsonArray())
-                            {
-                                // obtenemos el resultado como un JsonArray
-                                JsonArray jsonArray = result.getAsJsonArray();
-                                Gson objGson = new Gson();
-                                // recorremos cada elemento del array
-                                for (JsonElement element:jsonArray)
-                                {
-                                    Toast.makeText(activity.getApplicationContext(), "result " + element.toString(), Toast.LENGTH_SHORT).show();
-                                    final LastNews objLastNews = objGson.fromJson(element,LastNews.class);
-
-                                    activity.runOnUiThread(new Runnable() {
-
-                                        @Override
-                                        public void run() {
+                                @Override
+                                public void run() {
 
 
+                                    adapter.add(objLastNews);
+                                    adapter.notifyDataSetChanged();
 
-                                                adapter.add(objLastNews);
-                                                adapter.notifyDataSetChanged();
 
-
-                                        }
-                                    });
                                 }
-                            }
-
-
+                            });
                         }
-                    });
 
-                    //mClient.invokeApi("last_news","GET",new List<Pair<String,String>>(){{"id","1"}});
-/*
-                    final MobileServiceList<Noticia> result = mNoticiaTable.where().field("eliminado").eq(false).orderBy("fechadesaparicion", QueryOrder.Descending).execute().get();
-                    activity.runOnUiThread(new Runnable() {
+                    }
 
-                        @Override
-                        public void run() {
+                    estadoAdapter(false);
 
-
-                            String datos = "";
-                            for (Noticia item : result) {
-
-                                adapter.add(item);
-                                adapter.notifyDataSetChanged();
-                            }
-                            //Toast.makeText(mContext,datos,Toast.LENGTH_SHORT).show();
-
-                        }
-                    });
-                    */
-                    return true;
-                } catch (Exception exception) {
 
                 }
-                return false;
-            }
+            });
 
-            @Override
-            protected void onPostExecute(Boolean success)
-            {
+        } catch (MalformedURLException e) {
 
-                mSwipeRefreshLayout.setRefreshing(false);
-                mSwipeRefreshLayout.setEnabled(true);
-                estadoAdapter(success);
-            }
+        }
+        catch (Exception e )
+        {
 
-            @Override
-            protected void onCancelled()
-            {
-                super.onCancelled();
-                 }
-        }.execute();
+        }
+
+
+
+
+
     }
 
     private void estadoAdapter(boolean pEstadoError)
     {
-        if(adapter.isEmpty() && pEstadoError)
+        mSwipeRefreshLayout.setRefreshing(false);
+        mSwipeRefreshLayout.setEnabled(true);
+        if(pEstadoError)
         {
             imgvSad.setVisibility(View.VISIBLE);
+            txtvSad.setVisibility(View.VISIBLE);
             txtvSad.setVisibility(View.VISIBLE);
             txtvSad.setText(getResources().getString(R.string.nodata));
 
         }
-        else if (adapter.isEmpty() && !pEstadoError)
+        else
         {
-            imgvSad.setVisibility(View.VISIBLE);
-            txtvSad.setVisibility(View.VISIBLE);
-            txtvSad.setText(getResources().getString(R.string.noconnection));
+            imgvSad.setVisibility(View.INVISIBLE);
+            txtvSad.setVisibility(View.INVISIBLE);
+            txtvSad.setVisibility(View.INVISIBLE);
         }
     }
 }
