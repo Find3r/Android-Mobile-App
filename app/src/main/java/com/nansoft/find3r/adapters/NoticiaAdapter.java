@@ -2,18 +2,29 @@ package com.nansoft.find3r.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.MobileServiceList;
+import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
+import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.helpers.CircularImageView;
+import com.nansoft.find3r.helpers.MobileServiceCustom;
+import com.nansoft.find3r.models.Noticia;
+import com.nansoft.find3r.models.NoticiaUsuario;
 
 import org.w3c.dom.Text;
+
+import java.net.MalformedURLException;
 
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -75,7 +86,65 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
                 @Override
                 public void onClick(View v)
                 {
+                    //MobileServiceCustom mobileServiceCustom = new MobileServiceCustom(v.getContext());
+                    //Toast.makeText(v.getContext(),mobileServiceCustom.mClient.getCurrentUser().getUserId() , Toast.LENGTH_SHORT).show();
+                    /*
+                    new AsyncTask<Void, Void, Boolean>() {
 
+                        MobileServiceCustom mobileServiceCustom;
+                        MobileServiceTable<NoticiaUsuario> mNoticiaUsuarioaTable;
+
+                        @Override
+                        protected void onPreExecute()
+                        {
+                            mobileServiceCustom = new MobileServiceCustom(mContext);
+                            mNoticiaUsuarioaTable = mobileServiceCustom.mClient.getTable("noticiausuario", NoticiaUsuario.class);
+
+                        }
+
+                        @Override
+                        protected Boolean doInBackground(Void... params) {
+                            try {
+                                final MobileServiceList<NoticiaUsuario> result = mNoticiaUsuarioaTable.where().field("idusuario").eq(false).execute().get();
+                                activity.runOnUiThread(new Runnable() {
+
+                                    @Override
+                                    public void run() {
+
+
+                                        String datos = "";
+                                        for (Noticia item : result) {
+
+                                            //adapter.add(item);
+                                            adapter.notifyDataSetChanged();
+                                        }
+                                        //Toast.makeText(mContext,datos,Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
+                                return true;
+                            } catch (Exception exception) {
+
+                            }
+                            return false;
+                        }
+
+                        @Override
+                        protected void onPostExecute(Boolean success)
+                        {
+
+
+                        }
+
+                        @Override
+                        protected void onCancelled()
+                        {
+                            super.onCancelled();
+                        }
+                    }.execute();
+                    */
+                    
+                    
                 }
             });
 
