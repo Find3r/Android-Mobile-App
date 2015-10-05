@@ -13,13 +13,15 @@ import com.bumptech.glide.Glide;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.helpers.CircularImageView;
 
+import org.w3c.dom.Text;
+
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by User on 6/20/2015.
  */
-public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.LastNews>
+public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Noticia>
 {
     Context mContext;
     int mLayoutResourceId;
@@ -39,7 +41,7 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.LastN
     {
 
         View row = convertView;
-        final com.nansoft.find3r.models.LastNews currentItem = getItem(position);
+        final com.nansoft.find3r.models.Noticia currentItem = getItem(position);
 
         // verificamos si la fila que se va dibujar no existe
         if (row == null)
@@ -50,6 +52,8 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.LastN
             ViewHolder viewHolder = new ViewHolder();
 
             viewHolder.imgvFotoPerfilUsuario = (CircularImageView) row.findViewById(R.id.imgvPerfilUsuarioNoticia);
+
+            viewHolder.txtvNombreUsuarioNoticia = (TextView) row.findViewById(R.id.txtvNombreUsuarioNoticia);
 
             viewHolder.imgvImagen = (PhotoView) row.findViewById(R.id.imgvNoticia);
 
@@ -79,6 +83,8 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.LastN
         }
 
         ViewHolder viewHolder = (ViewHolder) row.getTag();
+
+        viewHolder.txtvNombreUsuarioNoticia.setText(currentItem.getNombreUsuario());
 
         Glide.with(mContext)
                 .load(currentItem.getUrlImagenUsuario().trim())
@@ -139,6 +145,7 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.LastN
         public TextView txtvDescripcion;
         public TextView txtvEstado;
         public TextView txtvFecha;
+        public TextView txtvNombreUsuarioNoticia;
         public CircularImageView imgvFotoPerfilUsuario;
         public PhotoView imgvImagen;
         public ImageView imgvEstado;
