@@ -21,7 +21,8 @@ public class Noticia
     private String idestado;
     private boolean eliminado;
 
-
+    public Noticia() {
+    }
 
     public Noticia(String id, String descripcion, String urlimagen, String fechadesaparicion, String hora, String idprovincia, String idcanton, String iddistrito, String idusuario, String idcategoria,String idEstado) {
         this.id = id;

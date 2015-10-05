@@ -156,7 +156,7 @@ public class NoticiasCategoriaActivity extends ActionBarActivity {
 
                             for (Noticia item : result) {
 
-                                adapter.add(item);
+                                //adapter.add(item);
                                 adapter.notifyDataSetChanged();
                             }
 

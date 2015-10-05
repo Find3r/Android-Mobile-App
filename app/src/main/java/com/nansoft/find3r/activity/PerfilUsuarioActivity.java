@@ -27,7 +27,7 @@ public class PerfilUsuarioActivity extends ActionBarActivity
         lstvProyectosUsuario.setAdapter(adapter);
 
         for (int i= 0; i <15; i++){
-            adapter.add(new com.nansoft.find3r.models.Noticia("a","nombre " + i," ","","","","","","","",""));
+            //adapter.add(new com.nansoft.find3r.models.Noticia("a","nombre " + i," ","","","","","","","",""));
 
 
         }

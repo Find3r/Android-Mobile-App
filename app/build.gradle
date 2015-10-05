@@ -28,6 +28,8 @@ dependencies {
     compile 'com.microsoft.azure:azure-mobile-services-android-sdk:2.0.2'
     compile 'com.github.bumptech.glide:glide:3.6.0'
     compile 'com.google.guava:guava:18.0'
+    compile 'com.commit451:PhotoView:1.2.4'
+
 
 
 

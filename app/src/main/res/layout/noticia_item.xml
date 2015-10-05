@@ -48,7 +48,7 @@
             </LinearLayout>
 
 
-            <ImageView
+            <uk.co.senab.photoview.PhotoView
                 android:id="@+id/imgvNoticia"
                 android:layout_width="fill_parent"
                 android:layout_height="400dp"

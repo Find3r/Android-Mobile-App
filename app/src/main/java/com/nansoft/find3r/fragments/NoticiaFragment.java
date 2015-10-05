@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,14 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
@@ -22,9 +30,12 @@ import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.InfoNoticiaActivity;
 import com.nansoft.find3r.adapters.NoticiaAdapter;
+import com.nansoft.find3r.models.LastNews;
 import com.nansoft.find3r.models.Noticia;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by User on 6/20/2015.
@@ -130,6 +141,53 @@ public class NoticiaFragment extends Fragment
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
+                    List<Pair<String,String>> parameters = new ArrayList<Pair<String, String>>();
+                    ListenableFuture<JsonElement> lst = mClient.invokeApi("last_news","GET",parameters);
+
+                    Futures.addCallback(lst, new FutureCallback<JsonElement>() {
+                        @Override
+                        public void onFailure(Throwable exc) {
+
+                            Toast.makeText(activity.getApplicationContext(), "error " + exc.toString(), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onSuccess(JsonElement result) {
+
+                            // se verifica si el resultado es un array Json
+                            if(result.isJsonArray())
+                            {
+                                // obtenemos el resultado como un JsonArray
+                                JsonArray jsonArray = result.getAsJsonArray();
+                                Gson objGson = new Gson();
+                                // recorremos cada elemento del array
+                                for (JsonElement element:jsonArray)
+                                {
+                                    Toast.makeText(activity.getApplicationContext(), "result " + element.toString(), Toast.LENGTH_SHORT).show();
+                                    final LastNews objLastNews = objGson.fromJson(element,LastNews.class);
+
+                                    activity.runOnUiThread(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+
+
+
+                                                adapter.add(objLastNews);
+                                                adapter.notifyDataSetChanged();
+
+
+                                        }
+                                    });
+                                }
+                            }
+
+
+                        }
+                    });
+
+                    //mClient.invokeApi("last_news","GET",new List<Pair<String,String>>(){{"id","1"}});
+/*
                     final MobileServiceList<Noticia> result = mNoticiaTable.where().field("eliminado").eq(false).orderBy("fechadesaparicion", QueryOrder.Descending).execute().get();
                     activity.runOnUiThread(new Runnable() {
 
@@ -147,6 +205,7 @@ public class NoticiaFragment extends Fragment
 
                         }
                     });
+                    */
                     return true;
                 } catch (Exception exception) {
 

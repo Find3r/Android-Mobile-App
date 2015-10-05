@@ -11,20 +11,26 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.nansoft.find3r.R;
+import com.nansoft.find3r.helpers.CircularImageView;
+
+import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by User on 6/20/2015.
  */
-public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Noticia>
+public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.LastNews>
 {
     Context mContext;
     int mLayoutResourceId;
+    private PhotoViewAttacher mAttacher;
 
     public NoticiaAdapter(Context context, int resource)
     {
         super(context, resource);
         mContext = context;
         mLayoutResourceId = resource;
+
 
     }
 
@@ -33,7 +39,7 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
     {
 
         View row = convertView;
-        final com.nansoft.find3r.models.Noticia currentItem = getItem(position);
+        final com.nansoft.find3r.models.LastNews currentItem = getItem(position);
 
         // verificamos si la fila que se va dibujar no existe
         if (row == null)
@@ -43,7 +49,9 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
             row = inflater.inflate(mLayoutResourceId, parent, false);
             ViewHolder viewHolder = new ViewHolder();
 
-            viewHolder.imgvImagen = (ImageView) row.findViewById(R.id.imgvNoticia);
+            viewHolder.imgvFotoPerfilUsuario = (CircularImageView) row.findViewById(R.id.imgvPerfilUsuarioNoticia);
+
+            viewHolder.imgvImagen = (PhotoView) row.findViewById(R.id.imgvNoticia);
 
             viewHolder.txtvTitulo = (TextView) row.findViewById(R.id.txtvNombreNoticia);
 
@@ -73,12 +81,28 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
         ViewHolder viewHolder = (ViewHolder) row.getTag();
 
         Glide.with(mContext)
+                .load(currentItem.getUrlImagenUsuario().trim())
+                .asBitmap()
+                .fitCenter()
+                .placeholder(R.drawable.picture_default)
+                .error(R.drawable.error_image)
+                .into(viewHolder.imgvFotoPerfilUsuario);
+
+        Glide.with(mContext)
                 .load(currentItem.getUrlimagen().trim())
                 .asBitmap()
                 .fitCenter()
                 .placeholder(R.drawable.picture_default)
                 .error(R.drawable.error_image)
                 .into(viewHolder.imgvImagen);
+
+        // The MAGIC happens here!
+        //mAttacher = new PhotoViewAttacher(viewHolder.imgvImagen);
+
+
+        // Lets attach some listeners, not required though!
+        //mAttacher.setOnMatrixChangeListener(new MatrixChangeListener());
+        //mAttacher.setOnPhotoTapListener(new PhotoTapListener());
 
 
         viewHolder.txtvTitulo.setText(currentItem.getNombre());
@@ -115,7 +139,8 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
         public TextView txtvDescripcion;
         public TextView txtvEstado;
         public TextView txtvFecha;
-        public ImageView imgvImagen;
+        public CircularImageView imgvFotoPerfilUsuario;
+        public PhotoView imgvImagen;
         public ImageView imgvEstado;
         public ImageView imgvSeguimiento;
         public ImageView imgvComentario;

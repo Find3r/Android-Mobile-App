@@ -140,7 +140,7 @@ public class NoticiaSeguimientoFragment extends Fragment
                             String datos = "";
                             for (Noticia item : result) {
 
-                                adapter.add(item);
+                                //adapter.add(item);
                                 adapter.notifyDataSetChanged();
                             }
                             //Toast.makeText(mContext,datos,Toast.LENGTH_SHORT).show();

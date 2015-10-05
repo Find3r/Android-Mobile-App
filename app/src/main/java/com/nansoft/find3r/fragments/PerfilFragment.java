@@ -168,7 +168,7 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
                                     adapter.clear();
                                     for (Noticia item : result) {
 
-                                        adapter.add(item);
+                                        //adapter.add(item);
                                         adapter.notifyDataSetChanged();
                                     }
 
