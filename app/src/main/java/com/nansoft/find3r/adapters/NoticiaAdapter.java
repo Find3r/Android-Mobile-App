@@ -79,7 +79,7 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
 
             viewHolder.imgvComentario = (ImageView) row.findViewById(R.id.imgvComentario);
 
-            viewHolder.imgvSeguimiento = (ImageView) row.findViewById(R.id.imgvSeguimiento);
+            //viewHolder.imgvSeguimiento = (ImageView) row.findViewById(R.id.imgvSeguimiento);
 
             viewHolder.txtvEstado = (TextView) row.findViewById(R.id.txtvEstado);
 
@@ -93,7 +93,7 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
                     mContext.startActivity(intent);
                 }
             });
-
+        /*
             viewHolder.imgvSeguimiento.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v)
@@ -193,6 +193,7 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
                     
                 }
             });
+            */
 
             row.setTag(viewHolder);
         }
