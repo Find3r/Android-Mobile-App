@@ -43,7 +43,7 @@ public class NoticiaUsuario
         this.idNoticia = idNoticia;
     }
 
-    public boolean isEstado() {
+    public boolean getEstado() {
         return estado;
     }
 
