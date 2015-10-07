@@ -50,12 +50,7 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
     ImageView imgvTelefono;
     ImageView imgvEmail;
 
-    Usuario objUsuario;
-
     MobileServiceCustom customClient;
-
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -111,106 +106,73 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
 
     public void cargarUsuario(final FragmentActivity activity,final View view) {
 
-        List<Pair<String, String> > lp = new ArrayList<Pair<String, String> >();
-        lp.add(new Pair("id", customClient.mClient.getCurrentUser().getUserId()));
-        ListenableFuture<UsuarioFacebook> result = customClient.mClient.invokeApi("userlogin", "GET", null, UsuarioFacebook.class);
+        new AsyncTask<Void, Void, Boolean>() {
 
-        Futures.addCallback(result, new FutureCallback<UsuarioFacebook>() {
+
+
+            MobileServiceTable<Noticia> mNoticiaTable;
+
             @Override
-            public void onFailure(Throwable exc) {
-                Toast.makeText(activity.getApplicationContext(), "Ha ocurrido un error al intentar conectar", Toast.LENGTH_SHORT).show();
+            protected void onPreExecute() {
+
+
+                mNoticiaTable = customClient.mClient.getTable("noticia", Noticia.class);
             }
 
             @Override
-            public void onSuccess(final UsuarioFacebook objUsuarioFacebook) {
+            protected Boolean doInBackground(Void... params) {
+                try {
 
-                new AsyncTask<Void, Void, Boolean>() {
+                    // se buscan las noticias del usuario
+                    final MobileServiceList<Noticia> result = mNoticiaTable.where().field("idusuario").eq(MobileServiceCustom.USUARIO_LOGUEADO.getId()).execute().get();
 
+                    activity.runOnUiThread(new Runnable() {
 
-                    MobileServiceTable<Usuario> mUserTable;
-                    MobileServiceTable<Noticia> mNoticiaTable;
+                        @Override
+                        public void run() {
 
-                    @Override
-                    protected void onPreExecute() {
+                            adapter.clear();
+                            for (Noticia item : result) {
 
-                        mUserTable = customClient.mClient.getTable("usuario", Usuario.class);
-                        mNoticiaTable = customClient.mClient.getTable("noticia", Noticia.class);
-                    }
-
-                    @Override
-                    protected Boolean doInBackground(Void... params) {
-                        try {
-                            // buscamos por el usuario
-                            objUsuario = mUserTable.lookUp(objUsuarioFacebook.id).get();
-
-                            // se verifica si el usuario es null
-                            if(objUsuario == null)
-                            {
-                                // debemos de insertar el registro
-
-                                // establecemos primero los atributos
-                                objUsuario.setId(objUsuarioFacebook.id);
-                                objUsuario.setNombre(objUsuarioFacebook.name);
-                                objUsuario.setUrlimagen(objUsuarioFacebook.data.PictureURL.PictureURL);
-
-                                // agregamos el registro
-                                mUserTable.insert(objUsuario);
+                                //adapter.add(item);
+                                adapter.notifyDataSetChanged();
                             }
 
-                            // se buscan las noticias del usuario
-                            final MobileServiceList<Noticia> result = mNoticiaTable.where().field("idusuario").eq(objUsuario.getId()).execute().get();
-
-                            activity.runOnUiThread(new Runnable() {
-
-                                @Override
-                                public void run() {
-
-                                    adapter.clear();
-                                    for (Noticia item : result) {
-
-                                        //adapter.add(item);
-                                        adapter.notifyDataSetChanged();
-                                    }
-
-                                }
-                            });
-                            return true;
-                        } catch (Exception exception) {
-
                         }
-                        return false;
-                    }
+                    });
+                    return true;
+                } catch (Exception exception) {
 
-                    @Override
-                    protected void onPostExecute(Boolean success) {
-
-                        //mSwipeRefreshLayout.setRefreshing(false);
-                        if (!success)
-                            Toast.makeText(activity.getApplicationContext(), "Verifique la conexión a internet", Toast.LENGTH_SHORT).show();
-                        else {
-
-
-                            txtvNombreUsuario.setText(objUsuario.getNombre());
-
-                            Glide.with(view.getContext())
-                                    .load(objUsuario.getUrlimagen().trim())
-                                    .asBitmap()
-                                    .fitCenter()
-                                    .placeholder(R.drawable.picture_default)
-                                    .error(R.drawable.error_image)
-                                    .into(imgvPerfilUsuario);
-                        }
-                    }
-
-                    @Override
-                    protected void onCancelled() {
-                        super.onCancelled();
-                    }
-                }.execute();
-
+                }
+                return false;
             }
-        });
 
+            @Override
+            protected void onPostExecute(Boolean success) {
+
+                //mSwipeRefreshLayout.setRefreshing(false);
+                if (!success)
+                    Toast.makeText(activity.getApplicationContext(), "Verifique la conexión a internet", Toast.LENGTH_SHORT).show();
+                else {
+
+
+                    txtvNombreUsuario.setText(MobileServiceCustom.USUARIO_LOGUEADO.getNombre());
+
+                    Glide.with(view.getContext())
+                            .load(MobileServiceCustom.USUARIO_LOGUEADO.getUrlimagen().trim())
+                            .asBitmap()
+                            .fitCenter()
+                            .placeholder(R.drawable.picture_default)
+                            .error(R.drawable.error_image)
+                            .into(imgvPerfilUsuario);
+                }
+            }
+
+            @Override
+            protected void onCancelled() {
+                super.onCancelled();
+            }
+        }.execute();
 
 
 
@@ -238,7 +200,7 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
 
     public void AbrirCorreo(Context pContexto)
     {
-        String [] correoDestino = {objUsuario.getEmail()};
+        String [] correoDestino = {MobileServiceCustom.USUARIO_LOGUEADO.getEmail()};
         try {
             Intent Correo = new Intent(Intent.ACTION_SEND);
             Correo.setData(Uri.parse("mailto:"));
