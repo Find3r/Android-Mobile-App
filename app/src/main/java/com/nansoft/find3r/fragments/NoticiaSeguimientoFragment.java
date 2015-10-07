@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,14 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
@@ -22,9 +30,13 @@ import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.InfoNoticiaActivity;
 import com.nansoft.find3r.adapters.NoticiaAdapter;
+import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Noticia;
+import com.nansoft.find3r.models.NoticiaUsuario;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Carlos on 01/10/2015.
@@ -36,6 +48,8 @@ public class NoticiaSeguimientoFragment extends Fragment
     private Context mContext;
     ImageView imgvSad;
     TextView txtvSad;
+
+    MobileServiceCustom mobileServiceCustom;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -54,7 +68,7 @@ public class NoticiaSeguimientoFragment extends Fragment
         adapter = new NoticiaAdapter(view.getContext(), R.layout.noticia_item);
         mContext = view.getContext();
 
-
+        mobileServiceCustom = new MobileServiceCustom(getActivity().getApplicationContext());
         listview.setAdapter(adapter);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -105,86 +119,114 @@ public class NoticiaSeguimientoFragment extends Fragment
         imgvSad.setVisibility(View.INVISIBLE);
         txtvSad.setVisibility(View.INVISIBLE);
         mSwipeRefreshLayout.setEnabled(false);
-        new AsyncTask<Void, Void, Boolean>() {
 
-            MobileServiceClient mClient;
-            MobileServiceTable<Noticia> mNoticiaTable;
+        MobileServiceClient mClient;
+        MobileServiceTable<Noticia> mNoticiaTable;
 
-            @Override
-            protected void onPreExecute()
-            {
-                try {
-                    mClient = new MobileServiceClient(
-                            "https://wantedapp.azure-mobile.net/",
-                            "MIqlLCMyhKNIonsgsNuFlpBXzqqNWj11",
-                            activity.getApplicationContext()
-                    );
-                    adapter.clear();
-                } catch (MalformedURLException e) {
+        try {
 
+
+            mNoticiaTable = mobileServiceCustom.mClient.getTable("noticia", Noticia.class);
+
+            adapter.clear();
+
+            List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
+            parameters.add(new Pair<String, String>("id","1"));
+            Toast.makeText(activity.getApplicationContext(), MobileServiceCustom.USUARIO_LOGUEADO.getId(), Toast.LENGTH_SHORT).show();
+
+            ListenableFuture<JsonElement> lst = mobileServiceCustom.mClient.invokeApi("noticias_seguimiento_usuario", "POST", parameters);
+
+            Futures.addCallback(lst, new FutureCallback<JsonElement>() {
+                @Override
+                public void onFailure(Throwable exc) {
+
+                    estadoAdapter(true);
                 }
-                mNoticiaTable = mClient.getTable("noticia", Noticia.class);
 
-            }
+                @Override
+                public void onSuccess(JsonElement result) {
 
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                try {
-                    final MobileServiceList<Noticia> result = mNoticiaTable.where().field("eliminado").eq(false).orderBy("fechadesaparicion", QueryOrder.Descending).execute().get();
-                    activity.runOnUiThread(new Runnable() {
-
-                        @Override
-                        public void run() {
-
-
-                            String datos = "";
-                            for (Noticia item : result) {
-
-                                //adapter.add(item);
-                                adapter.notifyDataSetChanged();
-                            }
-                            //Toast.makeText(mContext,datos,Toast.LENGTH_SHORT).show();
+                    try
+                    {
+                        if(result.isJsonNull())
+                        {
+                            Toast.makeText(activity.getApplicationContext(), "null", Toast.LENGTH_SHORT).show();
 
                         }
-                    });
-                    return true;
-                } catch (Exception exception) {
+                        else
+                        {
+                            // se verifica si el resultado es un array Json
+                            if (result.isJsonArray()) {
+                                // obtenemos el resultado como un JsonArray
+                                JsonArray jsonArray = result.getAsJsonArray();
+                                Gson objGson = new Gson();
+
+
+                                // recorremos cada elemento del array
+                                for (JsonElement element : jsonArray) {
+
+                                    // se deserializa cada objeto JSON
+                                    final Noticia objLastNews = objGson.fromJson(element, Noticia.class);
+
+                                    activity.runOnUiThread(new Runnable() {
+
+                                        @Override
+                                        public void run() {
+                                            //Toast.makeText(activity.getApplicationContext(), objLastNews.get, Toast.LENGTH_SHORT).show();
+                                            /// pendiente en la API de noticia solo se traen los datos de noticia, hay que traer la imagen del usuario y nombre
+                                            //adapter.add(objLastNews);
+                                            adapter.notifyDataSetChanged();
+
+
+                                        }
+                                    });
+                                }
+
+                            }
+
+                            estadoAdapter(false);
+                        }
+
+                    }
+                    catch (Exception e )
+                    {
+
+                    }
+
+
 
                 }
-                return false;
-            }
+            });
 
-            @Override
-            protected void onPostExecute(Boolean success)
-            {
+        }
+        catch (Exception e )
+        {
 
-                mSwipeRefreshLayout.setRefreshing(false);
-                mSwipeRefreshLayout.setEnabled(true);
-                estadoAdapter(success);
-            }
+        }
 
-            @Override
-            protected void onCancelled()
-            {
-                super.onCancelled();
-            }
-        }.execute();
+
+
+
+
     }
 
     private void estadoAdapter(boolean pEstadoError)
     {
-        if(adapter.isEmpty() && pEstadoError)
+        mSwipeRefreshLayout.setRefreshing(false);
+        mSwipeRefreshLayout.setEnabled(true);
+        if(pEstadoError)
         {
             imgvSad.setVisibility(View.VISIBLE);
+            txtvSad.setVisibility(View.VISIBLE);
             txtvSad.setVisibility(View.VISIBLE);
             txtvSad.setText(getResources().getString(R.string.nodata));
 
         }
-        else if (adapter.isEmpty() && !pEstadoError)
+        else
         {
-            imgvSad.setVisibility(View.VISIBLE);
-            txtvSad.setVisibility(View.VISIBLE);
-            txtvSad.setText(getResources().getString(R.string.noconnection));
+            imgvSad.setVisibility(View.INVISIBLE);
+            txtvSad.setVisibility(View.INVISIBLE);
+            txtvSad.setVisibility(View.INVISIBLE);
         }
     }
 }
