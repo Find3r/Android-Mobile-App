@@ -1,18 +1,24 @@
 package com.nansoft.find3r.activity;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Pair;
 import android.util.TypedValue;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.bumptech.glide.Glide;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.microsoft.windowsazure.mobileservices.MobileServiceList;
+import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.animacion.ZoomOutPageTransformer;
 import com.nansoft.find3r.adapters.MyFragmentPagerAdapter;
@@ -22,6 +28,8 @@ import com.nansoft.find3r.fragments.NoticiaSeguimientoFragment;
 import com.nansoft.find3r.fragments.NotificacionFragment;
 import com.nansoft.find3r.fragments.PerfilFragment;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
+import com.nansoft.find3r.models.Noticia;
+import com.nansoft.find3r.models.Usuario;
 import com.nansoft.find3r.models.UsuarioFacebook;
 
 import java.util.ArrayList;
@@ -44,7 +52,7 @@ public class MainActivity extends ActionBarActivity implements ViewPager.OnPageC
     private ViewPager pager = null;
     private MyFragmentPagerAdapter adapter;
 
-
+    MobileServiceCustom customClient;
 
 
     @Override
@@ -80,11 +88,105 @@ public class MainActivity extends ActionBarActivity implements ViewPager.OnPageC
 
         tabs.setOnPageChangeListener(this);
 
+        customClient = new MobileServiceCustom(this);
+
+        try{
+            // cargamos el token
+            customClient.loadUserTokenCache(customClient.mClient);
+
+        }
+        catch (Exception e)
+        {
+            Toast.makeText(getApplicationContext(),"er " + e.toString(),Toast.LENGTH_SHORT).show();
+
+        }
+
+        // cargamos la información de usuario
+        cargarUsuario();
+
 
     }
 
 
+    public void cargarUsuario()
+    {
 
+        List<Pair<String, String> > lp = new ArrayList<Pair<String, String> >();
+        lp.add(new Pair("id", customClient.mClient.getCurrentUser().getUserId()));
+        ListenableFuture<UsuarioFacebook> result = customClient.mClient.invokeApi("userlogin", "GET", null, UsuarioFacebook.class);
+
+        Futures.addCallback(result, new FutureCallback<UsuarioFacebook>() {
+            @Override
+            public void onFailure(Throwable exc) {
+                Toast.makeText(getApplicationContext(), "Ha ocurrido un error al intentar conectar", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onSuccess(final UsuarioFacebook objUsuarioFacebook) {
+
+                new AsyncTask<Void, Void, Boolean>() {
+
+
+                    MobileServiceTable<Usuario> mUserTable;
+                    MobileServiceTable<Noticia> mNoticiaTable;
+
+                    @Override
+                    protected void onPreExecute() {
+
+                        mUserTable = customClient.mClient.getTable("usuario", Usuario.class);
+                        mNoticiaTable = customClient.mClient.getTable("noticia", Noticia.class);
+                    }
+
+                    @Override
+                    protected Boolean doInBackground(Void... params) {
+                        try {
+                            // buscamos por el usuario
+                            MobileServiceCustom.USUARIO_LOGUEADO = mUserTable.lookUp(objUsuarioFacebook.id).get();
+
+                            // se verifica si el usuario es null
+                            if(MobileServiceCustom.USUARIO_LOGUEADO == null)
+                            {
+                                // debemos de insertar el registro
+
+                                // establecemos primero los atributos
+                                MobileServiceCustom.USUARIO_LOGUEADO.setId(objUsuarioFacebook.id);
+                                MobileServiceCustom.USUARIO_LOGUEADO.setNombre(objUsuarioFacebook.name);
+                                MobileServiceCustom.USUARIO_LOGUEADO.setUrlimagen(objUsuarioFacebook.data.PictureURL.PictureURL);
+
+                                // agregamos el registro
+                                mUserTable.insert(MobileServiceCustom.USUARIO_LOGUEADO);
+                            }
+
+
+                            return true;
+                        } catch (Exception exception) {
+
+                        }
+                        return false;
+                    }
+
+                    @Override
+                    protected void onPostExecute(Boolean success) {
+
+                        //mSwipeRefreshLayout.setRefreshing(false);
+                        if (!success)
+                            Toast.makeText(getApplicationContext(), "Verifique la conexión a internet", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    protected void onCancelled() {
+                        super.onCancelled();
+                    }
+                }.execute();
+
+            }
+        });
+
+
+
+
+    }
 
 
 
