@@ -3,31 +3,17 @@ package com.nansoft.find3r.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.MobileServiceList;
-import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
-import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.nansoft.find3r.R;
-import com.nansoft.find3r.activity.InfoNoticiaActivity;
-import com.nansoft.find3r.fragments.NoticiaFragment;
+import com.nansoft.find3r.activity.ComentarioActivity;
 import com.nansoft.find3r.helpers.CircularImageView;
-import com.nansoft.find3r.helpers.MobileServiceCustom;
-import com.nansoft.find3r.models.Noticia;
-import com.nansoft.find3r.models.NoticiaUsuario;
-
-import org.w3c.dom.Text;
-
-import java.net.MalformedURLException;
 
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -88,7 +74,7 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
             viewHolder.imgvComentario.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext, InfoNoticiaActivity.class);
+                    Intent intent = new Intent(mContext, ComentarioActivity.class);
                     intent.putExtra("idNoticia",currentItem.getId());
                     mContext.startActivity(intent);
                 }

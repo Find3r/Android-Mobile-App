@@ -59,7 +59,7 @@ public class NoticiasCategoriaActivity extends ActionBarActivity {
                 intent.putExtra("idNoticia",adapter.getItem(i).getId());
                 startActivity(intent);
                 */
-                Intent intent = new Intent(view.getContext(), InfoNoticiaActivity.class);
+                Intent intent = new Intent(view.getContext(), ComentarioActivity.class);
                 intent.putExtra("idNoticia",adapter.getItem(i).getId());
                 startActivity(intent);
             }

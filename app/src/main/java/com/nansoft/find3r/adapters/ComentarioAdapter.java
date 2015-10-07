@@ -9,13 +9,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.models.Comentario;
+import com.nansoft.find3r.models.ComentarioCompleto;
 
 /**
  * Created by User on 7/4/2015.
  */
-public class ComentarioAdapter extends ArrayAdapter<Comentario>
+public class ComentarioAdapter extends ArrayAdapter<ComentarioCompleto>
 {
     Context mContext;
     int mLayoutResourceId;
@@ -32,7 +34,7 @@ public class ComentarioAdapter extends ArrayAdapter<Comentario>
     {
 
         View row = convertView;
-        final Comentario currentItem = getItem(position);
+        final ComentarioCompleto currentItem = getItem(position);
 
         // verificamos si la fila que se va dibujar no existe
         if (row == null)
@@ -42,7 +44,7 @@ public class ComentarioAdapter extends ArrayAdapter<Comentario>
             row = inflater.inflate(mLayoutResourceId, parent, false);
             ViewHolder viewHolder = new ViewHolder();
 
-            viewHolder.imgvImagen = (ImageView) row.findViewById(R.id.imgvLogoUsuario_comment);
+            viewHolder.imgvLogoUsuario = (ImageView) row.findViewById(R.id.imgvLogoUsuario_comment);
 
             viewHolder.txtvTitulo = (TextView) row.findViewById(R.id.txtvNombreUsuario_comment);
 
@@ -54,15 +56,17 @@ public class ComentarioAdapter extends ArrayAdapter<Comentario>
         }
 
         ViewHolder viewHolder = (ViewHolder) row.getTag();
-        /*
+
         Glide.with(mContext)
-                .load(currentItem.getUrlimagen().trim())
+                .load(currentItem.getUrlImagen().trim())
                 .asBitmap()
                 .fitCenter()
                 .placeholder(R.drawable.picture_default)
                 .error(R.drawable.error_image)
-                .into(viewHolder.imgvImagen);
-        */
+                .into(viewHolder.imgvLogoUsuario);
+
+
+        viewHolder.txtvTitulo.setText(currentItem.getNombre());
 
         viewHolder.txtvTitulo.setText(currentItem.getIdUsuario());
 
@@ -83,6 +87,6 @@ public class ComentarioAdapter extends ArrayAdapter<Comentario>
         public TextView txtvTitulo;
         public TextView txtvSubtitulo;
         public TextView txtvFecha;
-        public ImageView imgvImagen;
+        public ImageView imgvLogoUsuario;
     }
 }

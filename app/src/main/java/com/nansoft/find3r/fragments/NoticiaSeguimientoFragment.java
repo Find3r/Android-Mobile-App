@@ -2,7 +2,6 @@ package com.nansoft.find3r.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -24,17 +23,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
-import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.nansoft.find3r.R;
-import com.nansoft.find3r.activity.InfoNoticiaActivity;
+import com.nansoft.find3r.activity.ComentarioActivity;
 import com.nansoft.find3r.adapters.NoticiaAdapter;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Noticia;
-import com.nansoft.find3r.models.NoticiaUsuario;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,7 +74,7 @@ public class NoticiaSeguimientoFragment extends Fragment
                 intent.putExtra("idNoticia",adapter.getItem(i).getId());
                 startActivity(intent);
                 */
-                Intent intent = new Intent(view.getContext(), InfoNoticiaActivity.class);
+                Intent intent = new Intent(view.getContext(), ComentarioActivity.class);
                 intent.putExtra("idNoticia",adapter.getItem(i).getId());
                 startActivity(intent);
             }
