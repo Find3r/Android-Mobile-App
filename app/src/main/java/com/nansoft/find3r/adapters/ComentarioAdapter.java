@@ -68,8 +68,6 @@ public class ComentarioAdapter extends ArrayAdapter<ComentarioCompleto>
 
         viewHolder.txtvTitulo.setText(currentItem.getNombre());
 
-        viewHolder.txtvTitulo.setText(currentItem.getIdUsuario());
-
         viewHolder.txtvSubtitulo.setText(currentItem.getDescripcion());
 
         viewHolder.txtvFecha.setText(currentItem.getFecha());
