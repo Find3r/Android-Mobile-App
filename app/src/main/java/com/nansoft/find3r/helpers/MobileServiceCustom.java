@@ -6,6 +6,7 @@ import android.widget.Toast;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.authentication.MobileServiceUser;
+import com.nansoft.find3r.models.Usuario;
 import com.nansoft.find3r.models.UsuarioFacebook;
 
 import java.net.MalformedURLException;
@@ -23,9 +24,10 @@ public class MobileServiceCustom
     public static MobileServiceClient mClient;
 
     // variables para almacenar el token del usuario
-    public static final String SHAREDPREFFILE = "temp";
-    public static final String USERIDPREF = "uid";
-    public static final String TOKENPREF = "tkn";
+    private static final String SHAREDPREFFILE = "temp";
+    private static final String USERIDPREF = "uid";
+    private static final String TOKENPREF = "tkn";
+    public static Usuario USUARIO_LOGUEADO = new Usuario();
 
     public MobileServiceCustom(Context pContex)
     {
@@ -40,6 +42,8 @@ public class MobileServiceCustom
         } catch (MalformedURLException e) {
             Toast.makeText(contex,"Error al conectar con el mobile services",Toast.LENGTH_SHORT).show();
         }
+
+
     }
 
 
@@ -69,6 +73,8 @@ public class MobileServiceCustom
 
         return true;
     }
+
+
 
 
 }
