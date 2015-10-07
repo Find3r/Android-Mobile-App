@@ -5,10 +5,14 @@
         android:layout_height="wrap_content"
         android:layout_margin="20dp">
 
-        <ImageView
+        <com.nansoft.find3r.helpers.CircularImageView
+            xmlns:app="http://schemas.android.com/apk/res/com.nansoft.find3r"
             android:id="@+id/imgvLogoUsuario_comment"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            app:border="true"
+            app:border_color="@color/GrayLight"
+            app:border_width="4dp"
             android:src="@drawable/user"
             android:layout_margin="5dp"/>
 
@@ -16,6 +20,8 @@
             android:id="@+id/txtvNombreUsuario_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:textSize="18dp"
             android:layout_toRightOf="@id/imgvLogoUsuario_comment"
             android:text="@string/name"/>
 
