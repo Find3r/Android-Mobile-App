@@ -69,19 +69,7 @@ public class NoticiaFragment extends Fragment
 
         listview.setAdapter(adapter);
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                /*
-                Intent intent = new Intent(view.getContext(), ComentarioActivity.class);
-                intent.putExtra("idNoticia",adapter.getItem(i).getId());
-                startActivity(intent);
-                */
-                Intent intent = new Intent(view.getContext(), InfoNoticiaActivity.class);
-                intent.putExtra("idNoticia",adapter.getItem(i).getId());
-                startActivity(intent);
-            }
-        });
+
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swprlNoticias);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.android_darkorange, R.color.green, R.color.android_blue);
