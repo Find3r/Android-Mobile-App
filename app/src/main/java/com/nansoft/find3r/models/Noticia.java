@@ -43,6 +43,7 @@ public class Noticia
     private boolean estadoSeguimiento;
 
     public Noticia() {
+        estadoSeguimiento = false;
     }
 
     public Noticia(String id, String descripcion, String urlimagen, String fechadesaparicion, String hora, String idprovincia, String idcanton, String iddistrito, String idusuario, String idcategoria,String idEstado) {
@@ -162,6 +163,7 @@ public class Noticia
     }
 
     public boolean isEstadoSeguimiento() {
+
         return estadoSeguimiento;
     }
 
