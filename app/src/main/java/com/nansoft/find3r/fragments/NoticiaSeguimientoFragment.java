@@ -134,7 +134,7 @@ public class NoticiaSeguimientoFragment extends Fragment
             parameters.add(new Pair<String, String>("id","1"));
             Toast.makeText(activity.getApplicationContext(), MobileServiceCustom.USUARIO_LOGUEADO.getId(), Toast.LENGTH_SHORT).show();
 
-            ListenableFuture<JsonElement> lst = mobileServiceCustom.mClient.invokeApi("noticias_seguimiento_usuario", "POST", parameters);
+            ListenableFuture<JsonElement> lst = mobileServiceCustom.mClient.invokeApi("noticias_seguimiento_usuario", "GET", parameters);
 
             Futures.addCallback(lst, new FutureCallback<JsonElement>() {
                 @Override
@@ -172,9 +172,8 @@ public class NoticiaSeguimientoFragment extends Fragment
 
                                         @Override
                                         public void run() {
-                                            //Toast.makeText(activity.getApplicationContext(), objLastNews.get, Toast.LENGTH_SHORT).show();
-                                            /// pendiente en la API de noticia solo se traen los datos de noticia, hay que traer la imagen del usuario y nombre
-                                            //adapter.add(objLastNews);
+
+                                            adapter.add(objLastNews);
                                             adapter.notifyDataSetChanged();
 
 
