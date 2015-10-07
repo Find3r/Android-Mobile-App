@@ -2,6 +2,7 @@ package com.nansoft.find3r.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,8 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.nansoft.find3r.R;
+import com.nansoft.find3r.activity.InfoNoticiaActivity;
+import com.nansoft.find3r.fragments.NoticiaFragment;
 import com.nansoft.find3r.helpers.CircularImageView;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Noticia;
@@ -60,7 +63,7 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
             // si es así la creamos
             LayoutInflater inflater = ((Activity) mContext).getLayoutInflater();
             row = inflater.inflate(mLayoutResourceId, parent, false);
-            ViewHolder viewHolder = new ViewHolder();
+            final ViewHolder viewHolder = new ViewHolder();
 
             viewHolder.imgvFotoPerfilUsuario = (CircularImageView) row.findViewById(R.id.imgvPerfilUsuarioNoticia);
 
@@ -82,44 +85,87 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
 
             viewHolder.txtvFecha = (TextView) row.findViewById(R.id.txtvFechaNoticia);
 
+            viewHolder.imgvComentario.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, InfoNoticiaActivity.class);
+                    intent.putExtra("idNoticia",currentItem.getId());
+                    mContext.startActivity(intent);
+                }
+            });
+
             viewHolder.imgvSeguimiento.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v)
                 {
-                    //MobileServiceCustom mobileServiceCustom = new MobileServiceCustom(v.getContext());
-                    //Toast.makeText(v.getContext(),mobileServiceCustom.mClient.getCurrentUser().getUserId() , Toast.LENGTH_SHORT).show();
-                    /*
+
                     new AsyncTask<Void, Void, Boolean>() {
 
                         MobileServiceCustom mobileServiceCustom;
                         MobileServiceTable<NoticiaUsuario> mNoticiaUsuarioaTable;
-
+                        String mensaje = "";
+                        String nombreImagen = "unlock";
                         @Override
                         protected void onPreExecute()
                         {
                             mobileServiceCustom = new MobileServiceCustom(mContext);
-                            mNoticiaUsuarioaTable = mobileServiceCustom.mClient.getTable("noticiausuario", NoticiaUsuario.class);
+                            mNoticiaUsuarioaTable = mobileServiceCustom.mClient.getTable("noticia_usuario", NoticiaUsuario.class);
 
                         }
 
                         @Override
                         protected Boolean doInBackground(Void... params) {
                             try {
-                                final MobileServiceList<NoticiaUsuario> result = mNoticiaUsuarioaTable.where().field("idusuario").eq(false).execute().get();
-                                activity.runOnUiThread(new Runnable() {
 
+                                // buscamos el registro
+                                final MobileServiceList<NoticiaUsuario> result = mNoticiaUsuarioaTable.where().field("idusuario").eq(MobileServiceCustom.USUARIO_LOGUEADO.getId()).and().field("idnoticia").eq(currentItem.getId()).execute().get();
+
+
+
+                                // se verifica que hayan elementos
+                                if (result.getTotalCount() != 0)
+                                {
+                                    NoticiaUsuario objNoticiaUsuario = result.get(0);
+
+                                    // se cambia el estado
+                                    objNoticiaUsuario.setEstado(false);
+
+                                    // se actualiza el registro
+                                    mNoticiaUsuarioaTable.update(objNoticiaUsuario);
+
+                                    nombreImagen = "unlock";
+                                    mensaje = "Ya no sigues la noticia";
+
+                                }
+                                else
+                                {
+                                    // si no existe se crea el objeto
+                                    NoticiaUsuario objNoticiaUsuario = new NoticiaUsuario();
+                                    objNoticiaUsuario.setIdNoticia(currentItem.getId());
+                                    objNoticiaUsuario.setIdUsuario(MobileServiceCustom.USUARIO_LOGUEADO.getId());
+                                    objNoticiaUsuario.setEstado(true);
+
+                                    // se agrega el registro
+                                    mNoticiaUsuarioaTable.insert(objNoticiaUsuario);
+
+                                    // se cambia la imagen
+                                    nombreImagen = "lock";
+
+                                    mensaje = "Ahora sigues la noticia";
+                                }
+
+
+
+
+                                ((Activity) mContext).runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
 
+                                        // se cambia la imagen
+                                        viewHolder.imgvSeguimiento.setImageResource(mContext.getResources().getIdentifier(nombreImagen, "drawable", mContext.getPackageName()));
+                                        NoticiaFragment.adapter.notifyDataSetChanged();
 
-                                        String datos = "";
-                                        for (Noticia item : result) {
-
-                                            //adapter.add(item);
-                                            adapter.notifyDataSetChanged();
-                                        }
-                                        //Toast.makeText(mContext,datos,Toast.LENGTH_SHORT).show();
-
+                                        Toast.makeText(mContext, mensaje, Toast.LENGTH_SHORT).show();
                                     }
                                 });
                                 return true;
@@ -142,7 +188,7 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
                             super.onCancelled();
                         }
                     }.execute();
-                    */
+
                     
                     
                 }
