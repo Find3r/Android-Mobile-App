@@ -14,6 +14,9 @@ public class Usuario
     private String telefonocasa;
     private String urlimagen;
 
+    public Usuario() {
+    }
+
     public Usuario(String id, String nombre, String primerApellido, String segundoApellido, String email, String telefonoCelular,String telefonoCasa, String urlImagen) {
         this.id = id;
         this.nombre = nombre;
