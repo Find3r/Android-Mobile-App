@@ -15,6 +15,15 @@ public class Usuario
     private String urlimagen;
 
     public Usuario() {
+
+        this.id = "0";
+        this.nombre = "Sin definir";
+        this.primerapellido = "Sin definir";
+        this.segundoapellido = "Sin definir";
+        this.email = "Sin definir";
+        this.telefonocelular = "Sin definir";
+        this.telefonocasa = "Sin definir";
+        this.urlimagen = "Sin definir";
     }
 
     public Usuario(String id, String nombre, String primerApellido, String segundoApellido, String email, String telefonoCelular,String telefonoCasa, String urlImagen) {
