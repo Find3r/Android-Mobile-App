@@ -133,7 +133,7 @@
                         android:id="@+id/imgvSeguimiento"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:src="@drawable/unlock"
+
                         android:gravity="center_vertical|center_horizontal"
                         android:layout_marginLeft="15dp" />
 
@@ -141,7 +141,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:textAlignment="center"
-                        android:text="@string/seguir"
+
                         android:textColor="@color/cafeoscuro"
                         android:gravity="center_vertical|center_horizontal"
                         android:layout_marginLeft="10dp" />

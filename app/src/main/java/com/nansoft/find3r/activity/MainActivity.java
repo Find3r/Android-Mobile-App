@@ -70,7 +70,7 @@ public class MainActivity extends ActionBarActivity implements ViewPager.OnPageC
                 getSupportFragmentManager(),this);
 
         adapter.addFragment(new NoticiaFragment());
-        adapter.addFragment(new NoticiaSeguimientoFragment());
+        //adapter.addFragment(new NoticiaSeguimientoFragment());
         //adapter.addFragment(new CategoriaFragment());
         adapter.addFragment(new NotificacionFragment());
         adapter.addFragment(new PerfilFragment());
@@ -234,8 +234,8 @@ public class MainActivity extends ActionBarActivity implements ViewPager.OnPageC
     }
     //private int tabIcons[] = {R.drawable.news, R.drawable.category, R.drawable.notification,R.drawable.user};
     //private int tabIconsActive[] = {R.drawable.news_active, R.drawable.category_active, R.drawable.notification_active,R.drawable.user_active};
-    private int tabIcons[] = {R.drawable.news, R.drawable.lock,R.drawable.notification,R.drawable.user};
-    private int tabIconsActive[] = {R.drawable.news_active,R.drawable.lock_active,R.drawable.notification_active, R.drawable.user_active};
+    private int tabIcons[] = {R.drawable.news,R.drawable.notification,R.drawable.user};
+    private int tabIconsActive[] = {R.drawable.news_active,R.drawable.notification_active, R.drawable.user_active};
 
     @Override
     public void onPageSelected(int position) {
