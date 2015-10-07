@@ -39,6 +39,9 @@ public class Noticia
     @SerializedName("Column9")
     private String urlImagenUsuario;
 
+    @SerializedName("estado_seguimiento")
+    private boolean estadoSeguimiento;
+
     public Noticia() {
     }
 
@@ -156,5 +159,13 @@ public class Noticia
 
     public void setUrlImagenUsuario(String urlImagenUsuario) {
         this.urlImagenUsuario = urlImagenUsuario;
+    }
+
+    public boolean isEstadoSeguimiento() {
+        return estadoSeguimiento;
+    }
+
+    public void setEstadoSeguimiento(boolean estadoSeguimiento) {
+        this.estadoSeguimiento = estadoSeguimiento;
     }
 }
