@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -71,7 +72,9 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
 
             viewHolder.txtvFecha = (TextView) row.findViewById(R.id.txtvFechaNoticia);
 
-            viewHolder.imgvComentario.setOnClickListener(new View.OnClickListener() {
+            viewHolder.layImagenComentario = (LinearLayout) row.findViewById(R.id.layImagenComentario);
+
+            viewHolder.layImagenComentario.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, ComentarioActivity.class);
@@ -250,6 +253,7 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
         public TextView txtvNombreUsuarioNoticia;
         public CircularImageView imgvFotoPerfilUsuario;
         public PhotoView imgvImagen;
+        public LinearLayout layImagenComentario;
         public ImageView imgvEstado;
         public ImageView imgvSeguimiento;
         public ImageView imgvComentario;
