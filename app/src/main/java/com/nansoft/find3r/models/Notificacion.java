@@ -5,6 +5,7 @@ package com.nansoft.find3r.models;
  */
 public class Notificacion
 {
+
     private String id;
     private String idnoticia;
     private String descripcion;

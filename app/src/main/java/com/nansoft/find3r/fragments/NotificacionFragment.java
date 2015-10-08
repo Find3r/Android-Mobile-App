@@ -20,6 +20,7 @@ import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.ComentarioActivity;
 import com.nansoft.find3r.adapters.NotificacionAdapter;
+import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Notificacion;
 import com.nansoft.find3r.models.NotificacionUsuario;
 
@@ -85,36 +86,23 @@ public class NotificacionFragment  extends Fragment
 
         new AsyncTask<Void, Void, Boolean>() {
 
-            MobileServiceClient mClient;
-            MobileServiceTable<NotificacionUsuario> mNotificacionUsuarioTable;
+
             MobileServiceTable<Notificacion> mNotificacionTable;
 
             @Override
             protected void onPreExecute()
-            {
-                try {
-                    mClient = new MobileServiceClient(
-                            "https://wantedapp.azure-mobile.net/",
-                            "MIqlLCMyhKNIonsgsNuFlpBXzqqNWj11",
-                            activity.getApplicationContext()
-                    );
-                } catch (MalformedURLException e) {
 
-                }
-                mNotificacionUsuarioTable = mClient.getTable("notificacionusuario", NotificacionUsuario.class);
-                mNotificacionTable = mClient.getTable("notificacion", Notificacion.class);
+            {
+                MobileServiceCustom mobileServiceCustom = new MobileServiceCustom(activity.getApplicationContext());
+
+                mNotificacionTable = mobileServiceCustom.mClient.getTable("notificacion", Notificacion.class);
             }
 
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
-                    final MobileServiceList<NotificacionUsuario> result = mNotificacionUsuarioTable.where().field("idusuario").eq("1").top(10).execute().get();
-                    Notificacion objNotificacion;
-                    for (NotificacionUsuario item : result)
-                    {
-                        objNotificacion = mNotificacionTable.lookUp(item.getIdnotificacion()).get();
-                        item.setDescripcion(objNotificacion.getDescripcion());
-                    }
+                    final MobileServiceList<Notificacion> result = mNotificacionTable.execute().get();
+
 
                     activity.runOnUiThread(new Runnable() {
 
@@ -123,7 +111,7 @@ public class NotificacionFragment  extends Fragment
 
                             adapter.clear();
 
-                            for (NotificacionUsuario item : result) {
+                            for (Notificacion item : result) {
 
                                 adapter.add(item);
                                 adapter.notifyDataSetChanged();

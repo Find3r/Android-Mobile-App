@@ -66,4 +66,5 @@ public class CustomNotificationHandler extends NotificationsHandler
         mBuilder.setContentIntent(contentIntent);
         mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
     }
+
 }

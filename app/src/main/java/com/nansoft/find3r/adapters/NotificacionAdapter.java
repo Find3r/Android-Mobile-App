@@ -10,12 +10,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.nansoft.find3r.R;
+import com.nansoft.find3r.models.Notificacion;
 import com.nansoft.find3r.models.NotificacionUsuario;
 
 /**
  * Created by User on 7/5/2015.
  */
-public class NotificacionAdapter extends ArrayAdapter<NotificacionUsuario>
+public class NotificacionAdapter extends ArrayAdapter<Notificacion>
 {
     Context mContext;
     int mLayoutResourceId;
@@ -32,7 +33,7 @@ public class NotificacionAdapter extends ArrayAdapter<NotificacionUsuario>
     {
 
         View row = convertView;
-        final NotificacionUsuario currentItem = getItem(position);
+        final Notificacion currentItem = getItem(position);
 
         // verificamos si la fila que se va dibujar no existe
         if (row == null)
@@ -65,7 +66,7 @@ public class NotificacionAdapter extends ArrayAdapter<NotificacionUsuario>
         */
         viewHolder.txtvTitulo.setText(currentItem.getDescripcion());
 
-        viewHolder.txtvFecha.setText(currentItem.getFecha());
+        //viewHolder.txtvFecha.setText(currentItem.getFecha());
 
 
 
