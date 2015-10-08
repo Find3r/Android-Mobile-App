@@ -12,8 +12,10 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -26,6 +28,7 @@ import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nansoft.find3r.MyTime;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.adapters.ComentarioAdapter;
+import com.nansoft.find3r.helpers.CircularImageView;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Comentario;
 import com.nansoft.find3r.models.ComentarioCompleto;
@@ -34,6 +37,7 @@ import com.nansoft.find3r.models.Noticia;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class ComentarioActivity extends ActionBarActivity {
 
@@ -42,12 +46,14 @@ public class ComentarioActivity extends ActionBarActivity {
     public static SwipeRefreshLayout mSwipeRefreshLayout;
 
 
-
+    MobileServiceCustom mobileServiceCustom ;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.comentario_activity);
+
+        mobileServiceCustom = new MobileServiceCustom(this);
 
         adapter = new ComentarioAdapter(this,R.layout.comment_item);
         ListView listview = (ListView) findViewById(R.id.lstvComentarios);
@@ -58,6 +64,10 @@ public class ComentarioActivity extends ActionBarActivity {
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swprlComentarios);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.android_darkorange, R.color.green, R.color.android_blue);
 
+
+
+
+
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -67,20 +77,16 @@ public class ComentarioActivity extends ActionBarActivity {
 
         Button btnAgregarComentario = (Button) findViewById(R.id.btnChekComment);
 
-        btnAgregarComentario.setOnClickListener(new View.OnClickListener()
-        {
+        btnAgregarComentario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
                 EditText edtDescripcionComentario = (EditText) findViewById(R.id.edtDescripcionComentario_add_comment);
 
-                if (edtDescripcionComentario.getText().toString().trim().isEmpty())
-                {
-                    Toast.makeText(getApplicationContext(),"Debe ingresar datos en el comentario",Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    agregarComentario(new Comentario("", edtDescripcionComentario.getText().toString(), "1", MyTime.getFecha(), MyTime.getHora(), ID_NOTICIA), edtDescripcionComentario);
+                if (edtDescripcionComentario.getText().toString().trim().isEmpty()) {
+                    Toast.makeText(getApplicationContext(), "Debe ingresar datos en el comentario", Toast.LENGTH_SHORT).show();
+                } else {
+                    agregarComentario(new Comentario("", edtDescripcionComentario.getText().toString(), MobileServiceCustom.USUARIO_LOGUEADO.getId(), MyTime.getFecha(), MyTime.getHora(), ID_NOTICIA), edtDescripcionComentario);
                 }
             }
         });
@@ -91,6 +97,8 @@ public class ComentarioActivity extends ActionBarActivity {
                 mSwipeRefreshLayout.setRefreshing(true);
             }
         });
+
+
 
         cargarComentarios();
     }
@@ -120,14 +128,26 @@ public class ComentarioActivity extends ActionBarActivity {
 
     public void cargarComentarios() {
 
-        mSwipeRefreshLayout.setEnabled(false);
+        CircularImageView imgvPerfilUsuario = (CircularImageView) findViewById(R.id.imgvLogoUsuario_add_comment);
+        TextView txtvNombreUsuario = (TextView) findViewById(R.id.txtvNombreUsuario_add_comment);
+
+        txtvNombreUsuario.setText(MobileServiceCustom.USUARIO_LOGUEADO.getNombre());
+
+
+        Glide.with(this)
+                .load(MobileServiceCustom.USUARIO_LOGUEADO.getUrlimagen().trim())
+                .asBitmap()
+                .fitCenter()
+                .placeholder(R.drawable.picture_default)
+                .error(R.drawable.error_image)
+                .into(imgvPerfilUsuario);
 
 
         try {
 
             adapter.clear();
 
-            MobileServiceCustom mobileServiceCustom = new MobileServiceCustom(this);
+
             List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
             parameters.add(new Pair<String, String>("id",ID_NOTICIA));
 
@@ -170,12 +190,12 @@ public class ComentarioActivity extends ActionBarActivity {
 
                     }
 
-
+                    mSwipeRefreshLayout.setRefreshing(false);
 
 
                 }
             });
-
+            mSwipeRefreshLayout.setEnabled(true);
         }
         catch (Exception e )
         {
@@ -190,7 +210,7 @@ public class ComentarioActivity extends ActionBarActivity {
 
     public void agregarComentario(final Comentario objComentario,final EditText edtCheckComment)
     {
-        /*
+
         new AsyncTask<Void, Void, Boolean>()
         {
 
@@ -199,28 +219,17 @@ public class ComentarioActivity extends ActionBarActivity {
 
             @Override
             protected void onPreExecute() {
-                try {
-                    mClient = new MobileServiceClient(
-                            "https://wantedapp.azure-mobile.net/",
-                            "MIqlLCMyhKNIonsgsNuFlpBXzqqNWj11",
-                            getApplicationContext()
-                    );
-                } catch (MalformedURLException e) {
 
-                }
-                mComentarioTable = mClient.getTable("comentario", Comentario.class);
 
+                mComentarioTable = mobileServiceCustom.mClient.getTable("comentario",Comentario.class);
             }
 
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
                     mComentarioTable.insert(objComentario).get();
-                         runOnUiThread(new Runnable() {
-                            public void run() {
-                                adapter.add(objComentario);
-                            }
-                        });
+
+
 
                         return true;
                 } catch (Exception exception) {
@@ -236,9 +245,14 @@ public class ComentarioActivity extends ActionBarActivity {
                     Toast.makeText(getApplicationContext(),"Comentario agregado",Toast.LENGTH_SHORT).show();
                     edtCheckComment.setText("");
                 }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"Ha ocurrido un error al intentar agregar el comentario, intenta de nuevo",Toast.LENGTH_SHORT).show();
+                }
                 mSwipeRefreshLayout.setRefreshing(false);
+                cargarComentarios();
             }
         }.execute();
-        */
+
     }
 }
