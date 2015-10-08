@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,12 +23,17 @@ import com.bumptech.glide.Glide;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+import com.microsoft.windowsazure.mobileservices.MobileServiceException;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.adapters.NoticiaAdapter;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
+import com.nansoft.find3r.models.ComentarioCompleto;
 import com.nansoft.find3r.models.Noticia;
 import com.nansoft.find3r.models.Usuario;
 import com.nansoft.find3r.models.UsuarioFacebook;
@@ -52,6 +58,8 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
 
     MobileServiceCustom customClient;
 
+   SwipeRefreshLayout mSwipeRefreshLayout;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -67,6 +75,20 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
         adapter = new NoticiaAdapter(view.getContext(), R.layout.noticia_item);
 
         listview.setAdapter(adapter);
+
+        mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swprlPerfilUsuario);
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.android_darkorange, R.color.green, R.color.android_blue);
+
+
+
+
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                cargarUsuario(getActivity());
+            }
+        });
 
 
         txtvNombreUsuario = (TextView) headerListView.findViewById(R.id.txtvNombreUsuario);
@@ -94,8 +116,16 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
 
         }
 
+
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
+
         // cargamos la información de usuario
-        cargarUsuario(getActivity(),view);
+        cargarUsuario(getActivity());
 
 
 
@@ -104,76 +134,77 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
     }
 
 
-    public void cargarUsuario(final FragmentActivity activity,final View view) {
+    public void cargarUsuario(final FragmentActivity activity) {
 
-        new AsyncTask<Void, Void, Boolean>() {
+        try {
+
+            txtvNombreUsuario.setText(MobileServiceCustom.USUARIO_LOGUEADO.getNombre());
+
+            Glide.with(activity.getApplicationContext())
+                    .load(MobileServiceCustom.USUARIO_LOGUEADO.getUrlimagen().trim())
+                    .asBitmap()
+                    .fitCenter()
+                    .placeholder(R.drawable.picture_default)
+                    .error(R.drawable.error_image)
+                    .into(imgvPerfilUsuario);
+
+            adapter.clear();
 
 
+            List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
+            parameters.add(new Pair<String, String>("id",MobileServiceCustom.USUARIO_LOGUEADO.getId()));
 
-            MobileServiceTable<Noticia> mNoticiaTable;
+            MobileServiceCustom mobileServiceCustom = new MobileServiceCustom(activity.getApplicationContext());
 
-            @Override
-            protected void onPreExecute() {
+            ListenableFuture<JsonElement> lst = mobileServiceCustom.mClient.invokeApi("news_user", "GET", parameters);
+
+            Futures.addCallback(lst, new FutureCallback<JsonElement>() {
+                @Override
+                public void onFailure(Throwable exc) {
 
 
-                mNoticiaTable = customClient.mClient.getTable("noticia", Noticia.class);
-            }
+                }
 
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                try {
+                @Override
+                public void onSuccess(JsonElement result) {
 
-                    // se buscan las noticias del usuario
-                    final MobileServiceList<Noticia> result = mNoticiaTable.where().field("idusuario").eq(MobileServiceCustom.USUARIO_LOGUEADO.getId()).execute().get();
+                    // se verifica si el resultado es un array Json
+                    if (result.isJsonArray()) {
+                        // obtenemos el resultado como un JsonArray
+                        JsonArray jsonArray = result.getAsJsonArray();
+                        Gson objGson = new Gson();
+                        // recorremos cada elemento del array
+                        for (JsonElement element : jsonArray) {
 
-                    activity.runOnUiThread(new Runnable() {
+                            // se deserializa cada objeto JSON
+                            final Noticia objNoticia = objGson.fromJson(element, Noticia.class);
 
-                        @Override
-                        public void run() {
+                            activity.runOnUiThread(new Runnable() {
 
-                            adapter.clear();
-                            for (Noticia item : result) {
+                                @Override
+                                public void run() {
 
-                                //adapter.add(item);
-                                adapter.notifyDataSetChanged();
-                            }
 
+                                    adapter.add(objNoticia);
+                                    adapter.notifyDataSetChanged();
+
+
+                                }
+                            });
                         }
-                    });
-                    return true;
-                } catch (Exception exception) {
+
+                    }
+
+                    mSwipeRefreshLayout.setRefreshing(false);
+
 
                 }
-                return false;
-            }
+            });
+        }
+        catch (Exception e )
+        {
 
-            @Override
-            protected void onPostExecute(Boolean success) {
-
-                //mSwipeRefreshLayout.setRefreshing(false);
-                if (!success)
-                    Toast.makeText(activity.getApplicationContext(), "Verifique la conexión a internet", Toast.LENGTH_SHORT).show();
-                else {
-
-
-                    txtvNombreUsuario.setText(MobileServiceCustom.USUARIO_LOGUEADO.getNombre());
-
-                    Glide.with(view.getContext())
-                            .load(MobileServiceCustom.USUARIO_LOGUEADO.getUrlimagen().trim())
-                            .asBitmap()
-                            .fitCenter()
-                            .placeholder(R.drawable.picture_default)
-                            .error(R.drawable.error_image)
-                            .into(imgvPerfilUsuario);
-                }
-            }
-
-            @Override
-            protected void onCancelled() {
-                super.onCancelled();
-            }
-        }.execute();
-
+        }
 
 
     }
