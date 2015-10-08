@@ -54,7 +54,7 @@ public class NotificacionFragment  extends Fragment
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 Intent intent = new Intent(view.getContext(), ComentarioActivity.class);
-                intent.putExtra("idNoticia",adapter.getItem(i).getId());
+                intent.putExtra("idNoticia",adapter.getItem(i).getIdnoticia());
                 startActivity(intent);
             }
         });
