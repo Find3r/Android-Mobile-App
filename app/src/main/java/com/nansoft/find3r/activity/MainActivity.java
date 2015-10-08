@@ -27,6 +27,7 @@ import com.nansoft.find3r.fragments.NoticiaFragment;
 import com.nansoft.find3r.fragments.NoticiaSeguimientoFragment;
 import com.nansoft.find3r.fragments.NotificacionFragment;
 import com.nansoft.find3r.fragments.PerfilFragment;
+import com.nansoft.find3r.helpers.CustomNotificationHandler;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Noticia;
 import com.nansoft.find3r.models.Usuario;
@@ -34,7 +35,7 @@ import com.nansoft.find3r.models.UsuarioFacebook;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import com.microsoft.windowsazure.notifications.NotificationsManager;
 public class MainActivity extends ActionBarActivity implements ViewPager.OnPageChangeListener {
 
     /**
@@ -52,8 +53,8 @@ public class MainActivity extends ActionBarActivity implements ViewPager.OnPageC
     private ViewPager pager = null;
     private MyFragmentPagerAdapter adapter;
 
-    MobileServiceCustom customClient;
-
+    public static MobileServiceCustom customClient;
+    public static final String SENDER_ID = "129689044298";
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -93,6 +94,8 @@ public class MainActivity extends ActionBarActivity implements ViewPager.OnPageC
         try{
             // cargamos el token
             customClient.loadUserTokenCache(customClient.mClient);
+
+            NotificationsManager.handleNotifications(this, SENDER_ID, CustomNotificationHandler.class);
 
         }
         catch (Exception e)
