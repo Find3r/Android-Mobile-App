@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.nansoft.find3r.R;
+import com.nansoft.find3r.helpers.CircularImageView;
 import com.nansoft.find3r.models.Comentario;
 import com.nansoft.find3r.models.ComentarioCompleto;
 
@@ -44,7 +45,7 @@ public class ComentarioAdapter extends ArrayAdapter<ComentarioCompleto>
             row = inflater.inflate(mLayoutResourceId, parent, false);
             ViewHolder viewHolder = new ViewHolder();
 
-            viewHolder.imgvLogoUsuario = (ImageView) row.findViewById(R.id.imgvLogoUsuario_comment);
+            viewHolder.imgvLogoUsuario = (CircularImageView) row.findViewById(R.id.imgvLogoUsuario_comment);
 
             viewHolder.txtvTitulo = (TextView) row.findViewById(R.id.txtvNombreUsuario_comment);
 
@@ -85,6 +86,6 @@ public class ComentarioAdapter extends ArrayAdapter<ComentarioCompleto>
         public TextView txtvTitulo;
         public TextView txtvSubtitulo;
         public TextView txtvFecha;
-        public ImageView imgvLogoUsuario;
+        public CircularImageView imgvLogoUsuario;
     }
 }
