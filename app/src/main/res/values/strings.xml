@@ -45,4 +45,139 @@
     <string name="title_activity_login">LoginActivity</string>
     <string name="title_activity_info_noticia">InfoNoticiaActivity</string>
 
+
+    <string name="capture">Capturar Imagen</string>
+    <string name="pickimage">Seleccionar Imagen</string>
+    <string name="sendReport">Enviar reporte</string>
+    <string name="lblProvincia">Provincia</string>
+    <string name="lblCanton">Cantón</string>
+    <string name="lblDescription">Cuéntenos el problema que se vive en la comunidad</string>
+    <string name="lblimage">Pulse sobre la imagen para seleccionar un archivo adjunto</string>
+    <string name="lblLugar">Seleccione la provincia y el cantón</string>
+
+    <string name="advertencia">Advertencia</string>
+    <string name="msjDialogGPS">Se recomienda activar el GPS para obtener una mayor exactitud del reporte</string>
+    <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
+
+    <string name="cancelar">Cancelar</string>
+
+    <string name="lblinsshared">Has compartido una imagen, en la siguiente pantalla selecciona el tipo de reporte</string>
+
+    <string name="errorCarga">Ha ocurrido un error con la conexión a internet , pulsa acá para volver a intentar</string>
+
+
+
+    <string-array name="provincias_array">
+        <item>San José</item>
+        <item>Alajuela</item>
+        <item>Cartago</item>
+        <item>Heredia</item>
+        <item>Guanacaste</item>
+        <item>Puntarenas</item>
+        <item>Limón</item>
+    </string-array>
+
+    <string-array name="sjdis_array">
+        <item>San José</item>
+        <item>Escazú</item>
+        <item>Desamparados</item>
+        <item>Puriscal</item>
+        <item>Tarrazú</item>
+        <item>Aserrí</item>
+        <item>Mora</item>
+        <item>Goicochea</item>
+        <item>Santa Ana</item>
+        <item>Alajuelita</item>
+        <item>Vásquez de Coronado</item>
+        <item>Acosta</item>
+        <item>Tibás</item>
+        <item>Moravia</item>
+        <item>Montes de Oca</item>
+        <item>Turrubares</item>
+        <item>Dota</item>
+        <item>Curridabat</item>
+        <item>Pérez Zeledón</item>
+        <item>León Cortés</item>
+    </string-array>
+
+    <string-array name="aldis_array">
+        <item>Alajuela</item>
+        <item>San Ramón</item>
+        <item>Grecia</item>
+        <item>San Mateo</item>
+        <item>Atenas</item>
+        <item>Naranjo</item>
+        <item>Palmares</item>
+        <item>Poás</item>
+        <item>Orotina</item>
+        <item>San Carlos</item>
+        <item>Alfaro Ruiz</item>
+        <item>Valverde Vega</item>
+        <item>Upala</item>
+        <item>Los Chiles</item>
+        <item>Guatuso</item>
+    </string-array>
+
+    <string-array name="cartdis_array">
+        <item>Cartago</item>
+        <item>Paraíso</item>
+        <item>La Unión</item>
+        <item>Jiménez</item>
+        <item>Turrialba</item>
+        <item>Alvarado</item>
+        <item>Oreamuno</item>
+        <item>El Guarco</item>
+    </string-array>
+
+    <string-array name="herdis_array">
+        <item>Heredia</item>
+        <item>Barva</item>
+        <item>Santo Domingo</item>
+        <item>Santa Bárabara</item>
+        <item>San Rafael</item>
+        <item>San Isidro</item>
+        <item>Belén</item>
+        <item>Flores</item>
+        <item>San Pablo</item>
+        <item>Sarapiquí</item>
+    </string-array>
+
+    <string-array name="guadis_array">
+        <item>Liberia</item>
+        <item>Nicoya</item>
+        <item>Santa Cruz</item>
+        <item>Bagaces</item>
+        <item>Carrillo</item>
+        <item>Cañas</item>
+        <item>Abangares</item>
+        <item>Tilarán</item>
+        <item>Nandayure</item>
+        <item>La Cruz</item>
+        <item>Hojancha</item>
+    </string-array>
+
+    <string-array name="puntdis_array">
+        <item>Puntarenas</item>
+        <item>Esparza</item>
+        <item>Buenos Aires</item>
+        <item>Montes de Oro</item>
+        <item>Osa</item>
+        <item>Aguirre</item>
+        <item>Golfito</item>
+        <item>Coto Brus</item>
+        <item>Parrita</item>
+        <item>Corredores</item>
+        <item>Garabito</item>
+    </string-array>
+
+    <string-array name="limdis_array">
+        <item>Limón</item>
+        <item>Pococí</item>
+        <item>Siquirres</item>
+        <item>Talamanca</item>
+        <item>Matina</item>
+        <item>Guácimo</item>
+    </string-array>
+
 </resources>

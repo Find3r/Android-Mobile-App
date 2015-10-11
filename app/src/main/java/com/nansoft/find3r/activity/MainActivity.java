@@ -131,17 +131,7 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             @Override
             public void onSuccess(final UsuarioFacebook objUsuarioFacebook) {
 
-                try
-                {
-                    URL img_value = null;
-                    img_value = new URL("http://graph.facebook.com/"+customClient.mClient.getCurrentUser().getUserId()+"/picture?type=large");
 
-                    Toast.makeText(MainActivity.this, img_value.toString(), Toast.LENGTH_SHORT).show();
-                }
-                catch(Exception e)
-                {
-                    Toast.makeText(MainActivity.this, "error " + e.toString(), Toast.LENGTH_SHORT).show();
-                }
 
                 new AsyncTask<Void, Void, Boolean>() {
 
