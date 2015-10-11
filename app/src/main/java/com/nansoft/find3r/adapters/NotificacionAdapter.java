@@ -8,10 +8,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.models.Notificacion;
 import com.nansoft.find3r.models.NotificacionUsuario;
+
+import java.util.Calendar;
 
 /**
  * Created by User on 7/5/2015.
@@ -66,7 +69,15 @@ public class NotificacionAdapter extends ArrayAdapter<Notificacion>
         */
         viewHolder.txtvTitulo.setText(currentItem.getDescripcion());
 
+        /*
+        viewHolder.txtvSubtitulo.setText(currentItem.getFechaCreacion() + "\n" + "Segundos -> " + currentItem.getDiferenciaSegundos()
+                + "\nMinutos -> " + currentItem.getDiferenciaMinutos()
+                + "\nHoras -> " + currentItem.getDiferenciaHoras()
+                + "\nDías -> " + currentItem.getDiferenciaDias());
+                */
+
         viewHolder.txtvSubtitulo.setText(currentItem.getFechaCreacion());
+
 
 
 
