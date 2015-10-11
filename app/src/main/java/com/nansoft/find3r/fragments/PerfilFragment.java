@@ -26,11 +26,13 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.melnykov.fab.FloatingActionButton;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceException;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nansoft.find3r.R;
+import com.nansoft.find3r.activity.AgregarNoticia;
 import com.nansoft.find3r.adapters.NoticiaAdapter;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.ComentarioCompleto;
@@ -70,6 +72,16 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
 
         listview = (ListView) view.findViewById(R.id.lstvPublicacionesUsuario);
         listview.addHeaderView(headerListView);
+
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabAgregarNoticiaPerfil);
+        fab.attachToListView(listview);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), AgregarNoticia.class);
+                startActivity(intent);
+            }
+        });
 
         //now you must initialize your list view
         adapter = new NoticiaAdapter(view.getContext(), R.layout.noticia_item);

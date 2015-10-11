@@ -11,7 +11,6 @@
         android:id="@+id/swprlPerfilUsuario"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="75dp"
         android:padding="10dp">
 
             <ListView
@@ -21,26 +20,18 @@
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
+    <com.melnykov.fab.FloatingActionButton
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/fabAgregarNoticiaPerfil"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@drawable/add_white"
         android:layout_alignParentBottom="true"
-        android:padding="5dp">
-
-        <ImageView
-            android:id="@+id/imgAgregarNoticiaUsuario"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:src="@drawable/plus"
-            android:layout_centerHorizontal="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/agregar_noticia"
-            android:layout_below="@id/imgAgregarNoticiaUsuario"
-            android:layout_centerHorizontal="true" />
-
-    </RelativeLayout>
+        android:layout_alignParentRight="true"
+        fab:fab_colorNormal="@color/android_darkorange"
+        fab:fab_colorPressed="@color/anaranjado"
+        fab:fab_colorRipple="@color/cafeoscuro" />
 
 </RelativeLayout>
