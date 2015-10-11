@@ -4,7 +4,7 @@
     <string name="app_name">Find3r</string>
     <string name="action_contact">Contact</string>
     <string name="insComentario">Ingrese su comentario</string>
-
+    <string name="agregar_noticia">Agregar Noticia</string>
     <string name="test">Test</string>
     <string name="name">Título noticia</string>
     <string name="location">Dirección</string>
