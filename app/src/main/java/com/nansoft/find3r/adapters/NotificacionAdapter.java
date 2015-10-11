@@ -48,7 +48,7 @@ public class NotificacionAdapter extends ArrayAdapter<Notificacion>
             viewHolder.txtvTitulo = (TextView) row.findViewById(R.id.txtvNombreUsuarioNotificacion);
 
 
-            viewHolder.txtvFecha = (TextView) row.findViewById(R.id.txtvSubtituloNotificación);
+            viewHolder.txtvSubtitulo = (TextView) row.findViewById(R.id.txtvSubtituloNotificación);
 
             row.setTag(viewHolder);
         }
@@ -66,7 +66,7 @@ public class NotificacionAdapter extends ArrayAdapter<Notificacion>
         */
         viewHolder.txtvTitulo.setText(currentItem.getDescripcion());
 
-        //viewHolder.txtvFecha.setText(currentItem.getFecha());
+        viewHolder.txtvSubtitulo.setText(currentItem.getFechaCreacion());
 
 
 
@@ -80,7 +80,7 @@ public class NotificacionAdapter extends ArrayAdapter<Notificacion>
     static class ViewHolder
     {
         public TextView txtvTitulo;
-        public TextView txtvFecha;
+        public TextView txtvSubtitulo;
         public ImageView imgvImagen;
     }
 
