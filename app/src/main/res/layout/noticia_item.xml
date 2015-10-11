@@ -45,7 +45,21 @@
                     android:layout_marginLeft="10dp" />
 
 
+
+
+
             </LinearLayout>
+
+            <TextView
+                android:id="@+id/txtvFechaNoticia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/layInfoNoticiaUsuario"
+                android:textColor="@color/cafeoscuro"
+                android:layout_marginRight="20dp"
+                android:text="Hace 2 horas" />
+
 
 
             <uk.co.senab.photoview.PhotoView
@@ -53,7 +67,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="400dp"
                 android:layout_margin="10dp"
-                android:layout_below="@id/layInfoNoticiaUsuario"
+                android:layout_below="@id/txtvFechaNoticia"
                 android:scaleType="fitXY" />
 
             <TextView
@@ -66,16 +80,6 @@
                 android:text="@string/name"
                 android:textStyle="bold" />
 
-
-            <TextView
-                android:id="@+id/txtvFechaNoticia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_below="@id/imgvNoticia"
-                android:textColor="@color/cafeoscuro"
-                android:layout_marginRight="20dp"
-                android:text="Hace 2 horas"/>
 
 
 
