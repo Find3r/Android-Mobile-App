@@ -1,10 +1,9 @@
 package com.nansoft.find3r.activity;
 
 import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-public class ComentarioActivity extends ActionBarActivity {
+public class ComentarioActivity extends AppCompatActivity {
 
     String ID_NOTICIA = "";
     ComentarioAdapter adapter;
@@ -103,14 +102,6 @@ public class ComentarioActivity extends ActionBarActivity {
         cargarComentarios();
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_comentario, menu);
-        return true;
-    }
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -119,8 +110,11 @@ public class ComentarioActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(item.getItemId())
+        {
+            case android.R.id.home:
+                super.onBackPressed();
+                break;
         }
 
         return super.onOptionsItemSelected(item);

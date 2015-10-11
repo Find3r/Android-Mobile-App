@@ -4,7 +4,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.util.TypedValue;
 import android.view.View;
@@ -37,7 +39,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
-public class MainActivity extends ActionBarActivity implements ViewPager.OnPageChangeListener {
+public class MainActivity extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally
@@ -61,6 +63,7 @@ public class MainActivity extends ActionBarActivity implements ViewPager.OnPageC
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         this.setContentView(R.layout.main_activity);
+
 
 
         // Instantiate a ViewPager
@@ -214,7 +217,7 @@ public class MainActivity extends ActionBarActivity implements ViewPager.OnPageC
 
 
 
-
+    /*
     @Override
     public void onBackPressed() {
 
@@ -225,7 +228,7 @@ public class MainActivity extends ActionBarActivity implements ViewPager.OnPageC
             this.pager.setCurrentItem(this.pager.getCurrentItem() - 1);
 
     }
-
+    */
     /*
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
