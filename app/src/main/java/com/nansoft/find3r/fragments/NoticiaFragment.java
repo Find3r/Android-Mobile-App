@@ -1,6 +1,7 @@
 package com.nansoft.find3r.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -19,7 +20,9 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.melnykov.fab.FloatingActionButton;
 import com.nansoft.find3r.R;
+import com.nansoft.find3r.activity.AgregarNoticia;
 import com.nansoft.find3r.adapters.NoticiaAdapter;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Noticia;
@@ -61,6 +64,16 @@ public class NoticiaFragment extends Fragment
 
         listview.setAdapter(adapter);
 
+
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabAgregarNoticia);
+        fab.attachToListView(listview);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), AgregarNoticia.class);
+                startActivity(intent);
+            }
+        });
 
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swprlNoticias);
