@@ -8,7 +8,8 @@
         android:id="@+id/imgvNotificacion"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_margin="10dp"/>
+        android:layout_margin="10dp"
+        android:src="@drawable/siren"/>
 
     <TextView
         android:id="@+id/txtvNombreUsuarioNotificacion"
