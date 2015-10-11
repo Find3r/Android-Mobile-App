@@ -17,6 +17,7 @@ import android.widget.Toast;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
+import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.ComentarioActivity;
 import com.nansoft.find3r.adapters.NotificacionAdapter;
@@ -101,7 +102,7 @@ public class NotificacionFragment  extends Fragment
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
-                    final MobileServiceList<Notificacion> result = mNotificacionTable.execute().get();
+                    final MobileServiceList<Notificacion> result = mNotificacionTable.orderBy("__createdAt", QueryOrder.Descending).execute().get();
 
 
                     activity.runOnUiThread(new Runnable() {
