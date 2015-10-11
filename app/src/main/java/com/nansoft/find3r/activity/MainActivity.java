@@ -33,6 +33,7 @@ import com.nansoft.find3r.models.Noticia;
 import com.nansoft.find3r.models.Usuario;
 import com.nansoft.find3r.models.UsuarioFacebook;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
@@ -127,6 +128,18 @@ public class MainActivity extends ActionBarActivity implements ViewPager.OnPageC
             @Override
             public void onSuccess(final UsuarioFacebook objUsuarioFacebook) {
 
+                try
+                {
+                    URL img_value = null;
+                    img_value = new URL("http://graph.facebook.com/"+customClient.mClient.getCurrentUser().getUserId()+"/picture?type=large");
+
+                    Toast.makeText(MainActivity.this, img_value.toString(), Toast.LENGTH_SHORT).show();
+                }
+                catch(Exception e)
+                {
+                    Toast.makeText(MainActivity.this, "error " + e.toString(), Toast.LENGTH_SHORT).show();
+                }
+
                 new AsyncTask<Void, Void, Boolean>() {
 
 
@@ -154,16 +167,24 @@ public class MainActivity extends ActionBarActivity implements ViewPager.OnPageC
                                 // establecemos primero los atributos
                                 MobileServiceCustom.USUARIO_LOGUEADO.setId(objUsuarioFacebook.id);
                                 MobileServiceCustom.USUARIO_LOGUEADO.setNombre(objUsuarioFacebook.name);
+                                objUsuarioFacebook.data.PictureURL.PictureURL = "http://graph.facebook.com/"+objUsuarioFacebook.id+"/picture?type=large";
                                 MobileServiceCustom.USUARIO_LOGUEADO.setUrlimagen(objUsuarioFacebook.data.PictureURL.PictureURL);
 
                                 // agregamos el registro
                                 mUserTable.insert(MobileServiceCustom.USUARIO_LOGUEADO);
                             }
 
+                            // obtenemos la imagen del usuario en caso que la haya cambiado
+                            MobileServiceCustom.USUARIO_LOGUEADO.setUrlimagen("http://graph.facebook.com/"+MobileServiceCustom.USUARIO_LOGUEADO.getId()+"/picture?type=large");
 
                             return true;
-                        } catch (Exception exception) {
-
+                        } catch (final Exception exception) {
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    Toast.makeText(getApplicationContext(), "error in async " + exception.toString(), Toast.LENGTH_SHORT).show();
+                                }
+                            });
                         }
                         return false;
                     }
