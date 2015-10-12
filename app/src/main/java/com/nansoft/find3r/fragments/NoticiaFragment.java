@@ -110,7 +110,7 @@ public class NoticiaFragment extends Fragment
     public void cargarNoticias(final FragmentActivity activity) {
         imgvSad.setVisibility(View.INVISIBLE);
         txtvSad.setVisibility(View.INVISIBLE);
-        mSwipeRefreshLayout.setEnabled(false);
+
 
 
         try {
@@ -128,6 +128,7 @@ public class NoticiaFragment extends Fragment
                 public void onFailure(Throwable exc) {
 
                     estadoAdapter(true);
+
                 }
 
                 @Override
@@ -180,9 +181,14 @@ public class NoticiaFragment extends Fragment
 
     private void estadoAdapter(boolean pEstadoError)
     {
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+        //mSwipeRefreshLayout.setRefreshing(false);
 
-        mSwipeRefreshLayout.setRefreshing(false);
-        mSwipeRefreshLayout.setEnabled(true);
         if(pEstadoError || adapter.isEmpty())
         {
             imgvSad.setVisibility(View.VISIBLE);
