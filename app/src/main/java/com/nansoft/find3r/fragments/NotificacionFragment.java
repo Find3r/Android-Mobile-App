@@ -11,7 +11,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
@@ -36,12 +38,21 @@ public class NotificacionFragment  extends Fragment
     public static SwipeRefreshLayout mSwipeRefreshLayout;
     private Context mContext;
 
+    ImageView imgvSad;
+    TextView txtvSad;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         //This layout contains your list view
         View view = inflater.inflate(R.layout.notificacion_layout, container, false);
+
+        // vista de error al conectar
+        View includedLayout = view.findViewById(R.id.sindatos);
+        imgvSad = (ImageView) includedLayout.findViewById(R.id.imgvInfoProblema);
+        txtvSad = (TextView) includedLayout.findViewById(R.id.txtvInfoProblema);
+        txtvSad.setText(getResources().getString(R.string.noconnection));
 
         final ListView listview = (ListView) view.findViewById(R.id.lstvNotificacion);
 
@@ -84,6 +95,10 @@ public class NotificacionFragment  extends Fragment
     }
 
     public void cargarNotificaciones(final FragmentActivity activity) {
+        imgvSad.setVisibility(View.INVISIBLE);
+        txtvSad.setVisibility(View.INVISIBLE);
+        mSwipeRefreshLayout.setEnabled(false);
+
 
         new AsyncTask<Void, Void, Boolean>() {
 
@@ -135,9 +150,7 @@ public class NotificacionFragment  extends Fragment
             protected void onPostExecute(Boolean success)
             {
 
-                mSwipeRefreshLayout.setRefreshing(false);
-                if (!success)
-                    Toast.makeText(activity.getApplicationContext(), "Verifique la conexión a internet", Toast.LENGTH_SHORT).show();
+                estadoAdapter(success);
 
             }
 
@@ -147,5 +160,25 @@ public class NotificacionFragment  extends Fragment
                 super.onCancelled();
             }
         }.execute();
+    }
+
+    private void estadoAdapter(boolean pEstadoError)
+    {
+        mSwipeRefreshLayout.setRefreshing(false);
+        mSwipeRefreshLayout.setEnabled(true);
+        if(pEstadoError || adapter.isEmpty())
+        {
+            imgvSad.setVisibility(View.VISIBLE);
+            txtvSad.setVisibility(View.VISIBLE);
+            txtvSad.setVisibility(View.VISIBLE);
+            txtvSad.setText(getResources().getString(R.string.nodata));
+
+        }
+        else
+        {
+            imgvSad.setVisibility(View.INVISIBLE);
+            txtvSad.setVisibility(View.INVISIBLE);
+            txtvSad.setVisibility(View.INVISIBLE);
+        }
     }
 }
