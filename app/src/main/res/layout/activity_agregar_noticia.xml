@@ -14,58 +14,20 @@
 
         <TextView
             style="@style/stlLetras"
-            android:text="@string/lblimage"/>
+            android:text="@string/lblNombre"/>
 
-
-        <ImageView
-            android:id="@+id/imgvNoticiaPreview"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:onClick="onClick"
-            android:maxHeight="150dp"
-            android:maxWidth="150dp"
-            android:layout_gravity="center"
-            android:background="@drawable/emptyimage"/>
-
-
-
-        <LinearLayout
+        <EditText
+            android:id="@+id/edtNombreNoticia"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="2">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/lblProvincia" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/lblCanton" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="2" >
-
-            <Spinner
-                android:id="@+id/spnrProvincias"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-            <Spinner
-                android:id="@+id/spnrCantones"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
-        </LinearLayout>
+            android:typeface="monospace"
+            android:ems="10"
+            android:textColor="@color/cafeoscuro"
+            android:inputType="textMultiLine"
+            android:lines="10"
+            android:minLines="1"
+            android:gravity="top|left"
+            android:maxLines="1" />
 
         <TextView
             style="@style/stlLetras"
@@ -85,10 +47,113 @@
             android:maxLines="10"
             android:scrollbars="vertical" />
 
-        <Button
-            android:id="@+id/btnSendImage"
-            style="@style/stlBotonClick"
+        <TextView
+            style="@style/stlLetras"
+            android:text="@string/lblimage"/>
+
+
+        <ImageView
+            android:id="@+id/imgvNoticiaPreview"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:onClick="onClick"
+            android:maxHeight="150dp"
+            android:maxWidth="150dp"
+            android:layout_gravity="center"
+            android:src="@drawable/emptyimage"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/lblProvincia" />
+
+        <com.weiwangcn.betterspinner.library.BetterSpinner
+            android:id="@+id/spnrProvincias"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:hint="@string/insLocalizacion" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Seleccione la fecha y hora" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fecha"
+                android:layout_weight="1"
+                android:gravity="center_horizontal" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hora"
+                android:layout_weight="1"
+                android:gravity="center_horizontal" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+
+            <Button
+                android:id="@+id/btnFecha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fecha"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/btnHora"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hora"
+                android:layout_weight="1"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+
+            <TextView
+                android:id="@+id/txtvInfoFecha"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Fecha"
+                android:layout_weight="1"
+                android:gravity="center_horizontal" />
+
+            <TextView
+                android:id="@+id/txtvInfoHora"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Hora"
+                android:layout_weight="1"
+                android:gravity="center_horizontal" />
+
+
+        </LinearLayout>
+
+
+
+        <Button
+            android:id="@+id/btnAgregarReporte"
+            style="@style/stlBotonClick"
             android:text="@string/sendReport"/>
 
     </LinearLayout>
