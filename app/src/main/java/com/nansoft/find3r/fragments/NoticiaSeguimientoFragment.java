@@ -26,9 +26,10 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.ComentarioActivity;
-import com.nansoft.find3r.adapters.NoticiaAdapter;
+import com.nansoft.find3r.adapters.NoticiaCompletaAdapter;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Noticia;
+import com.nansoft.find3r.models.NoticiaCompleta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,7 @@ import java.util.List;
  */
 public class NoticiaSeguimientoFragment extends Fragment
 {
-    public static NoticiaAdapter adapter;
+    public static NoticiaCompletaAdapter adapter;
     public static SwipeRefreshLayout mSwipeRefreshLayout;
     private Context mContext;
     ImageView imgvSad;
@@ -60,7 +61,7 @@ public class NoticiaSeguimientoFragment extends Fragment
 
         final ListView listview = (ListView) view.findViewById(R.id.lstvNoticias);
 
-        adapter = new NoticiaAdapter(view.getContext(), R.layout.noticia_item);
+        adapter = new NoticiaCompletaAdapter(view.getContext(), R.layout.noticia_item);
         mContext = view.getContext();
 
         mobileServiceCustom = new MobileServiceCustom(getActivity().getApplicationContext());
@@ -161,7 +162,7 @@ public class NoticiaSeguimientoFragment extends Fragment
                                 for (JsonElement element : jsonArray) {
 
                                     // se deserializa cada objeto JSON
-                                    final Noticia objLastNews = objGson.fromJson(element, Noticia.class);
+                                    final NoticiaCompleta objLastNews = objGson.fromJson(element, NoticiaCompleta.class);
 
                                     activity.runOnUiThread(new Runnable() {
 

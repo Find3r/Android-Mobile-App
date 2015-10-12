@@ -4,7 +4,6 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -27,20 +26,13 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.melnykov.fab.FloatingActionButton;
-import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.MobileServiceException;
-import com.microsoft.windowsazure.mobileservices.MobileServiceList;
-import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.AgregarNoticia;
-import com.nansoft.find3r.adapters.NoticiaAdapter;
+import com.nansoft.find3r.adapters.NoticiaCompletaAdapter;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
-import com.nansoft.find3r.models.ComentarioCompleto;
 import com.nansoft.find3r.models.Noticia;
-import com.nansoft.find3r.models.Usuario;
-import com.nansoft.find3r.models.UsuarioFacebook;
+import com.nansoft.find3r.models.NoticiaCompleta;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,7 +42,7 @@ import java.util.List;
 public class PerfilFragment extends Fragment implements View.OnClickListener {
 
     ListView listview;
-    NoticiaAdapter adapter;
+    NoticiaCompletaAdapter adapter;
 
     TextView txtvNombreUsuario;
     ImageView imgvPerfilUsuario;
@@ -84,7 +76,7 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
         });
 
         //now you must initialize your list view
-        adapter = new NoticiaAdapter(view.getContext(), R.layout.noticia_item);
+        adapter = new NoticiaCompletaAdapter(view.getContext(), R.layout.noticia_item);
 
         listview.setAdapter(adapter);
 
@@ -189,7 +181,7 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
                         for (JsonElement element : jsonArray) {
 
                             // se deserializa cada objeto JSON
-                            final Noticia objNoticia = objGson.fromJson(element, Noticia.class);
+                            final NoticiaCompleta objNoticia = objGson.fromJson(element, NoticiaCompleta.class);
 
                             activity.runOnUiThread(new Runnable() {
 
