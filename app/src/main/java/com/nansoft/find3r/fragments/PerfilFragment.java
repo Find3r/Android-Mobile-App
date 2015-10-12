@@ -151,7 +151,6 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
 
         imgvSad.setVisibility(View.INVISIBLE);
         txtvSad.setVisibility(View.INVISIBLE);
-        mSwipeRefreshLayout.setEnabled(false);
 
         try {
 
@@ -212,7 +211,7 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
 
                     }
 
-                    mSwipeRefreshLayout.setRefreshing(false);
+
                     estadoAdapter(false);
 
                 }
@@ -230,7 +229,6 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
     {
 
         mSwipeRefreshLayout.setRefreshing(false);
-        mSwipeRefreshLayout.setEnabled(true);
         if(pEstadoError || adapter.isEmpty())
         {
             imgvSad.setVisibility(View.VISIBLE);

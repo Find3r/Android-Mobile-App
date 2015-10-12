@@ -35,6 +35,8 @@ dependencies {
     compile 'com.microsoft.azure.android:azure-storage-android:0.7.0@aar'
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
 
+
+
     compile(group: 'com.microsoft.azure', name: 'azure-notifications-handler', version: '1.0.1', ext: 'jar')
 
 

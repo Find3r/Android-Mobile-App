@@ -181,13 +181,8 @@ public class NoticiaFragment extends Fragment
 
     private void estadoAdapter(boolean pEstadoError)
     {
-        mSwipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        });
-        //mSwipeRefreshLayout.setRefreshing(false);
+
+        mSwipeRefreshLayout.setRefreshing(false);
 
         if(pEstadoError || adapter.isEmpty())
         {
