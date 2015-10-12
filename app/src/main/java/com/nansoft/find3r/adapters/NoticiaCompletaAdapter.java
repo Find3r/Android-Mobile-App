@@ -10,11 +10,15 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.ComentarioActivity;
 import com.nansoft.find3r.helpers.CircularImageView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
@@ -221,6 +225,7 @@ public class NoticiaCompletaAdapter extends ArrayAdapter<com.nansoft.find3r.mode
         viewHolder.txtvDescripcion.setText(currentItem.getDescripcion());
 
         viewHolder.txtvFecha.setText("Desaparecido(a) el " + currentItem.getFechadesaparicion());
+
 
         if(currentItem.getIdestado().trim().equals("0"))
         {
