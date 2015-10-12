@@ -206,10 +206,6 @@ public class ComentarioActivity extends AppCompatActivity {
 
         }
 
-
-
-
-
     }
 
     private void estadoAdapter(boolean pEstadoError)
