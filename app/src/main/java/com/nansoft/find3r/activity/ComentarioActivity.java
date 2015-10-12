@@ -372,6 +372,13 @@ public class ComentarioActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(),"Ha ocurrido un error al intentar agregar el comentario, intenta de nuevo",Toast.LENGTH_SHORT).show();
                 }
                 mSwipeRefreshLayout.setRefreshing(false);
+                mSwipeRefreshLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeRefreshLayout.setRefreshing(true);
+                    }
+                });
+
                 cargarComentarios();
             }
         }.execute();
