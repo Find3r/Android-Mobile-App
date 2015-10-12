@@ -151,33 +151,47 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                             // buscamos por el usuario
                             MobileServiceCustom.USUARIO_LOGUEADO = mUserTable.lookUp(objUsuarioFacebook.id).get();
 
-                            // se verifica si el usuario es null
-                            if(MobileServiceCustom.USUARIO_LOGUEADO == null)
-                            {
-                                // debemos de insertar el registro
 
-                                // establecemos primero los atributos
-                                MobileServiceCustom.USUARIO_LOGUEADO.setId(objUsuarioFacebook.id);
-                                MobileServiceCustom.USUARIO_LOGUEADO.setNombre(objUsuarioFacebook.name);
-                                objUsuarioFacebook.data.PictureURL.PictureURL = "http://graph.facebook.com/"+objUsuarioFacebook.id+"/picture?type=large";
-                                MobileServiceCustom.USUARIO_LOGUEADO.setUrlimagen(objUsuarioFacebook.data.PictureURL.PictureURL);
-
-                                // agregamos el registro
-                                mUserTable.insert(MobileServiceCustom.USUARIO_LOGUEADO);
-                            }
-
-                            // obtenemos la imagen del usuario en caso que la haya cambiado
-                            MobileServiceCustom.USUARIO_LOGUEADO.setUrlimagen("http://graph.facebook.com/"+MobileServiceCustom.USUARIO_LOGUEADO.getId()+"/picture?type=large");
 
                             return true;
                         } catch (final Exception exception) {
+                            /*
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
                                     Toast.makeText(getApplicationContext(), "error in async " + exception.toString(), Toast.LENGTH_SHORT).show();
                                 }
                             });
+                            */
+
+                            // se verifica si el usuario es null
+
+                                try {
+                                    // debemos de insertar el registro
+
+                                    // establecemos primero los atributos
+                                    MobileServiceCustom.USUARIO_LOGUEADO.setId(objUsuarioFacebook.id);
+                                    MobileServiceCustom.USUARIO_LOGUEADO.setNombre(objUsuarioFacebook.name);
+                                    objUsuarioFacebook.data.PictureURL.PictureURL = "http://graph.facebook.com/"+objUsuarioFacebook.id+"/picture?type=large";
+                                    MobileServiceCustom.USUARIO_LOGUEADO.setUrlimagen(objUsuarioFacebook.data.PictureURL.PictureURL);
+
+                                    // agregamos el registro
+                                    mUserTable.insert(MobileServiceCustom.USUARIO_LOGUEADO);
+                                } catch (Exception exception2) {
+                                    Toast.makeText(getApplicationContext(), "error al registrar el usuario " + exception.toString(), Toast.LENGTH_SHORT).show();
+
+                                }
+
+
+
+
                         }
+                        finally {
+                            // obtenemos la imagen del usuario en caso que la haya cambiado
+                            MobileServiceCustom.USUARIO_LOGUEADO.setUrlimagen("http://graph.facebook.com/"+MobileServiceCustom.USUARIO_LOGUEADO.getId()+"/picture?type=large");
+
+                        }
+
                         return false;
                     }
 
