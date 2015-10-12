@@ -70,21 +70,45 @@
                 android:text="@string/name"
                 android:textStyle="bold" />
 
-            <TextView
-                android:id="@+id/txtvFechaNoticia"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/txtvNombreNoticia"
-                android:textColor="@color/anaranjado"
-                android:layout_marginLeft="20dp"
-                android:textSize="18dp"
-                android:text="Hace 2 horas" />
+
+
+
+
+            <LinearLayout
+                android:id="@+id/layInfoFecha"
+                android:layout_width="fill_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:layout_below="@id/txtvNombreNoticia">
+
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:src="@drawable/calendar"
+                    android:layout_below="@id/txtvNombreNoticia"
+                    android:layout_marginLeft="20dp"/>
+
+                <TextView
+                    android:id="@+id/txtvFechaNoticia"
+                    android:layout_width="wrap_content"
+                    android:layout_height="30dp"
+                    android:textColor="@color/cafeoscuro"
+                    android:textSize="18dp"
+                    android:text="Hace 2 horas"
+                    android:layout_marginLeft="5dp"
+                    android:gravity="center_vertical" />
+
+
+
+
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/txtvInsDescripcion"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/txtvFechaNoticia"
+                android:layout_below="@id/layInfoFecha"
                 android:textColor="@color/anaranjado"
                 android:layout_marginLeft="20dp"
                 android:textSize="18dp"
