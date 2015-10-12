@@ -169,7 +169,7 @@ public class NoticiaFragment extends Fragment
         }
         catch (Exception e )
         {
-
+            estadoAdapter(true);
         }
 
 
