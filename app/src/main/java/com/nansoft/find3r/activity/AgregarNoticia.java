@@ -454,26 +454,29 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
             blob.downloadToFile(destinationFile.getAbsolutePath()); */
             }
             catch (FileNotFoundException fileNotFoundException) {
+                /*
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Toast.makeText(getApplicationContext(), "Archivo no encontrado!",Toast.LENGTH_SHORT).show();
                     }
                 });
+                */
                 return false;
             }
             catch (StorageException storageException) {
+                /*
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         Toast.makeText(getApplicationContext(), "Contenedor no encontrado!",Toast.LENGTH_SHORT).show();
                     }
                 });
+                */
                 return false;
             }
             catch (final Exception e) {
-                /*Toast.makeText(MainActivity.this, "Error " + e.toString(),
-                        Toast.LENGTH_SHORT).show();*/
+                /*
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -481,6 +484,7 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
                                 Toast.LENGTH_SHORT).show();
                     }
                 });
+                */
                 return false;
             }
             return true;
@@ -507,7 +511,7 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
             }
             else
             {
-                Toast.makeText(getApplicationContext(), "Error al agregar la imagen",
+                Toast.makeText(getApplicationContext(), "Error al agregar la noticia",
                         Toast.LENGTH_SHORT).show();
             }
 
