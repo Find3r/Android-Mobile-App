@@ -9,7 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.nansoft.find3r.R;
-import com.nansoft.find3r.adapters.NoticiaAdapter;
+import com.nansoft.find3r.adapters.NoticiaCompletaAdapter;
 
 
 public class PerfilUsuarioActivity extends ActionBarActivity
@@ -22,7 +22,7 @@ public class PerfilUsuarioActivity extends ActionBarActivity
         setContentView(R.layout.usuario_layout);
 
         ListView lstvProyectosUsuario = (ListView) findViewById(R.id.lstvPublicacionesUsuario);
-        NoticiaAdapter adapter = new NoticiaAdapter(this,R.layout.noticia_item);
+        NoticiaCompletaAdapter adapter = new NoticiaCompletaAdapter(this,R.layout.noticia_item);
 
         lstvProyectosUsuario.setAdapter(adapter);
 

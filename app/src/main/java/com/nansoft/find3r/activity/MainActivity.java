@@ -132,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
             public void onSuccess(final UsuarioFacebook objUsuarioFacebook) {
 
 
-
                 new AsyncTask<Void, Void, Boolean>() {
 
 

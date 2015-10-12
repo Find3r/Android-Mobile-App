@@ -18,7 +18,7 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.nansoft.find3r.R;
-import com.nansoft.find3r.adapters.NoticiaAdapter;
+import com.nansoft.find3r.adapters.NoticiaCompletaAdapter;
 import com.nansoft.find3r.models.Noticia;
 
 import java.net.MalformedURLException;
@@ -27,7 +27,7 @@ public class NoticiasCategoriaActivity extends ActionBarActivity {
 
     String idCategoria = "";
     SwipeRefreshLayout mSwipeRefreshLayout;
-    NoticiaAdapter adapter;
+    NoticiaCompletaAdapter adapter;
     ImageView imgvSad;
     TextView txtvSad;
 
@@ -46,7 +46,7 @@ public class NoticiasCategoriaActivity extends ActionBarActivity {
         String nombreCategoria = getIntent().getExtras().getString("nombreCategoria");
         setTitle(nombreCategoria);
 
-        adapter = new NoticiaAdapter(this,R.layout.noticia_item);
+        adapter = new NoticiaCompletaAdapter(this,R.layout.noticia_item);
 
         ListView listview = (ListView) findViewById(R.id.lstvNoticias);
         listview.setAdapter(adapter);
