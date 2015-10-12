@@ -117,6 +117,7 @@ public class NotificacionFragment  extends Fragment
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
+                    adapter.clear();
                     final MobileServiceList<Notificacion> result = mNotificacionTable.orderBy("__createdAt", QueryOrder.Descending).execute().get();
 
 
@@ -125,7 +126,7 @@ public class NotificacionFragment  extends Fragment
                         @Override
                         public void run() {
 
-                            adapter.clear();
+
 
                             for (Notificacion item : result) {
 
@@ -166,7 +167,7 @@ public class NotificacionFragment  extends Fragment
     {
         mSwipeRefreshLayout.setRefreshing(false);
         mSwipeRefreshLayout.setEnabled(true);
-        if(pEstadoError || adapter.isEmpty())
+        if(!pEstadoError || adapter.isEmpty())
         {
             imgvSad.setVisibility(View.VISIBLE);
             txtvSad.setVisibility(View.VISIBLE);
