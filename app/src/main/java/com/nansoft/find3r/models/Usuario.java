@@ -1,5 +1,7 @@
 package com.nansoft.find3r.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by User on 6/19/2015.
  */
@@ -14,6 +16,9 @@ public class Usuario
     private String telefonocasa;
     private String urlimagen;
 
+    @SerializedName("idpais")
+    private String idPais;
+
     public Usuario() {
 
         this.id = "0";
@@ -24,6 +29,7 @@ public class Usuario
         this.telefonocelular = "Sin definir";
         this.telefonocasa = "Sin definir";
         this.urlimagen = "Sin definir";
+        idPais = "0";
     }
 
     public Usuario(String id, String nombre, String primerApellido, String segundoApellido, String email, String telefonoCelular,String telefonoCasa, String urlImagen) {
@@ -99,5 +105,13 @@ public class Usuario
 
     public void setUrlimagen(String urlimagen) {
         this.urlimagen = urlimagen;
+    }
+
+    public String getIdPais() {
+        return idPais;
+    }
+
+    public void setIdPais(String idPais) {
+        this.idPais = idPais;
     }
 }
