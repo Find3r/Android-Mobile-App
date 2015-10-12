@@ -22,13 +22,13 @@ import uk.co.senab.photoview.PhotoViewAttacher;
 /**
  * Created by User on 6/20/2015.
  */
-public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Noticia>
+public class NoticiaCompletaAdapter extends ArrayAdapter<com.nansoft.find3r.models.NoticiaCompleta>
 {
     Context mContext;
     int mLayoutResourceId;
     private PhotoViewAttacher mAttacher;
 
-    public NoticiaAdapter(Context context, int resource)
+    public NoticiaCompletaAdapter(Context context, int resource)
     {
         super(context, resource);
         mContext = context;
@@ -42,7 +42,7 @@ public class NoticiaAdapter extends ArrayAdapter<com.nansoft.find3r.models.Notic
     {
 
         View row = convertView;
-        final com.nansoft.find3r.models.Noticia currentItem = getItem(position);
+        final com.nansoft.find3r.models.NoticiaCompleta currentItem = getItem(position);
 
         // verificamos si la fila que se va dibujar no existe
         if (row == null)
