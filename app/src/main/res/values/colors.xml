@@ -17,6 +17,10 @@
     <color name="GrayLight">#eeeeee</color>
     <color name="GrayHot">#272727</color>
 
+    <color name="spinner_base_color">#44000000</color>
+    <color name="disabled_color">#44000000</color>
+    <color name="error_color">#E7492E</color>
+
     <color name="primary">#3f51b5</color>
     <color name="primary_dark">#303f9f</color>
     <color name="ripple">#F06292</color>
