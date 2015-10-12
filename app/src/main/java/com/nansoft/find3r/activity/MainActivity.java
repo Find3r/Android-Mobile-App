@@ -9,6 +9,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.util.TypedValue;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -63,6 +65,13 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
         this.setContentView(R.layout.main_activity);
+
+        ActionBar ab =getSupportActionBar();
+        ab.setIcon(R.mipmap.ic_launcher);
+
+        ab.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE |
+                ActionBar.DISPLAY_SHOW_CUSTOM |
+                ActionBar.DISPLAY_SHOW_HOME);
 
 
 
@@ -229,11 +238,14 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
     }
     */
-    /*
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate menu from menu resource (res/menu/main)
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+
+
 
         return super.onCreateOptionsMenu(menu);
        
@@ -244,16 +256,22 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
 
         switch (item.getItemId()) {
 
-            case R.id.action_contact:
+            case R.id.action_news:
+                NoticiaFragment.listview.setSelection(0);
                 //QuickContactFragment dialog = new QuickContactFragment();
                 //dialog.show(getSupportFragmentManager(), "QuickContactFragment");
+                return true;
+
+            case android.R.id.home:
+            case R.id.homeAsUp:
+                Toast.makeText(MainActivity.this, "a", Toast.LENGTH_SHORT).show();
                 return true;
 
         }
 
         return super.onOptionsItemSelected(item);
     }
-    */
+
 
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {

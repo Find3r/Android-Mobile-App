@@ -11,6 +11,7 @@
         parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
         <item name="android:background">@color/verdeoscuro</item>
         <item name="background">@color/verdeoscuro</item>
+        <item name="android:icon">@mipmap/ic_launcher</item>
     </style>
 
 

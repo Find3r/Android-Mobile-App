@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -43,6 +44,8 @@ public class NoticiaFragment extends Fragment
     ImageView imgvSad;
     TextView txtvSad;
 
+    public static ListView listview;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -55,7 +58,7 @@ public class NoticiaFragment extends Fragment
         txtvSad.setText(getResources().getString(R.string.noconnection));
         //now you must initialize your list view
 
-        final ListView listview = (ListView) view.findViewById(R.id.lstvNoticias);
+        listview = (ListView) view.findViewById(R.id.lstvNoticias);
 
         adapter = new NoticiaCompletaAdapter(view.getContext(), R.layout.noticia_item);
         mContext = view.getContext();
@@ -99,6 +102,9 @@ public class NoticiaFragment extends Fragment
 
 
         //EDITED Code
+
+
+
 
 
         //To have custom list view use this : you must define CustomeAdapter class
