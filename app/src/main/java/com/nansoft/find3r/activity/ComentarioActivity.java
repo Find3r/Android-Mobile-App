@@ -10,6 +10,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,13 +45,19 @@ public class ComentarioActivity extends AppCompatActivity {
     ComentarioAdapter adapter;
     public static SwipeRefreshLayout mSwipeRefreshLayout;
 
-
+    ImageView imgvSad;
+    TextView txtvSad;
     MobileServiceCustom mobileServiceCustom ;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.comentario_activity);
+
+        View includedLayout = findViewById(R.id.sindatos);
+        imgvSad = (ImageView) includedLayout.findViewById(R.id.imgvInfoProblema);
+        txtvSad = (TextView) includedLayout.findViewById(R.id.txtvInfoProblema);
+        txtvSad.setText(getResources().getString(R.string.no_comments));
 
         mobileServiceCustom = new MobileServiceCustom(this);
 
@@ -122,6 +129,9 @@ public class ComentarioActivity extends AppCompatActivity {
 
     public void cargarComentarios() {
 
+        imgvSad.setVisibility(View.INVISIBLE);
+        txtvSad.setVisibility(View.INVISIBLE);
+
         CircularImageView imgvPerfilUsuario = (CircularImageView) findViewById(R.id.imgvLogoUsuario_add_comment);
         TextView txtvNombreUsuario = (TextView) findViewById(R.id.txtvNombreUsuario_add_comment);
 
@@ -151,7 +161,7 @@ public class ComentarioActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Throwable exc) {
 
-
+                    estadoAdapter(true);
                 }
 
                 @Override
@@ -185,7 +195,7 @@ public class ComentarioActivity extends AppCompatActivity {
                     }
 
                     mSwipeRefreshLayout.setRefreshing(false);
-
+                    estadoAdapter(false);
 
                 }
             });
@@ -200,6 +210,26 @@ public class ComentarioActivity extends AppCompatActivity {
 
 
 
+    }
+
+    private void estadoAdapter(boolean pEstadoError)
+    {
+        mSwipeRefreshLayout.setRefreshing(false);
+        mSwipeRefreshLayout.setEnabled(true);
+        if(pEstadoError || adapter.isEmpty())
+        {
+            imgvSad.setVisibility(View.VISIBLE);
+            txtvSad.setVisibility(View.VISIBLE);
+            txtvSad.setVisibility(View.VISIBLE);
+            txtvSad.setText(getResources().getString(R.string.no_comments));
+
+        }
+        else
+        {
+            imgvSad.setVisibility(View.INVISIBLE);
+            txtvSad.setVisibility(View.INVISIBLE);
+            txtvSad.setVisibility(View.INVISIBLE);
+        }
     }
 
     public void agregarComentario(final Comentario objComentario,final EditText edtCheckComment)
