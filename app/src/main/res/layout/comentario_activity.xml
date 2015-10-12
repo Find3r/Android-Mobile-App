@@ -24,7 +24,21 @@
 
     <include layout="@layout/error" />
 
-    
+    <com.melnykov.fab.FloatingActionButton
+        xmlns:fab="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/fabAgregarComentario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="16dp"
+        android:src="@drawable/add_white"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        fab:fab_colorNormal="@color/android_darkorange"
+        fab:fab_colorPressed="@color/anaranjado"
+        fab:fab_colorRipple="@color/cafeoscuro" />
+
+
 
 
 

@@ -1,8 +1,14 @@
 package com.nansoft.find3r.activity;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.view.Menu;
@@ -22,6 +28,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.melnykov.fab.FloatingActionButton;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
@@ -70,10 +77,6 @@ public class ComentarioActivity extends AppCompatActivity {
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swprlComentarios);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.android_darkorange, R.color.green, R.color.android_blue);
 
-
-
-
-
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -81,6 +84,50 @@ public class ComentarioActivity extends AppCompatActivity {
             }
         });
 
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAgregarComentario);
+        fab.attachToListView(listview);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                /* Alert Dialog Code Start*/
+                AlertDialog.Builder alert = new AlertDialog.Builder(ComentarioActivity.this);
+                alert.setTitle(MobileServiceCustom.USUARIO_LOGUEADO.getNombre()); //Set Alert dialog title here
+                alert.setMessage("Ingrese su comentario"); //Message here
+
+                // Set an EditText view to get user input
+                final EditText input = new EditText(ComentarioActivity.this);
+                alert.setView(input);
+
+                alert.setPositiveButton("Agregar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        //You will get as string input data in this variable.
+                        // here we convert the input to a string and show in a toast.
+                        String srt = input.getEditableText().toString();
+
+                        if (srt.isEmpty()) {
+                            Toast.makeText(getApplicationContext(), "Debe ingresar datos en el comentario", Toast.LENGTH_SHORT).show();
+                        } else {
+
+                            agregarComentario(new Comentario("", srt, MobileServiceCustom.USUARIO_LOGUEADO.getId(), MyTime.getFecha(), MyTime.getHora(), ID_NOTICIA));
+                        }
+
+                    } // End of onClick(DialogInterface dialog, int whichButton)
+                }); //End of alert.setPositiveButton
+                alert.setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        // Canceled.
+                        dialog.cancel();
+                    }
+                }); //End of alert.setNegativeButton
+                AlertDialog alertDialog = alert.create();
+                alertDialog.show();
+                /* Alert Dialog Code End*/
+
+            }
+        });
+
+        /*
         Button btnAgregarComentario = (Button) findViewById(R.id.btnChekComment);
 
         btnAgregarComentario.setOnClickListener(new View.OnClickListener() {
@@ -96,7 +143,7 @@ public class ComentarioActivity extends AppCompatActivity {
                 }
             }
         });
-
+        */
         mSwipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -132,6 +179,7 @@ public class ComentarioActivity extends AppCompatActivity {
         imgvSad.setVisibility(View.INVISIBLE);
         txtvSad.setVisibility(View.INVISIBLE);
 
+        /*
         CircularImageView imgvPerfilUsuario = (CircularImageView) findViewById(R.id.imgvLogoUsuario_add_comment);
         TextView txtvNombreUsuario = (TextView) findViewById(R.id.txtvNombreUsuario_add_comment);
 
@@ -145,7 +193,7 @@ public class ComentarioActivity extends AppCompatActivity {
                 .placeholder(R.drawable.picture_default)
                 .error(R.drawable.error_image)
                 .into(imgvPerfilUsuario);
-
+        */
 
         try {
 
@@ -251,7 +299,7 @@ public class ComentarioActivity extends AppCompatActivity {
 
 
 
-                        return true;
+                    return true;
                 } catch (Exception exception) {
 
                 }
@@ -264,6 +312,60 @@ public class ComentarioActivity extends AppCompatActivity {
                 {
                     Toast.makeText(getApplicationContext(),"Comentario agregado",Toast.LENGTH_SHORT).show();
                     edtCheckComment.setText("");
+                }
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"Ha ocurrido un error al intentar agregar el comentario, intenta de nuevo",Toast.LENGTH_SHORT).show();
+                }
+                mSwipeRefreshLayout.setRefreshing(false);
+                cargarComentarios();
+            }
+        }.execute();
+
+    }
+
+    public void agregarComentario(final Comentario objComentario)
+    {
+
+        new AsyncTask<Void, Void, Boolean>()
+        {
+
+            MobileServiceClient mClient;
+            MobileServiceTable<Comentario> mComentarioTable;
+            ProgressDialog progressDialog;
+            @Override
+            protected void onPreExecute() {
+
+
+                mComentarioTable = mobileServiceCustom.mClient.getTable("comentario",Comentario.class);
+
+                progressDialog = new ProgressDialog(ComentarioActivity.this);
+                progressDialog.setMessage("Agregando comentario...");
+                progressDialog.show();
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                try {
+                    mComentarioTable.insert(objComentario).get();
+
+
+
+                        return true;
+                } catch (Exception exception) {
+
+                }
+                return false;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean success) {
+
+                progressDialog.hide();
+                if(success)
+                {
+                    Toast.makeText(getApplicationContext(),"Comentario agregado",Toast.LENGTH_SHORT).show();
+
                 }
                 else
                 {
