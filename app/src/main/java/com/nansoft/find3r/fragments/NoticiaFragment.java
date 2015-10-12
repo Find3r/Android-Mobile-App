@@ -180,14 +180,15 @@ public class NoticiaFragment extends Fragment
 
     private void estadoAdapter(boolean pEstadoError)
     {
+
         mSwipeRefreshLayout.setRefreshing(false);
         mSwipeRefreshLayout.setEnabled(true);
-        if(pEstadoError)
+        if(pEstadoError || adapter.isEmpty())
         {
             imgvSad.setVisibility(View.VISIBLE);
             txtvSad.setVisibility(View.VISIBLE);
             txtvSad.setVisibility(View.VISIBLE);
-            txtvSad.setText(getResources().getString(R.string.nodata));
+            txtvSad.setText(getResources().getString(R.string.noconnection));
 
         }
         else
