@@ -198,9 +198,6 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                     @Override
                     protected void onPostExecute(Boolean success) {
 
-                        //mSwipeRefreshLayout.setRefreshing(false);
-                        if (!success)
-                            Toast.makeText(getApplicationContext(), "Verifique la conexión a internet", Toast.LENGTH_SHORT).show();
 
                     }
 
