@@ -33,17 +33,12 @@ public class Noticia
     @SerializedName("idcategoria")
     private String idCategoria;
 
-    @SerializedName("Column8")
-    private String nombreUsuario;
+    @SerializedName("idprovincia")
+    private String idProvincia;
 
-    @SerializedName("Column9")
-    private String urlImagenUsuario;
 
-    @SerializedName("estado_seguimiento")
-    private boolean estadoSeguimiento;
 
     public Noticia() {
-        estadoSeguimiento = false;
     }
 
     public Noticia(String id, String descripcion, String urlimagen, String fechadesaparicion, String hora, String idprovincia, String idcanton, String iddistrito, String idusuario, String idcategoria,String idEstado) {
@@ -80,7 +75,7 @@ public class Noticia
         return urlimagen;
     }
 
-    public void setUrlimagen(String urlimagen) {
+    public void setUrlImagen(String urlimagen) {
         this.urlimagen = urlimagen;
     }
 
@@ -146,28 +141,11 @@ public class Noticia
         this.idCategoria = idCategoria;
     }
 
-    public String getNombreUsuario() {
-        return nombreUsuario;
+    public String getIdProvincia() {
+        return idProvincia;
     }
 
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
-    }
-
-    public String getUrlImagenUsuario() {
-        return urlImagenUsuario;
-    }
-
-    public void setUrlImagenUsuario(String urlImagenUsuario) {
-        this.urlImagenUsuario = urlImagenUsuario;
-    }
-
-    public boolean isEstadoSeguimiento() {
-
-        return estadoSeguimiento;
-    }
-
-    public void setEstadoSeguimiento(boolean estadoSeguimiento) {
-        this.estadoSeguimiento = estadoSeguimiento;
+    public void setIdProvincia(String idProvincia) {
+        this.idProvincia = idProvincia;
     }
 }
