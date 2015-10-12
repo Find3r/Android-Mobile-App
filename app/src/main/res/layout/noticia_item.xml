@@ -66,6 +66,7 @@
                 android:layout_below="@id/imgvNoticia"
                 android:textColor="@color/anaranjado"
                 android:layout_marginLeft="20dp"
+                android:textSize="25dp"
                 android:text="@string/name"
                 android:textStyle="bold" />
 
@@ -74,8 +75,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txtvNombreNoticia"
-                android:textColor="@color/cafeoscuro"
+                android:textColor="@color/anaranjado"
                 android:layout_marginLeft="20dp"
+                android:textSize="18dp"
                 android:text="Hace 2 horas" />
 
             <TextView
@@ -85,6 +87,7 @@
                 android:layout_below="@id/txtvFechaNoticia"
                 android:textColor="@color/anaranjado"
                 android:layout_marginLeft="20dp"
+                android:textSize="18dp"
                 android:text="Descripción"
                 android:textStyle="bold" />
 
