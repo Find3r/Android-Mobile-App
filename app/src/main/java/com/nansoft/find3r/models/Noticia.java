@@ -97,6 +97,15 @@ public class Noticia
 
     }
 
+    public String getFechadesaparicion(int a) {
+
+
+
+
+        return fechadesaparicion;
+
+    }
+
     public String getNombre() {
         return nombre;
     }
