@@ -95,9 +95,8 @@ public class NotificacionFragment  extends Fragment
     }
 
     public void cargarNotificaciones(final FragmentActivity activity) {
-        imgvSad.setVisibility(View.INVISIBLE);
-        txtvSad.setVisibility(View.INVISIBLE);
-        mSwipeRefreshLayout.setEnabled(false);
+        imgvSad.setVisibility(View.GONE);
+        txtvSad.setVisibility(View.GONE);
 
 
         new AsyncTask<Void, Void, Boolean>() {
@@ -107,8 +106,8 @@ public class NotificacionFragment  extends Fragment
 
             @Override
             protected void onPreExecute()
-
             {
+                adapter.clear();
                 MobileServiceCustom mobileServiceCustom = new MobileServiceCustom(activity.getApplicationContext());
 
                 mNotificacionTable = mobileServiceCustom.mClient.getTable("notificacion", Notificacion.class);
@@ -117,7 +116,7 @@ public class NotificacionFragment  extends Fragment
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
-                    adapter.clear();
+
                     final MobileServiceList<Notificacion> result = mNotificacionTable.orderBy("__createdAt", QueryOrder.Descending).execute().get();
 
 
@@ -166,8 +165,7 @@ public class NotificacionFragment  extends Fragment
     private void estadoAdapter(boolean pEstadoError)
     {
         mSwipeRefreshLayout.setRefreshing(false);
-        mSwipeRefreshLayout.setEnabled(true);
-        if(!pEstadoError || adapter.isEmpty())
+        if(!pEstadoError )
         {
             imgvSad.setVisibility(View.VISIBLE);
             txtvSad.setVisibility(View.VISIBLE);
@@ -177,9 +175,9 @@ public class NotificacionFragment  extends Fragment
         }
         else
         {
-            imgvSad.setVisibility(View.INVISIBLE);
-            txtvSad.setVisibility(View.INVISIBLE);
-            txtvSad.setVisibility(View.INVISIBLE);
+            imgvSad.setVisibility(View.GONE);
+            txtvSad.setVisibility(View.GONE);
+            txtvSad.setVisibility(View.GONE);
         }
     }
 }

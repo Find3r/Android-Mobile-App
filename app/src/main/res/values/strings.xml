@@ -50,6 +50,8 @@
 
     <string name="no_comments">¡Vaya parece que aún no hay comentarios en esta noticia!</string>
     <string name="no_posts">¡Vaya parece que aún no hay noticias reportadas!</string>
+    <string name="no_posts_user">¡Vaya parece que aún no has reportado aún!</string>
+    <string name="no_posts_notifications">¡Vaya parece que aún no hay notificaciones!</string>
     <string name="capture">Capturar Imagen</string>
     <string name="pickimage">Seleccionar Imagen</string>
     <string name="sendReport">Enviar reporte</string>

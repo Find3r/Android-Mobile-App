@@ -41,6 +41,10 @@
 -keep class sun.misc.Unsafe.** { *; }
 -keepclassmembers class sun.misc.Unsafe.** { *; }
 
+-keep class com.fasterxml.jackson.core.** { *; }
+-keepclassmembers class com.fasterxml.jackson.core.** { *; }
+
+-dontwarn com.fasterxml.jackson.core.**
 
 -dontwarn com.google.guava.**
 

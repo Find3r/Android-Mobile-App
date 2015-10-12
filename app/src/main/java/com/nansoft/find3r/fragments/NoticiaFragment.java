@@ -108,8 +108,8 @@ public class NoticiaFragment extends Fragment
     }
 
     public void cargarNoticias(final FragmentActivity activity) {
-        imgvSad.setVisibility(View.INVISIBLE);
-        txtvSad.setVisibility(View.INVISIBLE);
+        imgvSad.setVisibility(View.GONE);
+        txtvSad.setVisibility(View.GONE);
 
 
 
@@ -152,16 +152,21 @@ public class NoticiaFragment extends Fragment
 
 
                                     adapter.add(objLastNews);
-                                    adapter.notifyDataSetChanged();
+
 
 
                                 }
                             });
                         }
 
-                    }
+                        adapter.notifyDataSetChanged();
 
-                    estadoAdapter(false);
+                        estadoAdapter(false);
+                    }
+                    else
+                    {
+                        estadoAdapter(true);
+                    }
 
 
                 }
@@ -184,7 +189,7 @@ public class NoticiaFragment extends Fragment
 
         mSwipeRefreshLayout.setRefreshing(false);
 
-        if(pEstadoError || adapter.isEmpty())
+        if(pEstadoError)
         {
             imgvSad.setVisibility(View.VISIBLE);
             txtvSad.setVisibility(View.VISIBLE);
@@ -194,9 +199,9 @@ public class NoticiaFragment extends Fragment
         }
         else
         {
-            imgvSad.setVisibility(View.INVISIBLE);
-            txtvSad.setVisibility(View.INVISIBLE);
-            txtvSad.setVisibility(View.INVISIBLE);
+            imgvSad.setVisibility(View.GONE);
+            txtvSad.setVisibility(View.GONE);
+            txtvSad.setVisibility(View.GONE);
         }
     }
 }

@@ -67,7 +67,7 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
         View includedLayout = view.findViewById(R.id.sindatos);
         imgvSad = (ImageView) includedLayout.findViewById(R.id.imgvInfoProblema);
         txtvSad = (TextView) includedLayout.findViewById(R.id.txtvInfoProblema);
-        txtvSad.setText(getResources().getString(R.string.noconnection));
+        txtvSad.setText(getResources().getString(R.string.no_posts_user));
 
         View headerListView = inflater.inflate(R.layout.perfil_usuario_header,null);
 
@@ -149,8 +149,8 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
 
     public void cargarUsuario(final FragmentActivity activity) {
 
-        imgvSad.setVisibility(View.INVISIBLE);
-        txtvSad.setVisibility(View.INVISIBLE);
+        imgvSad.setVisibility(View.GONE);
+        txtvSad.setVisibility(View.GONE);
 
         try {
 
@@ -208,11 +208,16 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
                                 }
                             });
                         }
+                        estadoAdapter(false);
+                    }
+                    else
+                    {
+                        estadoAdapter(true);
 
                     }
 
 
-                    estadoAdapter(false);
+
 
                 }
             });
@@ -229,19 +234,19 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
     {
 
         mSwipeRefreshLayout.setRefreshing(false);
-        if(pEstadoError || adapter.isEmpty())
+        if(pEstadoError)
         {
             imgvSad.setVisibility(View.VISIBLE);
             txtvSad.setVisibility(View.VISIBLE);
             txtvSad.setVisibility(View.VISIBLE);
-            txtvSad.setText(getResources().getString(R.string.noconnection));
+            txtvSad.setText(getResources().getString(R.string.no_posts_user));
 
         }
         else
         {
-            imgvSad.setVisibility(View.INVISIBLE);
-            txtvSad.setVisibility(View.INVISIBLE);
-            txtvSad.setVisibility(View.INVISIBLE);
+            imgvSad.setVisibility(View.GONE);
+            txtvSad.setVisibility(View.GONE);
+            txtvSad.setVisibility(View.GONE);
         }
     }
 
