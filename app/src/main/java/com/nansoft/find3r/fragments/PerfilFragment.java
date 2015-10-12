@@ -50,6 +50,9 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
     ImageView imgvTelefono;
     ImageView imgvEmail;
 
+    ImageView imgvSad;
+    TextView txtvSad;
+
     MobileServiceCustom customClient;
 
    SwipeRefreshLayout mSwipeRefreshLayout;
@@ -60,6 +63,12 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         //This layout contains your list view
         View view = inflater.inflate(R.layout.usuario_layout, container, false);
+
+        View includedLayout = view.findViewById(R.id.sindatos);
+        imgvSad = (ImageView) includedLayout.findViewById(R.id.imgvInfoProblema);
+        txtvSad = (TextView) includedLayout.findViewById(R.id.txtvInfoProblema);
+        txtvSad.setText(getResources().getString(R.string.noconnection));
+
         View headerListView = inflater.inflate(R.layout.perfil_usuario_header,null);
 
         listview = (ListView) view.findViewById(R.id.lstvPublicacionesUsuario);
@@ -140,6 +149,10 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
 
     public void cargarUsuario(final FragmentActivity activity) {
 
+        imgvSad.setVisibility(View.INVISIBLE);
+        txtvSad.setVisibility(View.INVISIBLE);
+        mSwipeRefreshLayout.setEnabled(false);
+
         try {
 
             txtvNombreUsuario.setText(MobileServiceCustom.USUARIO_LOGUEADO.getNombre());
@@ -165,7 +178,7 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
             Futures.addCallback(lst, new FutureCallback<JsonElement>() {
                 @Override
                 public void onFailure(Throwable exc) {
-
+                    estadoAdapter(true);
 
                 }
 
@@ -200,17 +213,38 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
                     }
 
                     mSwipeRefreshLayout.setRefreshing(false);
-
+                    estadoAdapter(false);
 
                 }
             });
         }
         catch (Exception e )
         {
-
+            estadoAdapter(true);
         }
 
 
+    }
+
+    private void estadoAdapter(boolean pEstadoError)
+    {
+
+        mSwipeRefreshLayout.setRefreshing(false);
+        mSwipeRefreshLayout.setEnabled(true);
+        if(pEstadoError || adapter.isEmpty())
+        {
+            imgvSad.setVisibility(View.VISIBLE);
+            txtvSad.setVisibility(View.VISIBLE);
+            txtvSad.setVisibility(View.VISIBLE);
+            txtvSad.setText(getResources().getString(R.string.noconnection));
+
+        }
+        else
+        {
+            imgvSad.setVisibility(View.INVISIBLE);
+            txtvSad.setVisibility(View.INVISIBLE);
+            txtvSad.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override
