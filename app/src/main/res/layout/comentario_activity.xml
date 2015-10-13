@@ -9,8 +9,7 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swprlComentarios"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="150dp">
+        android:layout_height="wrap_content">
 
         <ListView
             android:id="@+id/lstvComentarios"
