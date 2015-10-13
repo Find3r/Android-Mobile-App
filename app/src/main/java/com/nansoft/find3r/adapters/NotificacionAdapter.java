@@ -1,6 +1,8 @@
 package com.nansoft.find3r.adapters;
 
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -54,6 +56,7 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
                 Intent intent = new Intent(v.getContext(), ComentarioActivity.class);
                 intent.putExtra("idNoticia", lstNotifications.get(position).getIdnoticia());
                 v.getContext().startActivity(intent);
+                ((Activity) v.getContext()).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
             }
         });
 
