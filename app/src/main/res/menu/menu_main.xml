@@ -4,15 +4,15 @@
 
     <item
         android:id="@+id/action_news"
-        android:icon="@drawable/lastprojects"
+        android:icon="@drawable/news_bar"
         app:showAsAction="always"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
         android:title="@string/action_contact"
-        android:orderInCategory="2" />
+        android:orderInCategory="0" />
 
     <item
         android:id="@+id/action_notifications"
-        android:icon="@drawable/notification"
+        android:icon="@drawable/notifications_bar"
         app:showAsAction="always"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
         android:title="@string/action_contact"
@@ -20,12 +20,21 @@
         />
 
     <item
-        android:id="@+id/action_user"
-        android:icon="@drawable/ic_action_user"
+        android:id="@+id/action_search"
+        android:icon="@drawable/search_bar"
         app:showAsAction="always"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
         android:title="@string/action_contact"
-        android:orderInCategory="0"/>
+        android:orderInCategory="2"
+        />
+
+    <item
+        android:id="@+id/action_user"
+        android:icon="@drawable/user_bar"
+        app:showAsAction="always"
+        app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
+        android:title="@string/action_contact"
+        android:orderInCategory="3"/>
 
 
 </menu>
