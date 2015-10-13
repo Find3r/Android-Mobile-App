@@ -384,6 +384,7 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
             progressDialog = new ProgressDialog(AgregarNoticia.this);
             progressDialog.setMessage("Agregando registro...");
             progressDialog.show();
+            progressDialog.setCancelable(false);
             // Create the Mobile Service Client instance, using the provided
             // Mobile Service URL and key
             mNoticiaTable = mobileServiceCustom.mClient.getTable("Noticia", Noticia.class);
