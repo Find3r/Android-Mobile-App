@@ -70,6 +70,8 @@ public class CategoriaFragment extends Fragment
                 intent.putExtra("idCategoria",adapter.getItem(position).getId());
                 intent.putExtra("nombreCategoria",adapter.getItem(position).getNombre());
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+
             }
         });
 
@@ -113,7 +115,7 @@ public class CategoriaFragment extends Fragment
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
-                    final MobileServiceList<Categoria> result = mCategoriaTable.orderBy("nombre", QueryOrder.Descending).execute().get();
+                    final MobileServiceList<Categoria> result = mCategoriaTable.orderBy("nombre", QueryOrder.Ascending).execute().get();
                     activity.runOnUiThread(new Runnable() {
 
                         @Override

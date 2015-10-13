@@ -58,9 +58,6 @@ public class NotificacionFragment  extends Fragment
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.lstvNotificacion);
 
-
-
-
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
         mRecyclerView.setHasFixedSize(true);
@@ -69,23 +66,7 @@ public class NotificacionFragment  extends Fragment
         mLayoutManager = new LinearLayoutManager(view.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
-
-
-
-
         mContext = view.getContext();
-
-        /*
-        listview.setAdapter(adapter);
-
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                Intent intent = new Intent(view.getContext(), ComentarioActivity.class);
-                intent.putExtra("idNoticia",adapter.getItem(i).getIdnoticia());
-                startActivity(intent);
-            }
-        });*/
 
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swprlNotificacion);
@@ -142,14 +123,6 @@ public class NotificacionFragment  extends Fragment
                         @Override
                         public void run() {
 
-
-                            /*
-                            for (Notificacion item : result) {
-
-                                adapter.add(item);
-                                adapter.notifyDataSetChanged();
-                            }
-                            */
                             // specify an adapter (see also next example)
                             mAdapter = new NotificacionAdapter(result);
                             mRecyclerView.setAdapter(mAdapter);

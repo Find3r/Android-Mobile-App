@@ -65,8 +65,8 @@ public class NoticiaFragment extends Fragment
         imgvSad = (ImageView) includedLayout.findViewById(R.id.imgvInfoProblema);
         txtvSad = (TextView) includedLayout.findViewById(R.id.txtvInfoProblema);
         txtvSad.setText(getResources().getString(R.string.noconnection));
-        //now you must initialize your list view
 
+        //now you must initialize your list view
         mRecyclerView = (RecyclerView) view.findViewById(R.id.lstvNoticias);
 
         // use this setting to improve performance if you know that changes
@@ -81,12 +81,7 @@ public class NoticiaFragment extends Fragment
         mContext = view.getContext();
 
         mobileService = new MobileServiceCustom(view.getContext());
-
-
-
-
-
-        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabAgregarNoticia);
+   FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabAgregarNoticia);
 
 
         fab.attachToRecyclerView(mRecyclerView);
@@ -95,6 +90,7 @@ public class NoticiaFragment extends Fragment
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), AgregarNoticia.class);
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.push_up_in,R.anim.push_up_out);
             }
         });
 
@@ -118,18 +114,6 @@ public class NoticiaFragment extends Fragment
         });
         cargarNoticias(getActivity());
 
-
-
-
-        //EDITED Code
-
-
-
-
-
-        //To have custom list view use this : you must define CustomeAdapter class
-        // listview.setadapter(new CustomeAdapter(getActivity()));
-        //getActivty is used instead of Context
         return view;
     }
 
