@@ -36,6 +36,10 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
         context = pcontext;
     }
 
+
+
+
+
     @Override
     public int getItemCount()
     {

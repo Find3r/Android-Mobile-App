@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:padding="10dp">
 
-            <ListView
+            <android.support.v7.widget.RecyclerView
                 android:id="@+id/lstvPublicacionesUsuario"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content" />

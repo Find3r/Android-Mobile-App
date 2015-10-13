@@ -43,6 +43,7 @@ import java.util.List;
 
 public class PerfilUsuarioActivity extends AppCompatActivity
 {
+    /*
     ListView listview;
     NoticiaCompletaAdapter adapter;
 
@@ -312,4 +313,5 @@ public class PerfilUsuarioActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
+    */
 }

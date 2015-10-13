@@ -39,6 +39,7 @@ import java.util.List;
  */
 public class NoticiaSeguimientoFragment extends Fragment
 {
+    /*
     public static NoticiaCompletaAdapter adapter;
     public static SwipeRefreshLayout mSwipeRefreshLayout;
     private Context mContext;
@@ -70,11 +71,7 @@ public class NoticiaSeguimientoFragment extends Fragment
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                /*
-                Intent intent = new Intent(view.getContext(), ComentarioActivity.class);
-                intent.putExtra("idNoticia",adapter.getItem(i).getId());
-                startActivity(intent);
-                */
+
                 Intent intent = new Intent(view.getContext(), ComentarioActivity.class);
                 intent.putExtra("idNoticia",adapter.getItem(i).getId());
                 startActivity(intent);
@@ -224,4 +221,5 @@ public class NoticiaSeguimientoFragment extends Fragment
             txtvSad.setVisibility(View.INVISIBLE);
         }
     }
+    */
 }

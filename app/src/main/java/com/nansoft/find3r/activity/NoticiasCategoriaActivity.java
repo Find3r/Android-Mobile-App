@@ -6,6 +6,9 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +24,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.melnykov.fab.FloatingActionButton;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
@@ -35,7 +39,7 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NoticiasCategoriaActivity extends ActionBarActivity {
+public class NoticiasCategoriaActivity extends AppCompatActivity {
 
     String idCategoria = "";
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -45,10 +49,17 @@ public class NoticiasCategoriaActivity extends ActionBarActivity {
 
     MobileServiceCustom mobileServiceCustom;
 
+    public static RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.noticias_layout);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         View includedLayout = findViewById(R.id.sindatos);
         imgvSad = (ImageView) includedLayout.findViewById(R.id.imgvInfoProblema);
@@ -62,18 +73,26 @@ public class NoticiasCategoriaActivity extends ActionBarActivity {
         String nombreCategoria = getIntent().getExtras().getString("nombreCategoria");
         setTitle(nombreCategoria);
 
-        adapter = new NoticiaCompletaAdapter(this,R.layout.noticia_item);
+        //now you must initialize your list view
+        mRecyclerView = (RecyclerView) findViewById(R.id.lstvNoticias);
 
-        ListView listview = (ListView) findViewById(R.id.lstvNoticias);
-        listview.setAdapter(adapter);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
 
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAgregarNoticia);
+        fab.attachToRecyclerView(mRecyclerView);
+        fab.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-                Intent intent = new Intent(view.getContext(), ComentarioActivity.class);
-                intent.putExtra("idNoticia",adapter.getItem(i).getId());
+            public void onClick(View v) {
+                Intent intent = new Intent(v.getContext(), AgregarNoticia.class);
                 startActivity(intent);
+                overridePendingTransition(R.anim.push_up_in,R.anim.push_up_out);
             }
         });
 
@@ -122,6 +141,7 @@ public class NoticiasCategoriaActivity extends ActionBarActivity {
 
             case android.R.id.home:
                 finish();
+                overridePendingTransition( R.anim.slide_in_left,R.anim.slide_out_left);
                 return true;
         }
 
@@ -134,14 +154,7 @@ public class NoticiasCategoriaActivity extends ActionBarActivity {
         imgvSad.setVisibility(View.GONE);
         txtvSad.setVisibility(View.GONE);
 
-
-
         try {
-
-
-
-
-            adapter.clear();
 
             List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
             parameters.add(new Pair<String, String>("id",idCategoria));
@@ -163,26 +176,22 @@ public class NoticiasCategoriaActivity extends ActionBarActivity {
                         // obtenemos el resultado como un JsonArray
                         JsonArray jsonArray = result.getAsJsonArray();
                         Gson objGson = new Gson();
-                        // recorremos cada elemento del array
-                        for (JsonElement element : jsonArray) {
 
-                            // se deserializa cada objeto JSON
-                            final NoticiaCompleta objLastNews = objGson.fromJson(element, NoticiaCompleta.class);
+                        // se deserializa el array
+                        final NoticiaCompleta[] myTypes = objGson.fromJson(jsonArray,NoticiaCompleta[].class);
 
-                            runOnUiThread(new Runnable() {
+                        runOnUiThread(new Runnable() {
 
-                                @Override
-                                public void run() {
+                            @Override
+                            public void run() {
 
 
-                                    adapter.add(objLastNews);
+                                mAdapter = new NoticiaCompletaAdapter(myTypes, getApplicationContext());
+                                mRecyclerView.setAdapter(mAdapter);
 
 
-                                }
-                            });
-                        }
-
-                        adapter.notifyDataSetChanged();
+                            }
+                        });
 
                         estadoAdapter(false);
                     } else {
@@ -210,19 +219,22 @@ public class NoticiasCategoriaActivity extends ActionBarActivity {
     private void estadoAdapter(boolean pEstadoError)
     {
         mSwipeRefreshLayout.setRefreshing(false);
-        if(adapter.isEmpty())
+
+        if(pEstadoError)
         {
             imgvSad.setVisibility(View.VISIBLE);
             txtvSad.setVisibility(View.VISIBLE);
-            if(pEstadoError)
-            {
-                txtvSad.setText(getResources().getString(R.string.nodata));
-            }
-            else
-            {
-                txtvSad.setText(getResources().getString(R.string.noconnection));
-            }
+            txtvSad.setVisibility(View.VISIBLE);
+            txtvSad.setText(getResources().getString(R.string.noconnection));
+
+        }
+        else
+        {
+            imgvSad.setVisibility(View.GONE);
+            txtvSad.setVisibility(View.GONE);
+            txtvSad.setVisibility(View.GONE);
         }
 
     }
+
 }

@@ -61,6 +61,8 @@ public class ComentarioActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.comentario_activity);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         View includedLayout = findViewById(R.id.sindatos);
         imgvSad = (ImageView) includedLayout.findViewById(R.id.imgvInfoProblema);
         txtvSad = (TextView) includedLayout.findViewById(R.id.txtvInfoProblema);
@@ -168,6 +170,7 @@ public class ComentarioActivity extends AppCompatActivity {
         {
             case android.R.id.home:
                 super.onBackPressed();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
                 break;
         }
 

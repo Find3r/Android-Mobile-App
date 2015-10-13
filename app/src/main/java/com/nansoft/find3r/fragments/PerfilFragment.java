@@ -3,22 +3,23 @@ package com.nansoft.find3r.fragments;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
 import com.bumptech.glide.Glide;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -31,21 +32,18 @@ import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.AgregarNoticia;
 import com.nansoft.find3r.adapters.NoticiaCompletaAdapter;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
-import com.nansoft.find3r.models.Noticia;
 import com.nansoft.find3r.models.NoticiaCompleta;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import jp.wasabeef.blurry.Blurry;
-
 /**
  * Created by User on 6/21/2015.
  */
-public class PerfilFragment extends Fragment implements View.OnClickListener {
+public class PerfilFragment extends Fragment
+ {
 
-    ListView listview;
-    NoticiaCompletaAdapter adapter;
+
 
     TextView txtvNombreUsuario;
     ImageView imgvPerfilUsuario;
@@ -59,39 +57,73 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
 
     MobileServiceCustom customClient;
 
-   SwipeRefreshLayout mSwipeRefreshLayout;
+    SwipeRefreshLayout mSwipeRefreshLayout;
+
+     public static RecyclerView mRecyclerView;
+     private NoticiaCompletaAdapter mAdapter;
+     private RecyclerView.LayoutManager mLayoutManager;
+
+     RecyclerViewHeader headerRecyclerView;
+
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         //This layout contains your list view
-        View view = inflater.inflate(R.layout.usuario_layout, container, false);
+        View view = inflater.inflate(R.layout.test, container, false);
 
         View includedLayout = view.findViewById(R.id.sindatos);
         imgvSad = (ImageView) includedLayout.findViewById(R.id.imgvInfoProblema);
         txtvSad = (TextView) includedLayout.findViewById(R.id.txtvInfoProblema);
         txtvSad.setText(getResources().getString(R.string.no_posts_user));
 
-        View headerListView = inflater.inflate(R.layout.perfil_usuario_header,null);
+        //now you must initialize your list view
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.lstvPublicacionesUsuario);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+
+
+
+
+
+
+
+        headerRecyclerView = (RecyclerViewHeader) view.findViewById(R.id.header);
+
+
+
+
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        //mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+
+
+        /*
+        View headerRecyclerView = inflater.inflate(R.layout.perfil_usuario_header,null);
 
         listview = (ListView) view.findViewById(R.id.lstvPublicacionesUsuario);
-        listview.addHeaderView(headerListView);
+        */
+
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabAgregarNoticiaPerfil);
-        fab.attachToListView(listview);
+        fab.attachToRecyclerView(mRecyclerView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(v.getContext(), AgregarNoticia.class);
                 startActivity(intent);
+                getActivity().overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
             }
         });
 
-        //now you must initialize your list view
-        adapter = new NoticiaCompletaAdapter(view.getContext(), R.layout.noticia_item);
 
-        listview.setAdapter(adapter);
+
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swprlPerfilUsuario);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.android_darkorange, R.color.green, R.color.android_blue);
@@ -99,26 +131,22 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
 
 
 
-
+        mSwipeRefreshLayout.setEnabled(false);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                cargarUsuario(getActivity());
-            }
-        });
-
-
-        txtvNombreUsuario = (TextView) headerListView.findViewById(R.id.txtvNombreUsuario);
-        imgvPerfilUsuario = (ImageView) headerListView.findViewById(R.id.imgvPerfilUsuario);
-        imgvCover = (ImageView) headerListView.findViewById(R.id.imgvCoverPicture);
-
-
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                //mAdapter.clear();
 
             }
         });
+
+
+        txtvNombreUsuario = (TextView) headerRecyclerView.findViewById(R.id.txtvNombreUsuario);
+        imgvPerfilUsuario = (ImageView) headerRecyclerView.findViewById(R.id.imgvPerfilUsuario);
+        imgvCover = (ImageView) headerRecyclerView.findViewById(R.id.imgvCoverPicture);
+
+
+
 
         customClient = new MobileServiceCustom(view.getContext());
 
@@ -177,12 +205,6 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
 
 
 
-
-
-
-            adapter.clear();
-
-
             List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
             parameters.add(new Pair<String, String>("id",MobileServiceCustom.USUARIO_LOGUEADO.getId()));
 
@@ -202,28 +224,41 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
 
                     // se verifica si el resultado es un array Json
                     if (result.isJsonArray()) {
+
+
+
                         // obtenemos el resultado como un JsonArray
                         JsonArray jsonArray = result.getAsJsonArray();
                         Gson objGson = new Gson();
-                        // recorremos cada elemento del array
-                        for (JsonElement element : jsonArray) {
 
-                            // se deserializa cada objeto JSON
-                            final NoticiaCompleta objNoticia = objGson.fromJson(element, NoticiaCompleta.class);
+                        // se deserializa el array
+                        final NoticiaCompleta[] myTypes = objGson.fromJson(jsonArray,NoticiaCompleta[].class);
 
+                        headerRecyclerView.attachTo(mRecyclerView,true);
+                        mAdapter = new NoticiaCompletaAdapter(myTypes,getActivity());
+
+
+                        mRecyclerView.setAdapter(mAdapter);
+
+
+                        try {
+                           // mAdapter.addAll(myTypes);
+                        } catch (final Exception exception) {
                             activity.runOnUiThread(new Runnable() {
-
                                 @Override
                                 public void run() {
-
-
-                                    adapter.add(objNoticia);
-                                    adapter.notifyDataSetChanged();
-
-
+                                    Toast.makeText(getActivity(), "e " + exception.toString(), Toast.LENGTH_SHORT).show();
                                 }
                             });
                         }
+
+
+                       // headerRecyclerView.attachTo(mRecyclerView);
+
+
+
+                        //mAdapter.addAll(myTypes);
+
                         estadoAdapter(false);
                     }
                     else
@@ -237,6 +272,7 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
 
                 }
             });
+
         }
         catch (Exception e )
         {
@@ -266,14 +302,6 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-    @Override
-    public void onClick(View view)
-    {
-        switch (view.getId())
-        {
-
-        }
-    }
 
     private void llamar(String pNumero)
     {
@@ -304,4 +332,5 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
 
         }
     }
+
 }

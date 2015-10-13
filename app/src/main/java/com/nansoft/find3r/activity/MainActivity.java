@@ -1,5 +1,6 @@
 package com.nansoft.find3r.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -188,7 +189,7 @@ public class MainActivity extends AppCompatActivity
 
 
     }
-
+    /*
     @Override
     public void onBackPressed() {
         if (getFragmentManager().getBackStackEntryCount() > 0) {
@@ -199,6 +200,7 @@ public class MainActivity extends AppCompatActivity
 
         }
     }
+    */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -222,7 +224,7 @@ public class MainActivity extends AppCompatActivity
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
                     // animación
-                    ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
 
 
                     // Replace the contents of the container with the new fragment
@@ -240,7 +242,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 else
                 {
-                    NoticiaFragment.listview.setSelection(0);
+                    NoticiaFragment.mRecyclerView.scrollToPosition(0);
                 }
                 FRAGMENT_ACTIVO = 0;
                 return true;
@@ -253,7 +255,7 @@ public class MainActivity extends AppCompatActivity
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
                     // animación
-                    ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
 
 
                     // Replace the contents of the container with the new fragment
@@ -268,10 +270,13 @@ public class MainActivity extends AppCompatActivity
                     // Complete the changes added above
                     ft.commit();
 
+
+
+
                 }
                 else
                 {
-                    //NotificacionFragment.listview.set;
+                    NotificacionFragment.mRecyclerView.scrollToPosition(0);
                 }
                 FRAGMENT_ACTIVO = 1;
                 return true;
@@ -284,7 +289,7 @@ public class MainActivity extends AppCompatActivity
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
                     // animación
-                    ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
 
 
                     // Replace the contents of the container with the new fragment
@@ -302,7 +307,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 else
                 {
-                    //NotificacionFragment.listview.setSelection(0);
+
                 }
                 FRAGMENT_ACTIVO = 2;
                 return true;
@@ -315,7 +320,7 @@ public class MainActivity extends AppCompatActivity
                     FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
                     // animación
-                    ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
 
 
                     // Replace the contents of the container with the new fragment
@@ -333,7 +338,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 else
                 {
-                    //NotificacionFragment.listview.setSelection(0);
+                    //PerfilFragment.mRecyclerView.scrollToPosition(-1);
                 }
                 FRAGMENT_ACTIVO = 3;
                 return true;
