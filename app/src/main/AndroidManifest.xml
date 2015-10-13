@@ -54,31 +54,19 @@
             android:name=".activity.PerfilUsuarioActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
-            android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.nansoft.find3r.activity.MainActivity" />
         </activity>
         <activity
             android:name=".activity.ComentarioActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
-            android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.nansoft.find3r.activity.MainActivity" />
         </activity>
         <activity
             android:name=".activity.NoticiasCategoriaActivity"
             android:configChanges="orientation|keyboardHidden"
             android:label="@string/app_name"
-            android:parentActivityName=".activity.MainActivity"
             android:screenOrientation="portrait" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.nansoft.find3r.activity.MainActivity" />
         </activity>
         <activity
             android:name=".activity.LoginActivity"
@@ -93,10 +81,11 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".activity.AgregarNoticia"
-            android:configChanges="orientation|keyboardHidden"
-            android:screenOrientation="portrait" >
-        </activity>
+        android:name=".activity.AgregarNoticia"
+        android:configChanges="orientation|keyboardHidden"
+        android:screenOrientation="portrait" >
+    </activity>
+
     </application>
 
 </manifest>
