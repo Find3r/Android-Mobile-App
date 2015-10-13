@@ -2,20 +2,28 @@ package com.nansoft.find3r.activity;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nansoft.find3r.R;
+import com.nansoft.find3r.animacion.ZoomOutPageTransformer;
+import com.nansoft.find3r.adapters.MyFragmentPagerAdapter;
 import com.nansoft.find3r.fragments.NoticiaFragment;
+import com.nansoft.find3r.fragments.NotificacionFragment;
+import com.nansoft.find3r.fragments.PerfilFragment;
 import com.nansoft.find3r.helpers.CustomNotificationHandler;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Noticia;
@@ -25,8 +33,7 @@ import com.nansoft.find3r.models.UsuarioFacebook;
 import java.util.ArrayList;
 import java.util.List;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
-public class MainActivity extends AppCompatActivity
-{
+public class MainActivityAux extends AppCompatActivity implements ViewPager.OnPageChangeListener {
 
     /**
      * The pager widget, which handles animation and allows swiping horizontally
@@ -38,13 +45,18 @@ public class MainActivity extends AppCompatActivity
      * The pager adapter, which provides the pages to the view pager widget.
      */
 
+
+    private PagerSlidingTabStrip tabs;
+    private ViewPager pager = null;
+    private MyFragmentPagerAdapter adapter;
+
     public static MobileServiceCustom customClient;
     public static final String SENDER_ID = "129689044298";
 
     @Override
     protected void onCreate(Bundle arg0) {
         super.onCreate(arg0);
-        this.setContentView(R.layout.activity_main);
+        this.setContentView(R.layout.main_activity_aux);
 
         ActionBar ab =getSupportActionBar();
         ab.setIcon(R.mipmap.ic_launcher);
@@ -52,6 +64,35 @@ public class MainActivity extends AppCompatActivity
         ab.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE |
                 ActionBar.DISPLAY_SHOW_CUSTOM |
                 ActionBar.DISPLAY_SHOW_HOME);
+
+
+
+        // Instantiate a ViewPager
+        this.pager = (ViewPager) this.findViewById(R.id.pager);
+        this.pager.setPageTransformer(true, new ZoomOutPageTransformer());
+
+        // Create an adapter with the fragments we show on the ViewPager
+        adapter = new MyFragmentPagerAdapter(
+                getSupportFragmentManager(),this);
+
+        adapter.addFragment(new NoticiaFragment());
+        //adapter.addFragment(new NoticiaSeguimientoFragment());
+        //adapter.addFragment(new CategoriaFragment());
+        adapter.addFragment(new NotificacionFragment());
+        adapter.addFragment(new PerfilFragment());
+
+        this.pager.setAdapter(adapter);
+
+        // Bind the tabs to the ViewPager
+        tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
+
+
+        final int pageMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 3, getResources()
+                .getDisplayMetrics());
+        pager.setPageMargin(pageMargin);
+        tabs.setViewPager(pager);
+
+        tabs.setOnPageChangeListener(this);
 
         customClient = new MobileServiceCustom(this);
 
@@ -126,21 +167,21 @@ public class MainActivity extends AppCompatActivity
 
                             // se verifica si el usuario es null
 
-                                try {
-                                    // debemos de insertar el registro
+                            try {
+                                // debemos de insertar el registro
 
-                                    // establecemos primero los atributos
-                                    MobileServiceCustom.USUARIO_LOGUEADO.setId(objUsuarioFacebook.id);
-                                    MobileServiceCustom.USUARIO_LOGUEADO.setNombre(objUsuarioFacebook.name);
-                                    objUsuarioFacebook.data.PictureURL.PictureURL = "http://graph.facebook.com/"+objUsuarioFacebook.id+"/picture?type=large";
-                                    MobileServiceCustom.USUARIO_LOGUEADO.setUrlimagen(objUsuarioFacebook.data.PictureURL.PictureURL);
+                                // establecemos primero los atributos
+                                MobileServiceCustom.USUARIO_LOGUEADO.setId(objUsuarioFacebook.id);
+                                MobileServiceCustom.USUARIO_LOGUEADO.setNombre(objUsuarioFacebook.name);
+                                objUsuarioFacebook.data.PictureURL.PictureURL = "http://graph.facebook.com/"+objUsuarioFacebook.id+"/picture?type=large";
+                                MobileServiceCustom.USUARIO_LOGUEADO.setUrlimagen(objUsuarioFacebook.data.PictureURL.PictureURL);
 
-                                    // agregamos el registro
-                                    mUserTable.insert(MobileServiceCustom.USUARIO_LOGUEADO);
-                                } catch (Exception exception2) {
-                                    Toast.makeText(getApplicationContext(), "error al registrar el usuario " + exception.toString(), Toast.LENGTH_SHORT).show();
+                                // agregamos el registro
+                                mUserTable.insert(MobileServiceCustom.USUARIO_LOGUEADO);
+                            } catch (Exception exception2) {
+                                Toast.makeText(getApplicationContext(), "error al registrar el usuario " + exception.toString(), Toast.LENGTH_SHORT).show();
 
-                                }
+                            }
 
 
 
@@ -175,24 +216,31 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+
+
+    /*
     @Override
     public void onBackPressed() {
-        if (getFragmentManager().getBackStackEntryCount() > 0) {
-            getFragmentManager().popBackStack();
 
-        } else {
+        // Return to previous page when we press back button
+        if (this.pager.getCurrentItem() == 0)
             super.onBackPressed();
+        else
+            this.pager.setCurrentItem(this.pager.getCurrentItem() - 1);
 
-        }
     }
+    */
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate menu from menu resource (res/menu/main)
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
+
+
+
         return super.onCreateOptionsMenu(menu);
-       
+
     }
 
     @Override
@@ -201,39 +249,14 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId()) {
 
             case R.id.action_news:
-                //NoticiaFragment.listview.setSelection(0);
+                NoticiaFragment.listview.setSelection(0);
                 //QuickContactFragment dialog = new QuickContactFragment();
                 //dialog.show(getSupportFragmentManager(), "QuickContactFragment");
-                // Begin the transaction
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-                // animación
-                ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
-
-
-                // Replace the contents of the container with the new fragment
-                ft.replace(R.id.your_placeholder, new NoticiaFragment());
-                // or ft.add(R.id.your_placeholder, new FooFragment());
-
-                // Add this transaction to the back stack
-                // Append this transaction to the backstack
-                ft.addToBackStack("optional tag");
-
-
-                // Complete the changes added above
-                ft.commit();
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
                 return true;
 
             case R.id.action_notifications:
 
                 return true;
-
-            case android.R.id.home:
-                super.onBackPressed();
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-                return true;
-
 
         }
 
@@ -241,6 +264,58 @@ public class MainActivity extends AppCompatActivity
     }
 
 
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
+    }
+    //private int tabIcons[] = {R.drawable.news, R.drawable.category, R.drawable.notification,R.drawable.user};
+    //private int tabIconsActive[] = {R.drawable.news_active, R.drawable.category_active, R.drawable.notification_active,R.drawable.user_active};
+    private int tabIcons[] = {R.drawable.news,R.drawable.notification,R.drawable.user};
+    private int tabIconsActive[] = {R.drawable.news_active,R.drawable.notification_active, R.drawable.user_active};
+
+    @Override
+    public void onPageSelected(int position) {
+        PagerSlidingTabStrip tabStrip = (PagerSlidingTabStrip)findViewById(R.id.tabs);
+        LinearLayout view = (LinearLayout) tabStrip.getChildAt(0);
+        ImageView imageView;
+        int idImagen;
+        for(int i=0;i<tabIconsActive.length;i++)
+        {
+            imageView = (ImageView) view.getChildAt(i);
+            if(i == position)
+            {
+                idImagen = tabIconsActive[position];
+            }
+            else
+            {
+                idImagen = tabIcons[i];
+            }
+            imageView.setImageResource(idImagen);
+        }
+
+
+
+        switch (position)
+        {
+            case 0:
+                NoticiaFragment.adapter.notifyDataSetChanged();
+                break;
+
+            case 1:
+                break;
+
+            case 2:
+                break;
+
+            case 3:
+                break;
+        }
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
 
 }
