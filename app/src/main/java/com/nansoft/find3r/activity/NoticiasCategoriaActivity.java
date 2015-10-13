@@ -2,9 +2,11 @@ package com.nansoft.find3r.activity;
 
 import android.content.Intent;
 import android.os.AsyncTask;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,15 +15,25 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.adapters.NoticiaCompletaAdapter;
+import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Noticia;
+import com.nansoft.find3r.models.NoticiaCompleta;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NoticiasCategoriaActivity extends ActionBarActivity {
 
@@ -30,6 +42,8 @@ public class NoticiasCategoriaActivity extends ActionBarActivity {
     NoticiaCompletaAdapter adapter;
     ImageView imgvSad;
     TextView txtvSad;
+
+    MobileServiceCustom mobileServiceCustom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +54,8 @@ public class NoticiasCategoriaActivity extends ActionBarActivity {
         imgvSad = (ImageView) includedLayout.findViewById(R.id.imgvInfoProblema);
         txtvSad = (TextView) includedLayout.findViewById(R.id.txtvInfoProblema);
         txtvSad.setText(getResources().getString(R.string.noconnection));
+
+        mobileServiceCustom = new MobileServiceCustom(this);
 
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         idCategoria = getIntent().getExtras().getString("idCategoria");
@@ -54,11 +70,7 @@ public class NoticiasCategoriaActivity extends ActionBarActivity {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                /*
-                Intent intent = new Intent(getApplicationContext(), ComentarioActivity.class);
-                intent.putExtra("idNoticia",adapter.getItem(i).getId());
-                startActivity(intent);
-                */
+
                 Intent intent = new Intent(view.getContext(), ComentarioActivity.class);
                 intent.putExtra("idNoticia",adapter.getItem(i).getId());
                 startActivity(intent);
@@ -119,75 +131,85 @@ public class NoticiasCategoriaActivity extends ActionBarActivity {
     }
 
     public void cargarNoticias() {
-        imgvSad.setVisibility(View.INVISIBLE);
-        txtvSad.setVisibility(View.INVISIBLE);
-        mSwipeRefreshLayout.setEnabled(false);
-        new AsyncTask<Void, Void, Boolean>() {
+        imgvSad.setVisibility(View.GONE);
+        txtvSad.setVisibility(View.GONE);
 
-            MobileServiceClient mClient;
-            MobileServiceTable<Noticia> mNoticiaTable;
 
-            @Override
-            protected void onPreExecute()
-            {
-                try {
-                    mClient = new MobileServiceClient(
-                            "https://wantedapp.azure-mobile.net/",
-                            "MIqlLCMyhKNIonsgsNuFlpBXzqqNWj11",
-                            getApplicationContext()
-                    );
-                    adapter.clear();
-                } catch (MalformedURLException e) {
+
+        try {
+
+
+
+
+            adapter.clear();
+
+            List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
+            parameters.add(new Pair<String, String>("id",idCategoria));
+            ListenableFuture<JsonElement> lst = mobileServiceCustom.mClient.invokeApi("news_category", "GET", parameters);
+
+            Futures.addCallback(lst, new FutureCallback<JsonElement>() {
+                @Override
+                public void onFailure(Throwable exc) {
+
+                    estadoAdapter(true);
 
                 }
-                mNoticiaTable = mClient.getTable("noticia", Noticia.class);
 
-            }
+                @Override
+                public void onSuccess(JsonElement result) {
 
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                try {
-                    final MobileServiceList<Noticia> result = mNoticiaTable.where().field("idcategoria").eq(idCategoria).and().field("eliminado").eq(false).orderBy("fechadesaparicion", QueryOrder.Descending).execute().get();
-                    runOnUiThread(new Runnable() {
+                    // se verifica si el resultado es un array Json
+                    if (result.isJsonArray()) {
+                        // obtenemos el resultado como un JsonArray
+                        JsonArray jsonArray = result.getAsJsonArray();
+                        Gson objGson = new Gson();
+                        // recorremos cada elemento del array
+                        for (JsonElement element : jsonArray) {
 
-                        @Override
-                        public void run() {
+                            // se deserializa cada objeto JSON
+                            final NoticiaCompleta objLastNews = objGson.fromJson(element, NoticiaCompleta.class);
+
+                            runOnUiThread(new Runnable() {
+
+                                @Override
+                                public void run() {
 
 
-                            for (Noticia item : result) {
+                                    adapter.add(objLastNews);
 
-                                //adapter.add(item);
-                                adapter.notifyDataSetChanged();
-                            }
 
+                                }
+                            });
                         }
-                    });
-                    return true;
-                } catch (Exception exception) {
+
+                        adapter.notifyDataSetChanged();
+
+                        estadoAdapter(false);
+                    } else {
+                        estadoAdapter(true);
+                    }
+
 
                 }
-                return false;
-            }
+            });
 
-            @Override
-            protected void onPostExecute(Boolean success)
-            {
+        }
+        catch (Exception e )
+        {
+            estadoAdapter(true);
+        }
 
-                mSwipeRefreshLayout.setRefreshing(false);
-                mSwipeRefreshLayout.setEnabled(true);
-                estadoAdapter(success);
-            }
 
-            @Override
-            protected void onCancelled()
-            {
-                super.onCancelled();
-            }
-        }.execute();
+
+
+
     }
+
+
 
     private void estadoAdapter(boolean pEstadoError)
     {
+        mSwipeRefreshLayout.setRefreshing(false);
         if(adapter.isEmpty())
         {
             imgvSad.setVisibility(View.VISIBLE);
