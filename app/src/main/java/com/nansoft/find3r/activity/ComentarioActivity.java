@@ -342,6 +342,7 @@ public class ComentarioActivity extends AppCompatActivity {
                 progressDialog = new ProgressDialog(ComentarioActivity.this);
                 progressDialog.setMessage("Agregando comentario...");
                 progressDialog.show();
+                progressDialog.setCancelable(false);
             }
 
             @Override
