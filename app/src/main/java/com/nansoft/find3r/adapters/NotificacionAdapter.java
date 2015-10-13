@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,16 +29,12 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
     public NotificacionAdapter(List<Notificacion> plstNotifications)
     {
         this.lstNotifications = plstNotifications;
-
-
     }
 
     @Override
-
-    public int getItemCount() {
-
+    public int getItemCount()
+    {
         return lstNotifications.size();
-
     }
 
     @Override
@@ -50,7 +47,8 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
 
         contactViewHolder.txtvSubtitulo.setText(ci.getFechaCreacion());
 
-        contactViewHolder.txtvTitulo.setOnClickListener(new View.OnClickListener() {
+
+        contactViewHolder.layItemNotificacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -82,12 +80,15 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
 
     static class NotificacionViewHolder extends RecyclerView.ViewHolder
     {
+        public RelativeLayout layItemNotificacion;
         public TextView txtvTitulo;
         public TextView txtvSubtitulo;
         public ImageView imgvImagen;
 
         public NotificacionViewHolder(View view) {
             super(view);
+
+            layItemNotificacion = (RelativeLayout) view.findViewById(R.id.layItemNotificacion);
 
             imgvImagen = (ImageView) view.findViewById(R.id.imgvNotificacion);
 
