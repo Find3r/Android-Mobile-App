@@ -1,5 +1,6 @@
 package com.nansoft.find3r.activity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
@@ -262,9 +263,9 @@ public class MainActivity extends AppCompatActivity implements ViewPager.OnPageC
                 //dialog.show(getSupportFragmentManager(), "QuickContactFragment");
                 return true;
 
-            case android.R.id.home:
-            case R.id.homeAsUp:
-                Toast.makeText(MainActivity.this, "a", Toast.LENGTH_SHORT).show();
+            case R.id.action_notifications:
+                Intent intent = new Intent(this,LoginActivity.class);
+                startActivity(intent);
                 return true;
 
         }
