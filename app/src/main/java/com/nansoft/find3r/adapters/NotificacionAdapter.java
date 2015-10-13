@@ -1,6 +1,6 @@
 package com.nansoft.find3r.adapters;
 
-import android.content.Context;
+
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
 
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.ComentarioActivity;
@@ -24,7 +24,6 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
 
     private List<Notificacion> lstNotifications;
 
-    protected View mRootView;
 
     public NotificacionAdapter(List<Notificacion> plstNotifications)
     {
