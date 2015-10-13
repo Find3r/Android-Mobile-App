@@ -192,6 +192,7 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
         {
             case android.R.id.home:
                 super.onBackPressed();
+                overridePendingTransition(R.anim.push_down_in,R.anim.push_down_out);
                 break;
         }
 
