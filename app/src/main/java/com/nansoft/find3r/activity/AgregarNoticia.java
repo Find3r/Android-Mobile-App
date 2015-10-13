@@ -183,7 +183,7 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
     @Override
     public void onBackPressed() {
         finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+        overridePendingTransition(R.anim.push_down_in,R.anim.push_down_out);
     }
 
     @Override
