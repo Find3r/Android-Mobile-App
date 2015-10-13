@@ -18,9 +18,11 @@ import android.widget.Toast;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
+import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.NoticiasCategoriaActivity;
 import com.nansoft.find3r.adapters.CategoriaAdapter;
+import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Categoria;
 
 import java.net.MalformedURLException;
@@ -36,6 +38,8 @@ public class CategoriaFragment extends Fragment
     ImageView imgvSad;
     TextView txtvSad;
 
+    MobileServiceCustom mobileServiceCustom;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -47,6 +51,8 @@ public class CategoriaFragment extends Fragment
         imgvSad = (ImageView) includedLayout.findViewById(R.id.imgvInfoProblema);
         txtvSad = (TextView) includedLayout.findViewById(R.id.txtvInfoProblema);
         txtvSad.setText(getResources().getString(R.string.noconnection));
+
+        mobileServiceCustom = new MobileServiceCustom(view.getContext());
 
         //now you must initialize your list view
         GridView listview =(GridView)view.findViewById(R.id.gridAreas);
@@ -93,29 +99,21 @@ public class CategoriaFragment extends Fragment
 
         new AsyncTask<Void, Void, Boolean>() {
 
-            MobileServiceClient mClient;
+
             MobileServiceTable<Categoria> mCategoriaTable;
 
             @Override
             protected void onPreExecute()
             {
-                try {
-                    mClient = new MobileServiceClient(
-                            "https://wantedapp.azure-mobile.net/",
-                            "MIqlLCMyhKNIonsgsNuFlpBXzqqNWj11",
-                            activity.getApplicationContext()
-                    );
-                } catch (MalformedURLException e) {
 
-                }
-                mCategoriaTable = mClient.getTable("categoria", Categoria.class);
+                mCategoriaTable = mobileServiceCustom.mClient.getTable("categoria", Categoria.class);
 
             }
 
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
-                    final MobileServiceList<Categoria> result = mCategoriaTable.execute().get();
+                    final MobileServiceList<Categoria> result = mCategoriaTable.orderBy("nombre", QueryOrder.Descending).execute().get();
                     activity.runOnUiThread(new Runnable() {
 
                         @Override
