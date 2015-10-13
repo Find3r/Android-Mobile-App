@@ -271,7 +271,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 else
                 {
-                    NotificacionFragment.listview.setSelection(0);
+                    //NotificacionFragment.listview.set;
                 }
                 FRAGMENT_ACTIVO = 1;
                 return true;
@@ -302,7 +302,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 else
                 {
-                    NotificacionFragment.listview.setSelection(0);
+                    //NotificacionFragment.listview.setSelection(0);
                 }
                 FRAGMENT_ACTIVO = 2;
                 return true;
@@ -333,7 +333,7 @@ public class MainActivity extends AppCompatActivity
                 }
                 else
                 {
-                    NotificacionFragment.listview.setSelection(0);
+                    //NotificacionFragment.listview.setSelection(0);
                 }
                 FRAGMENT_ACTIVO = 3;
                 return true;

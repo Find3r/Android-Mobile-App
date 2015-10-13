@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,20 +30,28 @@ import com.nansoft.find3r.models.Notificacion;
 import com.nansoft.find3r.models.NotificacionUsuario;
 
 import java.net.MalformedURLException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by User on 7/5/2015.
  */
 public class NotificacionFragment  extends Fragment
 {
-    public static NotificacionAdapter adapter;
+
     public static SwipeRefreshLayout mSwipeRefreshLayout;
     private Context mContext;
 
     ImageView imgvSad;
     TextView txtvSad;
 
-    public static ListView listview;
+
+    private RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+    MobileServiceList<Notificacion> result;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,12 +66,24 @@ public class NotificacionFragment  extends Fragment
         txtvSad = (TextView) includedLayout.findViewById(R.id.txtvInfoProblema);
         txtvSad.setText(getResources().getString(R.string.noconnection));
 
-        listview = (ListView) view.findViewById(R.id.lstvNotificacion);
 
-        adapter = new NotificacionAdapter(view.getContext(), R.layout.notificacion_item);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.lstvNotificacion);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(view.getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+
+
+
+
         mContext = view.getContext();
 
-
+        /*
         listview.setAdapter(adapter);
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -71,7 +93,8 @@ public class NotificacionFragment  extends Fragment
                 intent.putExtra("idNoticia",adapter.getItem(i).getIdnoticia());
                 startActivity(intent);
             }
-        });
+        });*/
+
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swprlNotificacion);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.android_darkorange, R.color.green, R.color.android_blue);
@@ -109,7 +132,7 @@ public class NotificacionFragment  extends Fragment
             @Override
             protected void onPreExecute()
             {
-                adapter.clear();
+
                 MobileServiceCustom mobileServiceCustom = new MobileServiceCustom(activity.getApplicationContext());
 
                 mNotificacionTable = mobileServiceCustom.mClient.getTable("notificacion", Notificacion.class);
@@ -128,13 +151,16 @@ public class NotificacionFragment  extends Fragment
                         public void run() {
 
 
-
+                            /*
                             for (Notificacion item : result) {
 
                                 adapter.add(item);
                                 adapter.notifyDataSetChanged();
                             }
-                            //Toast.makeText(mContext,datos,Toast.LENGTH_SHORT).show();
+                            */
+                            // specify an adapter (see also next example)
+                            mAdapter = new NotificacionAdapter(result);
+                            mRecyclerView.setAdapter(mAdapter);
 
                         }
                     });
