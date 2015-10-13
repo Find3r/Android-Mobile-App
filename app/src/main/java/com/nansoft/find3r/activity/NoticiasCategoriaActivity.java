@@ -78,7 +78,7 @@ public class NoticiasCategoriaActivity extends AppCompatActivity {
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
+        //mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
@@ -180,18 +180,8 @@ public class NoticiasCategoriaActivity extends AppCompatActivity {
                         // se deserializa el array
                         final NoticiaCompleta[] myTypes = objGson.fromJson(jsonArray,NoticiaCompleta[].class);
 
-                        runOnUiThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-
-
-                                mAdapter = new NoticiaCompletaAdapter(myTypes, getApplicationContext());
-                                mRecyclerView.setAdapter(mAdapter);
-
-
-                            }
-                        });
+                        mAdapter = new NoticiaCompletaAdapter(myTypes,NoticiasCategoriaActivity.this);
+                        mRecyclerView.setAdapter(mAdapter);
 
                         estadoAdapter(false);
                     } else {

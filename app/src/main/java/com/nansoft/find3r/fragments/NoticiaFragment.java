@@ -71,7 +71,7 @@ public class NoticiaFragment extends Fragment
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
-        mRecyclerView.setHasFixedSize(true);
+        //mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(view.getContext());
@@ -149,18 +149,8 @@ public class NoticiaFragment extends Fragment
                         // se deserializa el array
                         final NoticiaCompleta[] myTypes = objGson.fromJson(jsonArray,NoticiaCompleta[].class);
 
-                        activity.runOnUiThread(new Runnable() {
-
-                            @Override
-                            public void run() {
-
-
-                                mAdapter = new NoticiaCompletaAdapter(myTypes,mContext);
-                                mRecyclerView.setAdapter(mAdapter);
-
-
-                            }
-                        });
+                        mAdapter = new NoticiaCompletaAdapter(myTypes,mContext);
+                        mRecyclerView.setAdapter(mAdapter);
 
                         estadoAdapter(false);
                     }

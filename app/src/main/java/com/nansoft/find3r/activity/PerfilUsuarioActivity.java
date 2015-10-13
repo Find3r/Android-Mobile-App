@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader;
 import com.bumptech.glide.Glide;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -43,8 +47,8 @@ import java.util.List;
 
 public class PerfilUsuarioActivity extends AppCompatActivity
 {
-    /*
-    ListView listview;
+
+
     NoticiaCompletaAdapter adapter;
 
     TextView txtvNombreUsuario;
@@ -63,11 +67,25 @@ public class PerfilUsuarioActivity extends AppCompatActivity
     String ID_USUARIO = " ";
     Usuario objUsuario;
 
+    public static RecyclerView mRecyclerView;
+    private NoticiaCompletaAdapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+    RecyclerViewHeader headerRecyclerView;
+
+    ImageView imgvCover;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.usuario_layout);
+        setContentView(R.layout.test);
+
+        // Set up action bar.
+        ActionBar bar = getSupportActionBar();
+        bar.show();
+        bar.setDisplayHomeAsUpEnabled(true);
 
         View includedLayout = findViewById(R.id.sindatos);
         imgvSad = (ImageView) includedLayout.findViewById(R.id.imgvInfoProblema);
@@ -76,13 +94,16 @@ public class PerfilUsuarioActivity extends AppCompatActivity
 
         LayoutInflater inflater = getLayoutInflater();
 
-        View headerListView = inflater.inflate(R.layout.perfil_usuario_header,null);
 
-        listview = (ListView) findViewById(R.id.lstvPublicacionesUsuario);
-        listview.addHeaderView(headerListView);
+        //now you must initialize your list view
+        mRecyclerView = (RecyclerView) findViewById(R.id.lstvPublicacionesUsuario);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+        headerRecyclerView = (RecyclerViewHeader) findViewById(R.id.header);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAgregarNoticiaPerfil);
-        fab.attachToListView(listview);
+        fab.attachToRecyclerView(mRecyclerView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -91,10 +112,6 @@ public class PerfilUsuarioActivity extends AppCompatActivity
             }
         });
 
-        //now you must initialize your list view
-        adapter = new NoticiaCompletaAdapter(this, R.layout.noticia_item);
-
-        listview.setAdapter(adapter);
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swprlPerfilUsuario);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.android_darkorange, R.color.green, R.color.android_blue);
@@ -102,26 +119,20 @@ public class PerfilUsuarioActivity extends AppCompatActivity
 
         ID_USUARIO = getIntent().getExtras().getString("id");
 
-
+        mSwipeRefreshLayout.setEnabled(false);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                cargarUsuario();
+                //cargarUsuario();
             }
         });
 
 
-        txtvNombreUsuario = (TextView) headerListView.findViewById(R.id.txtvNombreUsuario);
-        imgvPerfilUsuario = (ImageView) headerListView.findViewById(R.id.imgvPerfilUsuario);
+        txtvNombreUsuario = (TextView) headerRecyclerView.findViewById(R.id.txtvNombreUsuario);
+        imgvPerfilUsuario = (ImageView) headerRecyclerView.findViewById(R.id.imgvPerfilUsuario);
+        imgvCover = (ImageView) headerRecyclerView.findViewById(R.id.imgvCoverPicture);
 
 
-
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-            }
-        });
 
         customClient = new MobileServiceCustom(this);
 
@@ -188,7 +199,7 @@ public class PerfilUsuarioActivity extends AppCompatActivity
                             .error(R.drawable.error_image)
                             .into(imgvPerfilUsuario);
 
-                    ImageView imgvCover = (ImageView) findViewById(R.id.imgvCoverPicture);
+
                     Glide.with(getApplicationContext())
                             .load(objUsuario.getCover_picture().trim())
                             .asBitmap()
@@ -198,10 +209,6 @@ public class PerfilUsuarioActivity extends AppCompatActivity
                             .into(imgvCover);
 
 
-
-
-
-                    adapter.clear();
 
 
                     List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
@@ -226,25 +233,16 @@ public class PerfilUsuarioActivity extends AppCompatActivity
                                 // obtenemos el resultado como un JsonArray
                                 JsonArray jsonArray = result.getAsJsonArray();
                                 Gson objGson = new Gson();
-                                // recorremos cada elemento del array
-                                for (JsonElement element : jsonArray) {
 
-                                    // se deserializa cada objeto JSON
-                                    final NoticiaCompleta objNoticia = objGson.fromJson(element, NoticiaCompleta.class);
+                                // se deserializa el array
+                                final NoticiaCompleta[] myTypes = objGson.fromJson(jsonArray,NoticiaCompleta[].class);
 
-                                    runOnUiThread(new Runnable() {
-
-                                        @Override
-                                        public void run() {
+                                headerRecyclerView.attachTo(mRecyclerView,true);
+                                mAdapter = new NoticiaCompletaAdapter(myTypes,PerfilUsuarioActivity.this);
 
 
-                                            adapter.add(objNoticia);
-                                            adapter.notifyDataSetChanged();
+                                mRecyclerView.setAdapter(mAdapter);
 
-
-                                        }
-                                    });
-                                }
                                 estadoAdapter(false);
                             } else {
                                 estadoAdapter(true);
@@ -301,17 +299,14 @@ public class PerfilUsuarioActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch(item.getItemId())
+        {
+            case android.R.id.home:
+                super.onBackPressed();
+                overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+                break;
         }
-
         return super.onOptionsItemSelected(item);
     }
-    */
+
 }
