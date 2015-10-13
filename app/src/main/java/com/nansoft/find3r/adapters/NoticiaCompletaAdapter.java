@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.ComentarioActivity;
+import com.nansoft.find3r.activity.PerfilUsuarioActivity;
 import com.nansoft.find3r.helpers.CircularImageView;
 
 import java.text.SimpleDateFormat;
@@ -86,6 +87,16 @@ public class NoticiaCompletaAdapter extends ArrayAdapter<com.nansoft.find3r.mode
                     mContext.startActivity(intent);
                 }
             });
+
+            viewHolder.imgvFotoPerfilUsuario.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, PerfilUsuarioActivity.class);
+                    intent.putExtra("id",currentItem.getIdusuario());
+                    mContext.startActivity(intent);
+                }
+            });
+
         /*
             viewHolder.imgvSeguimiento.setOnClickListener(new View.OnClickListener() {
                 @Override
