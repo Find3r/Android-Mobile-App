@@ -151,6 +151,13 @@ public class PerfilUsuarioActivity extends AppCompatActivity
 
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+    }
+
     public void cargarUsuario() {
 
         imgvSad.setVisibility(View.GONE);

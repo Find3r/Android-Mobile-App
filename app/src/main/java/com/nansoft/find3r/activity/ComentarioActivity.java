@@ -2,26 +2,21 @@ package com.nansoft.find3r.activity;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
@@ -30,31 +25,32 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.melnykov.fab.FloatingActionButton;
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nansoft.find3r.MyTime;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.adapters.ComentarioAdapter;
-import com.nansoft.find3r.helpers.CircularImageView;
+import com.nansoft.find3r.adapters.NoticiaCompletaAdapter;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Comentario;
 import com.nansoft.find3r.models.ComentarioCompleto;
-import com.nansoft.find3r.models.Noticia;
+import com.nansoft.find3r.models.NoticiaCompleta;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 public class ComentarioActivity extends AppCompatActivity {
 
     String ID_NOTICIA = "";
-    ComentarioAdapter adapter;
     public static SwipeRefreshLayout mSwipeRefreshLayout;
 
     ImageView imgvSad;
     TextView txtvSad;
     MobileServiceCustom mobileServiceCustom ;
+
+    public static RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -70,9 +66,15 @@ public class ComentarioActivity extends AppCompatActivity {
 
         mobileServiceCustom = new MobileServiceCustom(this);
 
-        adapter = new ComentarioAdapter(this,R.layout.comment_item);
-        ListView listview = (ListView) findViewById(R.id.lstvComentarios);
-        listview.setAdapter(adapter);
+        mRecyclerView = (RecyclerView) findViewById(R.id.lstvComentarios);
+
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        //mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
         ID_NOTICIA = getIntent().getExtras().getString("idNoticia");
 
@@ -87,7 +89,7 @@ public class ComentarioActivity extends AppCompatActivity {
         });
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAgregarComentario);
-        fab.attachToListView(listview);
+        fab.attachToRecyclerView(mRecyclerView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -177,6 +179,12 @@ public class ComentarioActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+    }
+
     public void cargarComentarios() {
 
         imgvSad.setVisibility(View.INVISIBLE);
@@ -200,7 +208,6 @@ public class ComentarioActivity extends AppCompatActivity {
 
         try {
 
-            adapter.clear();
 
 
             List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
@@ -223,30 +230,27 @@ public class ComentarioActivity extends AppCompatActivity {
                         // obtenemos el resultado como un JsonArray
                         JsonArray jsonArray = result.getAsJsonArray();
                         Gson objGson = new Gson();
-                        // recorremos cada elemento del array
-                        for (JsonElement element : jsonArray) {
-
-                            // se deserializa cada objeto JSON
-                            final ComentarioCompleto objLastNews = objGson.fromJson(element, ComentarioCompleto.class);
-
-                            runOnUiThread(new Runnable() {
-
-                                @Override
-                                public void run() {
 
 
-                                    adapter.add(objLastNews);
-                                    adapter.notifyDataSetChanged();
+                        // se deserializa el array
+                        final ComentarioCompleto[] myTypes = objGson.fromJson(jsonArray,ComentarioCompleto[].class);
 
-
-                                }
-                            });
-                        }
+                        mAdapter = new ComentarioAdapter(myTypes,ComentarioActivity.this);
+                        mRecyclerView.setAdapter(mAdapter);
 
                     }
 
+                    if(mAdapter.getItemCount() == 0)
+                    {
+                        estadoAdapter(true);
+                    }
+                    else
+                    {
+                        estadoAdapter(false);
+                    }
+
                     mSwipeRefreshLayout.setRefreshing(false);
-                    estadoAdapter(false);
+
 
                 }
             });
@@ -254,7 +258,7 @@ public class ComentarioActivity extends AppCompatActivity {
         }
         catch (Exception e )
         {
-
+            estadoAdapter(true);
         }
 
     }
@@ -262,8 +266,8 @@ public class ComentarioActivity extends AppCompatActivity {
     private void estadoAdapter(boolean pEstadoError)
     {
         mSwipeRefreshLayout.setRefreshing(false);
-        mSwipeRefreshLayout.setEnabled(true);
-        if(pEstadoError || adapter.isEmpty())
+
+        if(pEstadoError)
         {
             imgvSad.setVisibility(View.VISIBLE);
             txtvSad.setVisibility(View.VISIBLE);
@@ -273,10 +277,11 @@ public class ComentarioActivity extends AppCompatActivity {
         }
         else
         {
-            imgvSad.setVisibility(View.INVISIBLE);
-            txtvSad.setVisibility(View.INVISIBLE);
-            txtvSad.setVisibility(View.INVISIBLE);
+            imgvSad.setVisibility(View.GONE);
+            txtvSad.setVisibility(View.GONE);
+            txtvSad.setVisibility(View.GONE);
         }
+
     }
 
     public void agregarComentario(final Comentario objComentario,final EditText edtCheckComment)

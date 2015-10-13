@@ -101,17 +101,29 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
             }
         });
 
+        viewHolder.txtvNombreUsuarioNoticia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                navegarPerfilUsuario(position,v.getContext());
+            }
+        });
         viewHolder.imgvFotoPerfilUsuario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(context, PerfilUsuarioActivity.class);
-                intent.putExtra("id",lstNoticias[position].getIdusuario());
-                context.startActivity(intent);
-                ((Activity) v.getContext()).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+                navegarPerfilUsuario(position,v.getContext());
             }
         });
 
     }
+
+    private void navegarPerfilUsuario(int position,Context context)
+    {
+        Intent intent = new Intent(context, PerfilUsuarioActivity.class);
+        intent.putExtra("id",lstNoticias[position].getIdusuario());
+        context.startActivity(intent);
+        ((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+    }
+
 
 
 
