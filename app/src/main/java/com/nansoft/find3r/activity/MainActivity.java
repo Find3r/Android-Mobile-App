@@ -15,6 +15,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nansoft.find3r.R;
+import com.nansoft.find3r.fragments.CategoriaFragment;
 import com.nansoft.find3r.fragments.NoticiaFragment;
 import com.nansoft.find3r.fragments.NotificacionFragment;
 import com.nansoft.find3r.fragments.PerfilFragment;
@@ -275,8 +276,39 @@ public class MainActivity extends AppCompatActivity
                 FRAGMENT_ACTIVO = 1;
                 return true;
 
-            case R.id.action_user:
+            case R.id.action_search:
                 if(FRAGMENT_ACTIVO != 2)
+                {
+
+                    // Begin the transaction
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+                    // animación
+                    ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
+
+                    // Replace the contents of the container with the new fragment
+                    ft.replace(R.id.your_placeholder, new CategoriaFragment());
+                    // or ft.add(R.id.your_placeholder, new FooFragment());
+
+                    // Add this transaction to the back stack
+                    // Append this transaction to the backstack
+                    ft.addToBackStack("optional tag");
+
+
+                    // Complete the changes added above
+                    ft.commit();
+
+                }
+                else
+                {
+                    NotificacionFragment.listview.setSelection(0);
+                }
+                FRAGMENT_ACTIVO = 2;
+                return true;
+
+            case R.id.action_user:
+                if(FRAGMENT_ACTIVO != 3)
                 {
 
                     // Begin the transaction
@@ -303,8 +335,10 @@ public class MainActivity extends AppCompatActivity
                 {
                     NotificacionFragment.listview.setSelection(0);
                 }
-                FRAGMENT_ACTIVO = 2;
+                FRAGMENT_ACTIVO = 3;
                 return true;
+
+
 
             case android.R.id.home:
                 super.onBackPressed();
