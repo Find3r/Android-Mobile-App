@@ -20,10 +20,10 @@ import java.util.List;
 /**
  * Created by User on 7/5/2015.
  */
-public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapter.NotificacionViewHolder>  {
+public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapter.NotificacionViewHolder>
+{
 
     private List<Notificacion> lstNotifications;
-
 
     public NotificacionAdapter(List<Notificacion> plstNotifications)
     {
@@ -37,16 +37,16 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
     }
 
     @Override
-
-    public void onBindViewHolder(NotificacionViewHolder contactViewHolder,final  int position)
+    public void onBindViewHolder(NotificacionViewHolder contactViewHolder,final int position)
     {
+        // se obtiene el objeto actual
+        Notificacion objNotificacion = lstNotifications.get(position);
 
-        Notificacion ci = lstNotifications.get(position);
-        contactViewHolder.txtvTitulo.setText(ci.getDescripcion());
+        // establecemos los atributos
+        contactViewHolder.txtvTitulo.setText(objNotificacion.getDescripcion());
+        contactViewHolder.txtvSubtitulo.setText(objNotificacion.getFechaCreacion());
 
-        contactViewHolder.txtvSubtitulo.setText(ci.getFechaCreacion());
-
-
+        // se establece onClickListener en el componente de cada vista
         contactViewHolder.layItemNotificacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -57,24 +57,18 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
             }
         });
 
-
-
-
     }
 
     @Override
+    public NotificacionViewHolder onCreateViewHolder(ViewGroup viewGroup, int position)
+    {
 
-       public NotificacionViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
-
-            View itemView = LayoutInflater.from(viewGroup.getContext()).
-
+        View itemView = LayoutInflater.from(viewGroup.getContext()).
             inflate(R.layout.notificacion_item, viewGroup, false);
 
-            return new NotificacionViewHolder(itemView);
+        return new NotificacionViewHolder(itemView);
 
        }
-
-
 
 
     static class NotificacionViewHolder extends RecyclerView.ViewHolder
@@ -84,7 +78,8 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
         public TextView txtvSubtitulo;
         public ImageView imgvImagen;
 
-        public NotificacionViewHolder(View view) {
+        public NotificacionViewHolder(View view)
+        {
             super(view);
 
             layItemNotificacion = (RelativeLayout) view.findViewById(R.id.layItemNotificacion);
@@ -94,7 +89,7 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
             txtvTitulo = (TextView) view.findViewById(R.id.txtvNombreUsuarioNotificacion);
 
 
-           txtvSubtitulo = (TextView) view.findViewById(R.id.txtvSubtituloNotificación);
+            txtvSubtitulo = (TextView) view.findViewById(R.id.txtvSubtituloNotificación);
         }
     }
 
