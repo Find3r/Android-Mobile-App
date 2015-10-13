@@ -16,6 +16,8 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.fragments.NoticiaFragment;
+import com.nansoft.find3r.fragments.NotificacionFragment;
+import com.nansoft.find3r.fragments.PerfilFragment;
 import com.nansoft.find3r.helpers.CustomNotificationHandler;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Noticia;
@@ -40,6 +42,8 @@ public class MainActivity extends AppCompatActivity
 
     public static MobileServiceCustom customClient;
     public static final String SENDER_ID = "129689044298";
+
+    int FRAGMENT_ACTIVO = 0;
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -67,6 +71,19 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(getApplicationContext(),"er " + e.toString(),Toast.LENGTH_SHORT).show();
 
         }
+
+        FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+        // Replace the contents of the container with the new fragment
+        ft.replace(R.id.your_placeholder, new NoticiaFragment());
+        // or ft.add(R.id.your_placeholder, new FooFragment());
+
+        // Add this transaction to the back stack
+        // Append this transaction to the backstack
+        //ft.addToBackStack("optional tag");
+
+        // Complete the changes added above
+        ft.commit();
 
         // cargamos la información de usuario
         cargarUsuario();
@@ -112,7 +129,6 @@ public class MainActivity extends AppCompatActivity
                             MobileServiceCustom.USUARIO_LOGUEADO = mUserTable.lookUp(objUsuarioFacebook.id).get();
 
 
-
                             return true;
                         } catch (final Exception exception) {
                             /*
@@ -126,29 +142,26 @@ public class MainActivity extends AppCompatActivity
 
                             // se verifica si el usuario es null
 
-                                try {
-                                    // debemos de insertar el registro
+                            try {
+                                // debemos de insertar el registro
 
-                                    // establecemos primero los atributos
-                                    MobileServiceCustom.USUARIO_LOGUEADO.setId(objUsuarioFacebook.id);
-                                    MobileServiceCustom.USUARIO_LOGUEADO.setNombre(objUsuarioFacebook.name);
-                                    objUsuarioFacebook.data.PictureURL.PictureURL = "http://graph.facebook.com/"+objUsuarioFacebook.id+"/picture?type=large";
-                                    MobileServiceCustom.USUARIO_LOGUEADO.setUrlimagen(objUsuarioFacebook.data.PictureURL.PictureURL);
+                                // establecemos primero los atributos
+                                MobileServiceCustom.USUARIO_LOGUEADO.setId(objUsuarioFacebook.id);
+                                MobileServiceCustom.USUARIO_LOGUEADO.setNombre(objUsuarioFacebook.name);
+                                objUsuarioFacebook.data.PictureURL.PictureURL = "http://graph.facebook.com/" + objUsuarioFacebook.id + "/picture?type=large";
+                                MobileServiceCustom.USUARIO_LOGUEADO.setUrlimagen(objUsuarioFacebook.data.PictureURL.PictureURL);
 
-                                    // agregamos el registro
-                                    mUserTable.insert(MobileServiceCustom.USUARIO_LOGUEADO);
-                                } catch (Exception exception2) {
-                                    Toast.makeText(getApplicationContext(), "error al registrar el usuario " + exception.toString(), Toast.LENGTH_SHORT).show();
+                                // agregamos el registro
+                                mUserTable.insert(MobileServiceCustom.USUARIO_LOGUEADO);
+                            } catch (Exception exception2) {
+                                Toast.makeText(getApplicationContext(), "error al registrar el usuario " + exception.toString(), Toast.LENGTH_SHORT).show();
 
-                                }
-
-
+                            }
 
 
-                        }
-                        finally {
+                        } finally {
                             // obtenemos la imagen del usuario en caso que la haya cambiado
-                            MobileServiceCustom.USUARIO_LOGUEADO.setUrlimagen("http://graph.facebook.com/"+MobileServiceCustom.USUARIO_LOGUEADO.getId()+"/picture?type=large");
+                            MobileServiceCustom.USUARIO_LOGUEADO.setUrlimagen("http://graph.facebook.com/" + MobileServiceCustom.USUARIO_LOGUEADO.getId() + "/picture?type=large");
 
                         }
 
@@ -201,37 +214,100 @@ public class MainActivity extends AppCompatActivity
         switch (item.getItemId()) {
 
             case R.id.action_news:
-                //NoticiaFragment.listview.setSelection(0);
-                //QuickContactFragment dialog = new QuickContactFragment();
-                //dialog.show(getSupportFragmentManager(), "QuickContactFragment");
-                // Begin the transaction
-                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                if(FRAGMENT_ACTIVO != 0)
+                {
 
-                // animación
-                ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+                    // Begin the transaction
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
-
-                // Replace the contents of the container with the new fragment
-                ft.replace(R.id.your_placeholder, new NoticiaFragment());
-                // or ft.add(R.id.your_placeholder, new FooFragment());
-
-                // Add this transaction to the back stack
-                // Append this transaction to the backstack
-                ft.addToBackStack("optional tag");
+                    // animación
+                    ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 
 
-                // Complete the changes added above
-                ft.commit();
-                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                    // Replace the contents of the container with the new fragment
+                    ft.replace(R.id.your_placeholder, new NoticiaFragment());
+                    // or ft.add(R.id.your_placeholder, new FooFragment());
+
+                    // Add this transaction to the back stack
+                    // Append this transaction to the backstack
+
+
+
+                    // Complete the changes added above
+                    ft.commit();
+
+                }
+                else
+                {
+                    NoticiaFragment.listview.setSelection(0);
+                }
+                FRAGMENT_ACTIVO = 0;
                 return true;
 
             case R.id.action_notifications:
+                if(FRAGMENT_ACTIVO != 1)
+                {
 
+                    // Begin the transaction
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+                    // animación
+                    ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
+
+                    // Replace the contents of the container with the new fragment
+                    ft.replace(R.id.your_placeholder, new NotificacionFragment());
+                    // or ft.add(R.id.your_placeholder, new FooFragment());
+
+                    // Add this transaction to the back stack
+                    // Append this transaction to the backstack
+                    ft.addToBackStack("optional tag");
+
+
+                    // Complete the changes added above
+                    ft.commit();
+
+                }
+                else
+                {
+                    NotificacionFragment.listview.setSelection(0);
+                }
+                FRAGMENT_ACTIVO = 1;
+                return true;
+
+            case R.id.action_user:
+                if(FRAGMENT_ACTIVO != 2)
+                {
+
+                    // Begin the transaction
+                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+
+                    // animación
+                    ft.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+
+
+                    // Replace the contents of the container with the new fragment
+                    ft.replace(R.id.your_placeholder, new PerfilFragment());
+                    // or ft.add(R.id.your_placeholder, new FooFragment());
+
+                    // Add this transaction to the back stack
+                    // Append this transaction to the backstack
+                    ft.addToBackStack("optional tag");
+
+
+                    // Complete the changes added above
+                    ft.commit();
+
+                }
+                else
+                {
+                    NotificacionFragment.listview.setSelection(0);
+                }
+                FRAGMENT_ACTIVO = 2;
                 return true;
 
             case android.R.id.home:
                 super.onBackPressed();
-                getSupportActionBar().setDisplayHomeAsUpEnabled(false);
                 return true;
 
 
@@ -243,4 +319,5 @@ public class MainActivity extends AppCompatActivity
 
 
 
-}
+
+    }

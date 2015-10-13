@@ -41,6 +41,8 @@ public class NotificacionFragment  extends Fragment
     ImageView imgvSad;
     TextView txtvSad;
 
+    public static ListView listview;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -54,7 +56,7 @@ public class NotificacionFragment  extends Fragment
         txtvSad = (TextView) includedLayout.findViewById(R.id.txtvInfoProblema);
         txtvSad.setText(getResources().getString(R.string.noconnection));
 
-        final ListView listview = (ListView) view.findViewById(R.id.lstvNotificacion);
+        listview = (ListView) view.findViewById(R.id.lstvNotificacion);
 
         adapter = new NotificacionAdapter(view.getContext(), R.layout.notificacion_item);
         mContext = view.getContext();
