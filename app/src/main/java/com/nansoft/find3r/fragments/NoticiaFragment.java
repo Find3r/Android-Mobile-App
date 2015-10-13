@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,12 +24,15 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.melnykov.fab.FloatingActionButton;
+import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.AgregarNoticia;
 import com.nansoft.find3r.adapters.NoticiaCompletaAdapter;
+import com.nansoft.find3r.adapters.NotificacionAdapter;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Noticia;
 import com.nansoft.find3r.models.NoticiaCompleta;
+import com.nansoft.find3r.models.Notificacion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,7 +49,11 @@ public class NoticiaFragment extends Fragment
     ImageView imgvSad;
     TextView txtvSad;
 
-    public static ListView listview;
+    public static RecyclerView mRecyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager mLayoutManager;
+
+    MobileServiceList<NoticiaCompleta> mobileServiceList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -58,19 +67,29 @@ public class NoticiaFragment extends Fragment
         txtvSad.setText(getResources().getString(R.string.noconnection));
         //now you must initialize your list view
 
-        listview = (ListView) view.findViewById(R.id.lstvNoticias);
+        mRecyclerView = (RecyclerView) view.findViewById(R.id.lstvNoticias);
 
-        adapter = new NoticiaCompletaAdapter(view.getContext(), R.layout.noticia_item);
+        // use this setting to improve performance if you know that changes
+        // in content do not change the layout size of the RecyclerView
+        mRecyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(view.getContext());
+        mRecyclerView.setLayoutManager(mLayoutManager);
+
+
         mContext = view.getContext();
 
         mobileService = new MobileServiceCustom(view.getContext());
 
 
-        listview.setAdapter(adapter);
+
 
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabAgregarNoticia);
-        fab.attachToListView(listview);
+
+
+        fab.attachToRecyclerView(mRecyclerView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,6 +97,7 @@ public class NoticiaFragment extends Fragment
                 startActivity(intent);
             }
         });
+
 
 
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swprlNoticias);
@@ -122,10 +142,6 @@ public class NoticiaFragment extends Fragment
         try {
 
 
-
-
-            adapter.clear();
-
             List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
             ListenableFuture<JsonElement> lst = mobileService.mClient.invokeApi("last_news", "GET", parameters);
 
@@ -145,27 +161,22 @@ public class NoticiaFragment extends Fragment
                         // obtenemos el resultado como un JsonArray
                         JsonArray jsonArray = result.getAsJsonArray();
                         Gson objGson = new Gson();
-                        // recorremos cada elemento del array
-                        for (JsonElement element : jsonArray) {
 
-                            // se deserializa cada objeto JSON
-                            final NoticiaCompleta objLastNews = objGson.fromJson(element, NoticiaCompleta.class);
+                        // se deserializa el array
+                        final NoticiaCompleta[] myTypes = objGson.fromJson(jsonArray,NoticiaCompleta[].class);
 
-                            activity.runOnUiThread(new Runnable() {
+                        activity.runOnUiThread(new Runnable() {
 
-                                @Override
-                                public void run() {
+                            @Override
+                            public void run() {
 
 
-                                    adapter.add(objLastNews);
+                                mAdapter = new NoticiaCompletaAdapter(myTypes,mContext);
+                                mRecyclerView.setAdapter(mAdapter);
 
 
-
-                                }
-                            });
-                        }
-
-                        adapter.notifyDataSetChanged();
+                            }
+                        });
 
                         estadoAdapter(false);
                     }
