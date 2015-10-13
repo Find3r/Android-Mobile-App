@@ -15,6 +15,7 @@ public class Usuario
     private String telefonocelular;
     private String telefonocasa;
     private String urlimagen;
+    private String cover_picture;
 
     @SerializedName("idpais")
     private String idPais;
@@ -29,6 +30,7 @@ public class Usuario
         this.telefonocelular = "Sin definir";
         this.telefonocasa = "Sin definir";
         this.urlimagen = "Sin definir";
+        this.cover_picture = "Sin definir";
         idPais = "0";
     }
 
@@ -113,5 +115,13 @@ public class Usuario
 
     public void setIdPais(String idPais) {
         this.idPais = idPais;
+    }
+
+    public String getCover_picture() {
+        return cover_picture;
+    }
+
+    public void setCover_picture(String cover_picture) {
+        this.cover_picture = cover_picture;
     }
 }

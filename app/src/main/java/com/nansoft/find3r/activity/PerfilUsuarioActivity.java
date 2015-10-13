@@ -40,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+
 public class PerfilUsuarioActivity extends AppCompatActivity
 {
     ListView listview;
@@ -185,6 +186,19 @@ public class PerfilUsuarioActivity extends AppCompatActivity
                             .placeholder(R.drawable.picture_default)
                             .error(R.drawable.error_image)
                             .into(imgvPerfilUsuario);
+
+                    ImageView imgvCover = (ImageView) findViewById(R.id.imgvCoverPicture);
+                    Glide.with(getApplicationContext())
+                            .load(objUsuario.getCover_picture().trim())
+                            .asBitmap()
+                            .fitCenter()
+                            .placeholder(R.drawable.picture_default)
+                            .error(R.drawable.error_image)
+                            .into(imgvCover);
+
+
+
+
 
                     adapter.clear();
 

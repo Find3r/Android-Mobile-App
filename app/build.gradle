@@ -8,8 +8,11 @@ android {
         applicationId "com.nansoft.find3r"
         minSdkVersion 15
         targetSdkVersion 22
-        versionCode 4
-        versionName "4.0"
+        versionCode 5
+        versionName "5.0"
+        renderscriptTargetApi 22
+        renderscriptSupportModeEnabled true
+
     }
     buildTypes {
         release {
@@ -34,6 +37,9 @@ dependencies {
     compile 'com.weiwangcn.betterspinner:library:1.1.0'
     compile 'com.microsoft.azure.android:azure-storage-android:0.7.0@aar'
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
+    compile 'jp.wasabeef:blurry:1.0.4'
+
+
 
 
 

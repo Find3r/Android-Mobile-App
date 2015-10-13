@@ -3,6 +3,7 @@ package com.nansoft.find3r.fragments;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -36,6 +37,8 @@ import com.nansoft.find3r.models.NoticiaCompleta;
 import java.util.ArrayList;
 import java.util.List;
 
+import jp.wasabeef.blurry.Blurry;
+
 /**
  * Created by User on 6/21/2015.
  */
@@ -49,6 +52,7 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
     ImageView imgvCelular;
     ImageView imgvTelefono;
     ImageView imgvEmail;
+    ImageView imgvCover;
 
     ImageView imgvSad;
     TextView txtvSad;
@@ -106,7 +110,7 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
 
         txtvNombreUsuario = (TextView) headerListView.findViewById(R.id.txtvNombreUsuario);
         imgvPerfilUsuario = (ImageView) headerListView.findViewById(R.id.imgvPerfilUsuario);
-
+        imgvCover = (ImageView) headerListView.findViewById(R.id.imgvCoverPicture);
 
 
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -163,6 +167,18 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
                     .placeholder(R.drawable.picture_default)
                     .error(R.drawable.error_image)
                     .into(imgvPerfilUsuario);
+
+            Glide.with(activity.getApplicationContext())
+                    .load(MobileServiceCustom.USUARIO_LOGUEADO.getCover_picture().trim())
+                    .asBitmap()
+                    .placeholder(R.drawable.picture_default)
+                    .error(R.drawable.error_image)
+                    .into(imgvCover);
+
+
+
+
+
 
             adapter.clear();
 
