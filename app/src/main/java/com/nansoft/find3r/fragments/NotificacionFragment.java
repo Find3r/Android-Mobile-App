@@ -35,7 +35,7 @@ public class NotificacionFragment  extends Fragment
     TextView txtvSad;
 
 
-    private RecyclerView mRecyclerView;
+    public static RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
