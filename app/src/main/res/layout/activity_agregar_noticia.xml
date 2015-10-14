@@ -12,6 +12,8 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+
+
         <TextView
             style="@style/stlLetras"
             android:text="@string/lblNombre"/>
@@ -148,6 +150,18 @@
 
 
         </LinearLayout>
+
+        <TextView
+            style="@style/stlLetras"
+            android:text="@string/lblTipoReporte"/>
+
+
+        <com.weiwangcn.betterspinner.library.BetterSpinner
+            android:id="@+id/spnrTipoReporte"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:hint="Auto, Mascota, entre otros..." />
 
 
 

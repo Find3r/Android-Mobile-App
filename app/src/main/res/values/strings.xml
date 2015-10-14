@@ -68,7 +68,7 @@
     <string name="lblinsshared">Has compartido una imagen, en la siguiente pantalla selecciona el tipo de reporte</string>
 
     <string name="errorCarga">Ha ocurrido un error con la conexión a internet , pulsa acá para volver a intentar</string>
-
+    <string name="lblTipoReporte">Tipo de reporte</string>
 
 
     <string-array name="provincias_array">
@@ -79,6 +79,13 @@
         <item>Guanacaste</item>
         <item>Puntarenas</item>
         <item>Limón</item>
+    </string-array>
+
+    <string-array name="tipo_reporte_array">
+        <item>Mascotas</item>
+        <item>Otros</item>
+        <item>Personas</item>
+        <item>Vehículos</item>
     </string-array>
 
 

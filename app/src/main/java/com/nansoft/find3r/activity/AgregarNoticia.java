@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
+import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -22,6 +23,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fourmob.datetimepicker.date.DatePickerDialog;
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageException;
 import com.microsoft.azure.storage.blob.BlobContainerPermissions;
@@ -29,12 +36,19 @@ import com.microsoft.azure.storage.blob.BlobContainerPublicAccessType;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.blob.CloudBlockBlob;
+import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
+import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.nansoft.find3r.R;
+import com.nansoft.find3r.adapters.NoticiaCompletaAdapter;
+import com.nansoft.find3r.adapters.NotificacionAdapter;
 import com.nansoft.find3r.helpers.CustomDate;
 import com.nansoft.find3r.helpers.CustomFilePicker;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
+import com.nansoft.find3r.models.Categoria;
 import com.nansoft.find3r.models.Noticia;
+import com.nansoft.find3r.models.NoticiaCompleta;
+import com.nansoft.find3r.models.Notificacion;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
 import com.weiwangcn.betterspinner.library.BetterSpinner;
@@ -45,8 +59,10 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 public class AgregarNoticia extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
@@ -61,6 +77,7 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
     MobileServiceCustom mobileServiceCustom;
 
     int PROVINCIA_SELECCIONADA = 0;
+    int TIPO_REPORTE_SELECCIONADO = 0;
 
     public static final String DATEPICKER_TAG = "datepicker";
     public static final String TIMEPICKER_TAG = "timepicker";
@@ -76,6 +93,9 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
     int HORA_SELECCIONADO;
 
     BetterSpinner spinner;
+    BetterSpinner spinnerTipoReporte;
+
+    ArrayAdapter<CharSequence> adapterTipoReporte;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -117,6 +137,12 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
 
 
         spinner = (BetterSpinner)findViewById(R.id.spnrProvincias);
+        spinnerTipoReporte = (BetterSpinner)findViewById(R.id.spnrTipoReporte);
+
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        adapterTipoReporte = ArrayAdapter.createFromResource(AgregarNoticia.this,
+                R.array.tipo_reporte_array, android.R.layout.simple_dropdown_item_1line);
+        spinnerTipoReporte.setAdapter(adapterTipoReporte);
 
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(AgregarNoticia.this,
@@ -125,6 +151,22 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
         //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
+
+        spinner.setSelection(0);
+        spinnerTipoReporte.setSelection(0);
+
+        spinnerTipoReporte.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                TIPO_REPORTE_SELECCIONADO = position;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -177,6 +219,68 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
         });
 
         mobileServiceCustom = new MobileServiceCustom(this);
+
+        //cargarTipoReportes();
+    }
+
+    private void cargarTipoReportes()
+    {
+        new AsyncTask<Void, Void, Boolean>() {
+
+
+            MobileServiceTable<Categoria> mCategoriaTable;
+
+            @Override
+            protected void onPreExecute()
+            {
+
+                MobileServiceCustom mobileServiceCustom = new MobileServiceCustom(AgregarNoticia.this);
+
+                mCategoriaTable = mobileServiceCustom.mClient.getTable("categoria", Categoria.class);
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                try {
+
+                    final MobileServiceList<Categoria> result = mCategoriaTable.orderBy("nombre", QueryOrder.Ascending).execute().get();
+
+                    adapterTipoReporte.clear();
+                    runOnUiThread(new Runnable() {
+
+                        @Override
+                        public void run() {
+
+                            for (Categoria categoria : result) {
+                                adapterTipoReporte.add(categoria.getNombre());
+                            }
+
+                        }
+                    });
+
+
+
+                    return true;
+                } catch (Exception exception) {
+
+                }
+                return false;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean success)
+            {
+
+                //estadoAdapter(success);
+
+            }
+
+            @Override
+            protected void onCancelled()
+            {
+                super.onCancelled();
+            }
+        }.execute();
 
     }
 
@@ -302,6 +406,7 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
 
 
                     int idProvincia = Integer.parseInt(String.valueOf(PROVINCIA_SELECCIONADA)) + 1;
+                    int idTipoReporte = Integer.parseInt(String.valueOf(TIPO_REPORTE_SELECCIONADO)) + 1;
 
 
                     String fecha = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date(ANIO_SELECCIONADO - 1900, MES_SELECCIONADO, DIA_SELECCIONADO, HORA_SELECCIONADO, MINUTO_SELECCIONADO));
@@ -311,6 +416,7 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
                     objNoticia.setNombre(nombreNoticia);
                     objNoticia.setDescripcion(descripcion);
                     objNoticia.setIdestado("0");
+                    objNoticia.setIdCategoria(String.valueOf(idTipoReporte));
 
                     objNoticia.setIdProvincia(String.valueOf(idProvincia));
 
