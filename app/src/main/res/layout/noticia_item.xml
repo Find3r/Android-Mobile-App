@@ -77,7 +77,7 @@
             <LinearLayout
                 android:id="@+id/layInfoFecha"
                 android:layout_width="fill_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 android:layout_below="@id/txtvNombreNoticia">
@@ -92,7 +92,7 @@
                 <TextView
                     android:id="@+id/txtvFechaNoticia"
                     android:layout_width="wrap_content"
-                    android:layout_height="30dp"
+                    android:layout_height="wrap_content"
                     android:textColor="@color/cafeoscuro"
                     android:textSize="18dp"
                     android:text="Hace 2 horas"

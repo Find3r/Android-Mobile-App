@@ -16,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -65,7 +66,7 @@ public class PerfilFragment extends Fragment
 
      RecyclerViewHeader headerRecyclerView;
 
-
+     RelativeLayout userContainer;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,6 +74,9 @@ public class PerfilFragment extends Fragment
         // Inflate the layout for this fragment
         //This layout contains your list view
         View view = inflater.inflate(R.layout.test, container, false);
+
+        userContainer = (RelativeLayout) view.findViewById(R.id.layUserContainer);
+        userContainer.setEnabled(false);
 
         View includedLayout = view.findViewById(R.id.sindatos);
         imgvSad = (ImageView) includedLayout.findViewById(R.id.imgvInfoProblema);
@@ -290,6 +294,7 @@ public class PerfilFragment extends Fragment
             txtvSad.setVisibility(View.GONE);
             txtvSad.setVisibility(View.GONE);
         }
+        userContainer.setEnabled(true);
     }
 
 

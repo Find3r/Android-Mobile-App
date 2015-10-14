@@ -16,8 +16,8 @@
     <string name="instrucciones">En caso de haber visto una persona o vehículo de los que se presentan por favor comunicarse al 911</string>
     <string name="descripcion">Descripción</string>
     <string name="fechaDesaparecido">Se perdió el </string>
-    <string name="lost">Desaparecido(a)</string>
-    <string name="found">Encontrado(a)</string>
+    <string name="lost">Desaparecid@</string>
+    <string name="found">Encontrad@</string>
     <string name="noconnection">Verifica la conexión a internet e intenta de nuevo</string>
     <string name="nodata">¡Vaya parece que aún no hay reportes de esta categoría!</string>
     <string name="report">Reportar</string>

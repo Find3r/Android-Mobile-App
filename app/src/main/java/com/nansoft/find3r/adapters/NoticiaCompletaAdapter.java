@@ -73,7 +73,7 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
         // establecemos los atributos
         viewHolder.txtvTitulo.setText(objNoticia.getNombre());
         viewHolder.txtvDescripcion.setText(objNoticia.getDescripcion());
-        viewHolder.txtvFecha.setText("Desaparecido(a) el " + objNoticia.getFechadesaparicion());
+        viewHolder.txtvFecha.setText("Desparecid@ el " + objNoticia.getFechadesaparicion());
 
 
         if(objNoticia.getIdestado().trim().equals("0"))
