@@ -29,11 +29,9 @@ import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nansoft.find3r.MyTime;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.adapters.ComentarioAdapter;
-import com.nansoft.find3r.adapters.NoticiaCompletaAdapter;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Comentario;
 import com.nansoft.find3r.models.ComentarioCompleto;
-import com.nansoft.find3r.models.NoticiaCompleta;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +53,7 @@ public class ComentarioActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.comentario_activity);
+        setContentView(R.layout.comments_layout);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

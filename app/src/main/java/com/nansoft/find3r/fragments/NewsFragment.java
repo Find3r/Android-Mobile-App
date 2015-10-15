@@ -13,9 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -28,11 +26,8 @@ import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.AgregarNoticia;
 import com.nansoft.find3r.adapters.NoticiaCompletaAdapter;
-import com.nansoft.find3r.adapters.NotificacionAdapter;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
-import com.nansoft.find3r.models.Noticia;
 import com.nansoft.find3r.models.NoticiaCompleta;
-import com.nansoft.find3r.models.Notificacion;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +35,7 @@ import java.util.List;
 /**
  * Created by User on 6/20/2015.
  */
-public class NoticiaFragment extends Fragment
+public class NewsFragment extends Fragment
 {
     public static NoticiaCompletaAdapter adapter;
     public static SwipeRefreshLayout mSwipeRefreshLayout;
@@ -60,7 +55,7 @@ public class NoticiaFragment extends Fragment
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         //This layout contains your list view
-        View view = inflater.inflate(R.layout.noticias_layout, container, false);
+        View view = inflater.inflate(R.layout.news_layout, container, false);
         View includedLayout = view.findViewById(R.id.sindatos);
         imgvSad = (ImageView) includedLayout.findViewById(R.id.imgvInfoProblema);
         txtvSad = (TextView) includedLayout.findViewById(R.id.txtvInfoProblema);

@@ -41,7 +41,7 @@ import java.util.List;
 /**
  * Created by User on 6/21/2015.
  */
-public class PerfilFragment extends Fragment
+public class UserProfileFragment extends Fragment
  {
 
 

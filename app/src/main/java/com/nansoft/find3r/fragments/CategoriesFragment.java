@@ -31,7 +31,7 @@ import java.net.MalformedURLException;
 /**
  * Created by User on 6/19/2015.
  */
-public class CategoriaFragment extends Fragment
+public class CategoriesFragment extends Fragment
 {
     public static CategoriaAdapter adapter;
     SwipeRefreshLayout mSwipeRefreshLayout;

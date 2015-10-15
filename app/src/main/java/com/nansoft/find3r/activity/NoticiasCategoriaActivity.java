@@ -1,10 +1,7 @@
 package com.nansoft.find3r.activity;
 
 import android.content.Intent;
-import android.os.AsyncTask;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,9 +10,7 @@ import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.common.util.concurrent.FutureCallback;
@@ -25,17 +20,11 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.melnykov.fab.FloatingActionButton;
-import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.MobileServiceList;
-import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
-import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.adapters.NoticiaCompletaAdapter;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
-import com.nansoft.find3r.models.Noticia;
 import com.nansoft.find3r.models.NoticiaCompleta;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +46,7 @@ public class NoticiasCategoriaActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.noticias_layout);
+        setContentView(R.layout.news_layout);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

@@ -16,10 +16,9 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nansoft.find3r.R;
-import com.nansoft.find3r.fragments.CategoriaFragment;
-import com.nansoft.find3r.fragments.NoticiaFragment;
-import com.nansoft.find3r.fragments.NotificacionFragment;
-import com.nansoft.find3r.fragments.PerfilFragment;
+import com.nansoft.find3r.fragments.CategoriesFragment;
+import com.nansoft.find3r.fragments.NewsFragment;
+import com.nansoft.find3r.fragments.UserProfileFragment;
 import com.nansoft.find3r.helpers.CustomNotificationHandler;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Noticia;
@@ -77,7 +76,7 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
         // Replace the contents of the container with the new fragment
-        ft.replace(R.id.your_placeholder, new NoticiaFragment());
+        ft.replace(R.id.your_placeholder, new NewsFragment());
         // or ft.add(R.id.your_placeholder, new FooFragment());
 
         // Add this transaction to the back stack
@@ -213,146 +212,45 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
+        Intent intent = new Intent(this,MainActivity.class);
         switch (item.getItemId()) {
 
             case R.id.action_news:
-                if(FRAGMENT_ACTIVO != 0)
-                {
 
-                    // Begin the transaction
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                NewsFragment.mRecyclerView.scrollToPosition(0);
 
-                    // animación
-                    ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-
-
-                    // Replace the contents of the container with the new fragment
-                    ft.replace(R.id.your_placeholder, new NoticiaFragment());
-                    // or ft.add(R.id.your_placeholder, new FooFragment());
-
-                    // Add this transaction to the back stack
-                    // Append this transaction to the backstack
-
-
-
-                    // Complete the changes added above
-                    ft.commit();
-
-                }
-                else
-                {
-                    NoticiaFragment.mRecyclerView.scrollToPosition(0);
-                }
-                FRAGMENT_ACTIVO = 0;
                 return true;
-
-            case R.id.action_notifications:
-                if(FRAGMENT_ACTIVO != 1)
-                {
-
-                    // Begin the transaction
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-                    // animación
-                    ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-
-
-                    // Replace the contents of the container with the new fragment
-                    ft.replace(R.id.your_placeholder, new NotificacionFragment());
-                    // or ft.add(R.id.your_placeholder, new FooFragment());
-
-                    // Add this transaction to the back stack
-                    // Append this transaction to the backstack
-                    ft.addToBackStack("optional tag");
-
-
-                    // Complete the changes added above
-                    ft.commit();
-
-
-
-
-                }
-                else
-                {
-                    NotificacionFragment.mRecyclerView.scrollToPosition(0);
-                }
-                FRAGMENT_ACTIVO = 1;
-                return true;
-
-            case R.id.action_search:
-                if(FRAGMENT_ACTIVO != 2)
-                {
-
-                    // Begin the transaction
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-                    // animación
-                    ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-
-
-                    // Replace the contents of the container with the new fragment
-                    ft.replace(R.id.your_placeholder, new CategoriaFragment());
-                    // or ft.add(R.id.your_placeholder, new FooFragment());
-
-                    // Add this transaction to the back stack
-                    // Append this transaction to the backstack
-                    ft.addToBackStack("optional tag");
-
-
-                    // Complete the changes added above
-                    ft.commit();
-
-                }
-                else
-                {
-
-                }
-                FRAGMENT_ACTIVO = 2;
-                return true;
-
-            case R.id.action_user:
-                if(FRAGMENT_ACTIVO != 3)
-                {
-
-                    // Begin the transaction
-                    FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
-
-                    // animación
-                    ft.setCustomAnimations(android.R.anim.fade_in, android.R.anim.fade_out);
-
-
-                    // Replace the contents of the container with the new fragment
-                    ft.replace(R.id.your_placeholder, new PerfilFragment());
-                    // or ft.add(R.id.your_placeholder, new FooFragment());
-
-                    // Add this transaction to the back stack
-                    // Append this transaction to the backstack
-                    ft.addToBackStack("optional tag");
-
-
-                    // Complete the changes added above
-                    ft.commit();
-
-                }
-                else
-                {
-                    //PerfilFragment.mRecyclerView.scrollToPosition(-1);
-                }
-                FRAGMENT_ACTIVO = 3;
-                return true;
-
-
 
             case android.R.id.home:
                 super.onBackPressed();
                 return true;
 
+            case R.id.action_notifications:
+                intent = new Intent(this,NotificationsActivity.class);
+                startMyActivity(intent);
+                return true;
+
+            case R.id.action_search:
+                intent = new Intent(this,CategoriesActivity.class);
+                startMyActivity(intent);
+                return true;
+
+            case R.id.action_user:
+                intent = new Intent(this,UserProfileActivity.class);
+                startMyActivity(intent);
+                return true;
 
         }
 
+
         return super.onOptionsItemSelected(item);
+    }
+
+    private void startMyActivity(Intent pIntent)
+    {
+        startActivity(pIntent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+
     }
 
 

@@ -21,9 +21,9 @@ import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.animacion.ZoomOutPageTransformer;
 import com.nansoft.find3r.adapters.MyFragmentPagerAdapter;
-import com.nansoft.find3r.fragments.NoticiaFragment;
-import com.nansoft.find3r.fragments.NotificacionFragment;
-import com.nansoft.find3r.fragments.PerfilFragment;
+import com.nansoft.find3r.fragments.NewsFragment;
+import com.nansoft.find3r.fragments.NotificationsFragment;
+import com.nansoft.find3r.fragments.UserProfileFragment;
 import com.nansoft.find3r.helpers.CustomNotificationHandler;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Noticia;
@@ -75,11 +75,11 @@ public class MainActivityAux extends AppCompatActivity implements ViewPager.OnPa
         adapter = new MyFragmentPagerAdapter(
                 getSupportFragmentManager(),this);
 
-        adapter.addFragment(new NoticiaFragment());
+        adapter.addFragment(new NewsFragment());
         //adapter.addFragment(new NoticiaSeguimientoFragment());
         //adapter.addFragment(new CategoriaFragment());
-        adapter.addFragment(new NotificacionFragment());
-        adapter.addFragment(new PerfilFragment());
+        adapter.addFragment(new NotificationsFragment());
+        adapter.addFragment(new UserProfileFragment());
 
         this.pager.setAdapter(adapter);
 
@@ -298,7 +298,7 @@ public class MainActivityAux extends AppCompatActivity implements ViewPager.OnPa
         switch (position)
         {
             case 0:
-                NoticiaFragment.adapter.notifyDataSetChanged();
+                NewsFragment.adapter.notifyDataSetChanged();
                 break;
 
             case 1:

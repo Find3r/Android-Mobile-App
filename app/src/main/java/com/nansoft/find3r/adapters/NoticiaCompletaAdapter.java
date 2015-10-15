@@ -132,7 +132,7 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
     {
 
         View itemView = LayoutInflater.from(viewGroup.getContext()).
-                inflate(R.layout.noticia_item, viewGroup, false);
+                inflate(R.layout.new_item, viewGroup, false);
 
         return new NoticiaCompletaViewHolder(itemView);
 

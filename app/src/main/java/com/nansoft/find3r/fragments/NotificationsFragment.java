@@ -25,7 +25,7 @@ import com.nansoft.find3r.models.Notificacion;
 /**
  * Created by User on 7/5/2015.
  */
-public class NotificacionFragment  extends Fragment
+public class NotificationsFragment extends Fragment
 {
 
     public static SwipeRefreshLayout mSwipeRefreshLayout;
@@ -47,7 +47,7 @@ public class NotificacionFragment  extends Fragment
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         //This layout contains your list view
-        View view = inflater.inflate(R.layout.notificacion_layout, container, false);
+        View view = inflater.inflate(R.layout.notifications_layout, container, false);
 
         // vista de error al conectar
         View includedLayout = view.findViewById(R.id.sindatos);

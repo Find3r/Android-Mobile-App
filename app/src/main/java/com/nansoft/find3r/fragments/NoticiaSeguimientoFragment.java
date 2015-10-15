@@ -53,7 +53,7 @@ public class NoticiaSeguimientoFragment extends Fragment
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         //This layout contains your list view
-        View view = inflater.inflate(R.layout.noticias_layout, container, false);
+        View view = inflater.inflate(R.layout.news_layout, container, false);
         View includedLayout = view.findViewById(R.id.sindatos);
         imgvSad = (ImageView) includedLayout.findViewById(R.id.imgvInfoProblema);
         txtvSad = (TextView) includedLayout.findViewById(R.id.txtvInfoProblema);
@@ -62,7 +62,7 @@ public class NoticiaSeguimientoFragment extends Fragment
 
         final ListView listview = (ListView) view.findViewById(R.id.lstvNoticias);
 
-        adapter = new NoticiaCompletaAdapter(view.getContext(), R.layout.noticia_item);
+        adapter = new NoticiaCompletaAdapter(view.getContext(), R.layout.new_item);
         mContext = view.getContext();
 
         mobileServiceCustom = new MobileServiceCustom(getActivity().getApplicationContext());
