@@ -16,9 +16,7 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nansoft.find3r.R;
-import com.nansoft.find3r.fragments.CategoriesFragment;
 import com.nansoft.find3r.fragments.NewsFragment;
-import com.nansoft.find3r.fragments.UserProfileFragment;
 import com.nansoft.find3r.helpers.CustomNotificationHandler;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Noticia;
@@ -204,7 +202,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate menu from menu resource (res/menu/main)
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.news_menu, menu);
 
         return super.onCreateOptionsMenu(menu);
        

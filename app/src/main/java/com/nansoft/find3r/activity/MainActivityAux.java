@@ -234,7 +234,7 @@ public class MainActivityAux extends AppCompatActivity implements ViewPager.OnPa
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate menu from menu resource (res/menu/main)
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.news_menu, menu);
 
 
 

@@ -1,5 +1,6 @@
 package com.nansoft.find3r.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -40,6 +41,13 @@ public class CustomAppCompatActivity extends AppCompatActivity
         ft.commit();
     }
 
+    private void startMyActivity(Intent pIntent)
+    {
+        startActivity(pIntent);
+        overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -53,6 +61,18 @@ public class CustomAppCompatActivity extends AppCompatActivity
             case android.R.id.home:
                 super.onBackPressed();
                 overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
+                break;
+
+            case R.id.action_notifications:
+                startMyActivity(new Intent(this,NotificationsActivity.class));
+                break;
+
+            case R.id.action_search:
+                startMyActivity(new Intent(this, CategoriesActivity.class));
+                break;
+
+            case R.id.action_user:
+                startMyActivity(new Intent(this, UserProfileActivity.class));
                 break;
         }
 

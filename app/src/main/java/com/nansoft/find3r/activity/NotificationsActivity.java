@@ -1,6 +1,7 @@
 package com.nansoft.find3r.activity;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.nansoft.find3r.R;
@@ -14,6 +15,16 @@ public class NotificationsActivity extends CustomAppCompatActivity
     {
         super.onCreate(savedInstanceState);
         loadFragment(new NotificationsFragment());
+
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate menu from menu resource (res/menu/main)
+        getMenuInflater().inflate(R.menu.notifications_menu, menu);
+
+        return super.onCreateOptionsMenu(menu);
 
     }
 

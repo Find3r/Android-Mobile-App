@@ -6,6 +6,13 @@
     <color name="gray">#7d7d7d</color>
     <color name="blue">#055f87</color>
     <color name="divider">#f8f8f8</color>
+    
+    <color name="light_primary_color">#DCEDC8</color>
+
+    <color name="primary_text">#212121</color>
+    <color name="secondary_text">#FF5722</color>
+    <color name="tertiary_text">#727272</color>
+    <color name="detail_text">#212121</color>
 
     <color name="white">#FFF</color>
 

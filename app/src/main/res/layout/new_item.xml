@@ -40,13 +40,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="Carlos Castro Brenes"
-                    android:textColor="@color/cafeoscuro"
+                    android:textColor="@color/primary_text"
                     android:gravity="center_vertical|center_horizontal"
                     android:layout_marginLeft="10dp" />
-
-
-
-
 
             </LinearLayout>
 
@@ -64,14 +60,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/imgvNoticia"
-                android:textColor="@color/anaranjado"
+                android:textColor="@color/secondary_text"
                 android:layout_marginLeft="20dp"
                 android:textSize="25dp"
                 android:text="@string/name"
                 android:textStyle="bold" />
-
-
-
 
 
             <LinearLayout
@@ -93,7 +86,7 @@
                     android:id="@+id/txtvFechaNoticia"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/cafeoscuro"
+                    android:textColor="@color/tertiary_text"
                     android:textSize="18dp"
                     android:text="Hace 2 horas"
                     android:layout_marginLeft="5dp"
@@ -109,13 +102,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/layInfoFecha"
-                android:textColor="@color/anaranjado"
+                android:textColor="@color/secondary_text"
                 android:layout_marginLeft="20dp"
                 android:textSize="18dp"
                 android:text="Descripción"
                 android:textStyle="bold" />
-
-
 
 
             <TextView
@@ -124,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_below="@id/txtvInsDescripcion"
-                android:textColor="@color/cafeoscuro"
+                android:textColor="@color/tertiary_text"
                 android:gravity="fill_horizontal"/>
 
             <LinearLayout
