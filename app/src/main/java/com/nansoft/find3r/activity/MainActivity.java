@@ -212,13 +212,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        Intent intent = new Intent(this,MainActivity.class);
+
         switch (item.getItemId()) {
 
             case R.id.action_news:
-
                 NewsFragment.mRecyclerView.scrollToPosition(0);
-
                 return true;
 
             case android.R.id.home:
@@ -226,18 +224,15 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.action_notifications:
-                intent = new Intent(this,NotificationsActivity.class);
-                startMyActivity(intent);
+                startMyActivity(new Intent(this,NotificationsActivity.class));
                 return true;
 
             case R.id.action_search:
-                intent = new Intent(this,CategoriesActivity.class);
-                startMyActivity(intent);
+                startMyActivity(new Intent(this,CategoriesActivity.class));
                 return true;
 
             case R.id.action_user:
-                intent = new Intent(this,UserProfileActivity.class);
-                startMyActivity(intent);
+                startMyActivity(new Intent(this,UserProfileActivity.class));
                 return true;
 
         }
