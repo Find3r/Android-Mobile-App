@@ -248,11 +248,6 @@ public class MainActivityAux extends AppCompatActivity implements ViewPager.OnPa
 
         switch (item.getItemId()) {
 
-            case R.id.action_news:
-                //NoticiaFragment.listview.setSelection(0);
-                //QuickContactFragment dialog = new QuickContactFragment();
-                //dialog.show(getSupportFragmentManager(), "QuickContactFragment");
-                return true;
 
             case R.id.action_notifications:
 

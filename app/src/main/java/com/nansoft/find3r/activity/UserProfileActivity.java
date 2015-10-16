@@ -16,12 +16,4 @@ public class UserProfileActivity extends CustomAppCompatActivity {
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate menu from menu resource (res/menu/main)
-        getMenuInflater().inflate(R.menu.user_profile_menu, menu);
-
-        return super.onCreateOptionsMenu(menu);
-
-    }
 }

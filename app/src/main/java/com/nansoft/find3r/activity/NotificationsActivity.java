@@ -19,13 +19,4 @@ public class NotificationsActivity extends CustomAppCompatActivity
     }
 
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate menu from menu resource (res/menu/main)
-        getMenuInflater().inflate(R.menu.notifications_menu, menu);
-
-        return super.onCreateOptionsMenu(menu);
-
-    }
-
 }

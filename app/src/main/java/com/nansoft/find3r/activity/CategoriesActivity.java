@@ -15,13 +15,4 @@ public class CategoriesActivity extends CustomAppCompatActivity {
         loadFragment(new CategoriesFragment());
     }
 
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate menu from menu resource (res/menu/main)
-        getMenuInflater().inflate(R.menu.categories_menu, menu);
-
-        return super.onCreateOptionsMenu(menu);
-
-    }
 }
