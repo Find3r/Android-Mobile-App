@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity
         String connectionString = "Endpoint=sb://wantedapphub-ns.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=AogK50usAqncP1e+G3M7YU94gWKS7IO9emd8E2Nkkic=";
         mHub = new NotificationHub("wantedapphub", connectionString, this);
         NotificationsManager.handleNotifications(this, SENDER_ID, CustomNotificationHandler.class);
-        registerWithGcm();
+
 
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -114,10 +114,20 @@ public class MainActivity extends AppCompatActivity
                 try {
                     mRegistrationId = mGcm.register(SENDER_ID);
 
-                    mHub.registerTemplate( mRegistrationId,"messageTemplate","{\"data\":{\"msg\":\"$(message)\"}, \"collapse_key\":\"$(collapse_key)\"}",
-                            "MyTag");
+                    /// unregister
+                    //mHub.register(mRegistrationId,MobileServiceCustom.USUARIO_LOGUEADO.getId(),"All");
 
 
+                    mHub.registerTemplate(mRegistrationId, "notificationTemplate", "{\"data\":{\"id\":\"$(id)\", \"message\":\"$(message)\"}}",
+                            MobileServiceCustom.USUARIO_LOGUEADO.getId(),"All");
+
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "userID " + MobileServiceCustom.USUARIO_LOGUEADO.getId(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
                 } catch (final Exception e) {
                     runOnUiThread(new Runnable() {
                         @Override
@@ -219,7 +229,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     protected void onPostExecute(Boolean success) {
 
-
+                        registerWithGcm();
                     }
 
                     @Override
