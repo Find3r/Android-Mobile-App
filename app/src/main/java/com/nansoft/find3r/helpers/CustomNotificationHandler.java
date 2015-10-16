@@ -22,29 +22,10 @@ public class CustomNotificationHandler extends NotificationsHandler
     Context ctx;
 
     @Override
-    public void onRegistered(Context context,  final String gcmRegistrationId) {
-        super.onRegistered(context, gcmRegistrationId);
-
-        new AsyncTask<Void, Void, Void>() {
-
-            protected Void doInBackground(Void... params) {
-                try {
-                    MainActivity.customClient.mClient.getPush().register(gcmRegistrationId, null);
-                    return null;
-                }
-                catch(Exception e) {
-                    // handle error
-                }
-                return null;
-            }
-        }.execute();
-    }
-
-    @Override
     public void onReceive(Context context, Bundle bundle) {
         ctx = context;
         String nhMessage = bundle.getString("message");
-        NOTIFICATION_ID = bundle.getInt("id");
+
         sendNotification(nhMessage);
     }
 

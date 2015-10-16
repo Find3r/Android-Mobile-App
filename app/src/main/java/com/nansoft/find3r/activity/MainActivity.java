@@ -6,15 +6,20 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.microsoft.windowsazure.messaging.NotificationHub;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.fragments.NewsFragment;
@@ -36,7 +41,11 @@ public class MainActivity extends AppCompatActivity
     // número de proyecto
     public static final String SENDER_ID = "129689044298";
 
-
+    private Button btnRegisterWithGcm, btnRegisterWithNoTags, btnRegisterWithTags, btnRegisterWithTemplates;
+    private TextView lblRegistration, lblStatus;
+    private GoogleCloudMessaging mGcm;
+    private String mRegistrationId;
+    private NotificationHub mHub;
 
 
     @Override
@@ -63,8 +72,6 @@ public class MainActivity extends AppCompatActivity
             // cargamos el token
             customClient.loadUserTokenCache(customClient.mClient);
 
-           // NotificationsManager.handleNotifications(this, SENDER_ID, CustomNotificationHandler.class);
-
         }
         catch (Exception e)
         {
@@ -73,7 +80,11 @@ public class MainActivity extends AppCompatActivity
         }
 
 
-
+        mGcm = GoogleCloudMessaging.getInstance(this);
+        String connectionString = "Endpoint=sb://wantedapphub-ns.servicebus.windows.net/;SharedAccessKeyName=DefaultListenSharedAccessSignature;SharedAccessKey=AogK50usAqncP1e+G3M7YU94gWKS7IO9emd8E2Nkkic=";
+        mHub = new NotificationHub("wantedapphub", connectionString, this);
+        NotificationsManager.handleNotifications(this, SENDER_ID, CustomNotificationHandler.class);
+        registerWithGcm();
 
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
@@ -95,6 +106,39 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    @SuppressWarnings("unchecked")
+    private void registerWithGcm() {
+        new AsyncTask() {
+            @Override
+            protected Object doInBackground(Object... params) {
+                try {
+                    mRegistrationId = mGcm.register(SENDER_ID);
+
+                    mHub.registerTemplate( mRegistrationId,"messageTemplate","{\"data\":{\"msg\":\"$(message)\"}, \"collapse_key\":\"$(collapse_key)\"}",
+                            "MyTag");
+
+
+                } catch (final Exception e) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "Error al registrarse " + e.toString(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+                return null;
+            }
+
+            protected void onPostExecute(Object result) {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this, "Registered with id " + mRegistrationId, Toast.LENGTH_SHORT).show();
+                    }
+                });
+            };
+        }.execute(null, null, null);
+    }
 
     public void cargarUsuario()
     {
