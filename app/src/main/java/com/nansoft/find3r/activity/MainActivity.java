@@ -30,20 +30,14 @@ import com.microsoft.windowsazure.notifications.NotificationsManager;
 public class MainActivity extends AppCompatActivity
 {
 
-    /**
-     * The pager widget, which handles animation and allows swiping horizontally
-     * to access previous and next pages.
-     */
-
-
-    /**
-     * The pager adapter, which provides the pages to the view pager widget.
-     */
 
     public static MobileServiceCustom customClient;
+
+    // número de proyecto
     public static final String SENDER_ID = "129689044298";
 
-    int FRAGMENT_ACTIVO = 0;
+
+
 
     @Override
     protected void onCreate(Bundle arg0) {
@@ -63,15 +57,13 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
-
         customClient = new MobileServiceCustom(this);
 
         try{
             // cargamos el token
             customClient.loadUserTokenCache(customClient.mClient);
 
-            NotificationsManager.handleNotifications(this, SENDER_ID, CustomNotificationHandler.class);
+           // NotificationsManager.handleNotifications(this, SENDER_ID, CustomNotificationHandler.class);
 
         }
         catch (Exception e)
@@ -79,6 +71,10 @@ public class MainActivity extends AppCompatActivity
             Toast.makeText(getApplicationContext(),"er " + e.toString(),Toast.LENGTH_SHORT).show();
 
         }
+
+
+
+
 
         FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
 
