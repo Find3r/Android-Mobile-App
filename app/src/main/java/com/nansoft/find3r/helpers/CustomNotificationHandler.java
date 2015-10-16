@@ -35,7 +35,7 @@ public class CustomNotificationHandler extends NotificationsHandler
 
     private void sendNotification(String idNoticia,String msg) {
 
-        Toast.makeText(ctx,"id " + idNoticia,Toast.LENGTH_SHORT).show();
+
         mNotificationManager = (NotificationManager)
                 ctx.getSystemService(Context.NOTIFICATION_SERVICE);
 

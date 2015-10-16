@@ -122,12 +122,7 @@ public class MainActivity extends AppCompatActivity
                             MobileServiceCustom.USUARIO_LOGUEADO.getId(),"All");
 
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Toast.makeText(MainActivity.this, "userID " + MobileServiceCustom.USUARIO_LOGUEADO.getId(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
+
                 } catch (final Exception e) {
                     runOnUiThread(new Runnable() {
                         @Override

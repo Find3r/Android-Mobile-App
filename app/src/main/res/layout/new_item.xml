@@ -163,6 +163,7 @@
                     android:layout_weight="1"
                     android:gravity="center">
 
+
                     <ImageView
                         android:id="@+id/imgvComentario"
                         android:layout_width="30dp"
@@ -172,6 +173,7 @@
                         android:layout_marginLeft="15dp" />
 
                     <TextView
+                        android:id="@+id/txtvCantidadComentarios"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAlignment="center"

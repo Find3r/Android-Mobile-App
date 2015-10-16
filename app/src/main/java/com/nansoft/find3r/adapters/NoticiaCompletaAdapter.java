@@ -75,6 +75,7 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
         viewHolder.txtvDescripcion.setText(objNoticia.getDescripcion());
         viewHolder.txtvFecha.setText("Desparecid@ el " + objNoticia.getFechadesaparicion());
 
+        viewHolder.txtvCantidadComentarios.setText(String.valueOf(objNoticia.getCantidadComentarios()));
 
         if(objNoticia.getIdestado().trim().equals("0"))
         {
@@ -146,6 +147,7 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
         public TextView txtvDescripcion;
         public TextView txtvEstado;
         public TextView txtvFecha;
+        public TextView txtvCantidadComentarios;
         public TextView txtvNombreUsuarioNoticia;
         public CircularImageView imgvFotoPerfilUsuario;
         public PhotoView imgvImagen;
@@ -173,6 +175,8 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
             imgvEstado = (ImageView) view.findViewById(R.id.imgvEstado);
 
             imgvComentario = (ImageView) view.findViewById(R.id.imgvComentario);
+
+            txtvCantidadComentarios = (TextView) view.findViewById(R.id.txtvCantidadComentarios);
 
             //viewHolder.imgvSeguimiento = (ImageView) row.findViewById(R.id.imgvSeguimiento);
 

@@ -13,11 +13,15 @@ public class NoticiaCompleta extends Noticia
     @SerializedName("Column9")
     private String urlImagenUsuario;
 
+    @SerializedName("Column10")
+    private int cantidadComentarios;
+
     @SerializedName("estado_seguimiento")
     private boolean estadoSeguimiento;
 
     public NoticiaCompleta() {
         estadoSeguimiento = false;
+        cantidadComentarios = 0;
     }
 
     public String getNombreUsuario() {
@@ -43,5 +47,13 @@ public class NoticiaCompleta extends Noticia
 
     public void setEstadoSeguimiento(boolean estadoSeguimiento) {
         this.estadoSeguimiento = estadoSeguimiento;
+    }
+
+    public int getCantidadComentarios() {
+        return cantidadComentarios;
+    }
+
+    public void setCantidadComentarios(int cantidadComentarios) {
+        this.cantidadComentarios = cantidadComentarios;
     }
 }
