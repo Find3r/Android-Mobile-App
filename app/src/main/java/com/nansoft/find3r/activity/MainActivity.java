@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.google.common.util.concurrent.FutureCallback;
@@ -50,11 +51,19 @@ public class MainActivity extends AppCompatActivity
         this.setContentView(R.layout.activity_main);
 
         ActionBar ab =getSupportActionBar();
-        ab.setIcon(R.mipmap.ic_launcher);
+        ab.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
 
-        ab.setDisplayOptions(ActionBar.DISPLAY_SHOW_TITLE |
-                ActionBar.DISPLAY_SHOW_CUSTOM |
-                ActionBar.DISPLAY_SHOW_HOME);
+        // se muestra el layout personalizado
+        ab.setCustomView(R.layout.custom_actionbar);
+
+        findViewById(R.id.imgvNewsHome).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NewsFragment.mRecyclerView.scrollToPosition(0);
+            }
+        });
+
+
 
         customClient = new MobileServiceCustom(this);
 
@@ -213,12 +222,10 @@ public class MainActivity extends AppCompatActivity
 
         switch (item.getItemId()) {
 
-            case R.id.action_news:
-                NewsFragment.mRecyclerView.scrollToPosition(0);
-                return true;
+
 
             case android.R.id.home:
-                super.onBackPressed();
+                NewsFragment.mRecyclerView.scrollToPosition(0);
                 return true;
 
             case R.id.action_notifications:
