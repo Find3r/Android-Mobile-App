@@ -41,8 +41,6 @@ public class MainActivity extends AppCompatActivity
     // número de proyecto
     public static final String SENDER_ID = "129689044298";
 
-    private Button btnRegisterWithGcm, btnRegisterWithNoTags, btnRegisterWithTags, btnRegisterWithTemplates;
-    private TextView lblRegistration, lblStatus;
     private GoogleCloudMessaging mGcm;
     private String mRegistrationId;
     private NotificationHub mHub;
@@ -135,12 +133,7 @@ public class MainActivity extends AppCompatActivity
             }
 
             protected void onPostExecute(Object result) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(MainActivity.this, "Registered with id " + mRegistrationId, Toast.LENGTH_SHORT).show();
-                    }
-                });
+
             };
         }.execute(null, null, null);
     }

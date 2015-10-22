@@ -26,6 +26,11 @@
         <item name="android:textColor">@color/black</item>
     </style>
 
+    <style name="stlLetrasIndicacion" parent="stlLetras">
+        <item name="android:textColor">@color/anaranjado</item>
+        <item name="android:textSize">22dp</item>
+    </style>
+
     <style name="ProgressBarStyle" parent="@android:style/Widget.ProgressBar.Horizontal"/>
 
     <style name="Widget"/>
@@ -101,6 +106,14 @@
         <item name="android:typeface">monospace</item>
     </style>
 
+    <style name="stlEditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:typeface">monospace</item>
+        <item name="android:ems">10</item>
+        <item name="android:textColor">@color/cafeoscuro</item>
+        <item name="android:inputType">textMultiLine</item>
+    </style>
 
 
 </resources>
