@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.ComentarioActivity;
 import com.nansoft.find3r.models.Notificacion;
+import com.nansoft.find3r.models.NotificacionUsuario;
 
 import java.util.List;
 
@@ -25,9 +26,9 @@ import java.util.List;
 public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapter.NotificacionViewHolder>
 {
 
-    private List<Notificacion> lstNotifications;
+    private List<NotificacionUsuario> lstNotifications;
 
-    public NotificacionAdapter(List<Notificacion> plstNotifications)
+    public NotificacionAdapter(List<NotificacionUsuario> plstNotifications)
     {
         this.lstNotifications = plstNotifications;
     }
@@ -42,7 +43,7 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
     public void onBindViewHolder(NotificacionViewHolder contactViewHolder,final int position)
     {
         // se obtiene el objeto actual
-        Notificacion objNotificacion = lstNotifications.get(position);
+        NotificacionUsuario objNotificacion = lstNotifications.get(position);
 
         // establecemos los atributos
         contactViewHolder.txtvTitulo.setText(objNotificacion.getDescripcion());

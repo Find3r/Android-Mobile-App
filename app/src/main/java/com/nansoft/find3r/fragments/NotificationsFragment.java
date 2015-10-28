@@ -21,6 +21,7 @@ import com.nansoft.find3r.R;
 import com.nansoft.find3r.adapters.NotificacionAdapter;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.Notificacion;
+import com.nansoft.find3r.models.NotificacionUsuario;
 
 /**
  * Created by User on 7/5/2015.
@@ -100,7 +101,7 @@ public class NotificationsFragment extends Fragment
         new AsyncTask<Void, Void, Boolean>() {
 
 
-            MobileServiceTable<Notificacion> mNotificacionTable;
+            MobileServiceTable<NotificacionUsuario> mNotificacionTable;
 
             @Override
             protected void onPreExecute()
@@ -108,14 +109,14 @@ public class NotificationsFragment extends Fragment
 
                 MobileServiceCustom mobileServiceCustom = new MobileServiceCustom(activity.getApplicationContext());
 
-                mNotificacionTable = mobileServiceCustom.mClient.getTable("notificacion", Notificacion.class);
+                mNotificacionTable = mobileServiceCustom.mClient.getTable("notificacionusuario", NotificacionUsuario.class);
             }
 
             @Override
             protected Boolean doInBackground(Void... params) {
                 try {
 
-                    final MobileServiceList<Notificacion> result = mNotificacionTable.orderBy("__createdAt", QueryOrder.Descending).execute().get();
+                    final MobileServiceList<NotificacionUsuario> result = mNotificacionTable.where().field("idusuario").eq(MobileServiceCustom.USUARIO_LOGUEADO.getId()).orderBy("__createdAt", QueryOrder.Descending).execute().get();
 
 
                     activity.runOnUiThread(new Runnable() {
