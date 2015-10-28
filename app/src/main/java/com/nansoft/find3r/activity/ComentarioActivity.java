@@ -3,6 +3,7 @@ package com.nansoft.find3r.activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -108,7 +109,7 @@ public class ComentarioActivity extends AppCompatActivity {
                         String srt = input.getEditableText().toString();
 
                         if (srt.isEmpty()) {
-                            Toast.makeText(getApplicationContext(), "Debe ingresar datos en el comentario", Toast.LENGTH_SHORT).show();
+                            Snackbar.make(mRecyclerView, "Debe ingresar datos en el comentario", Snackbar.LENGTH_SHORT).show(); // Don’t forget to show!
                         } else {
 
                             agregarComentario(new Comentario("", srt, MobileServiceCustom.USUARIO_LOGUEADO.getId(), MyTime.getFecha(), MyTime.getHora(), ID_NOTICIA));
@@ -369,24 +370,31 @@ public class ComentarioActivity extends AppCompatActivity {
             protected void onPostExecute(Boolean success) {
 
                 progressDialog.hide();
+                String mensajeSnack = "";
                 if(success)
                 {
-                    Toast.makeText(getApplicationContext(),"Comentario agregado",Toast.LENGTH_SHORT).show();
+                    mensajeSnack = "Comentario agregado";
+
+                    mSwipeRefreshLayout.post(new Runnable() {
+                        @Override
+                        public void run() {
+                            mSwipeRefreshLayout.setRefreshing(true);
+                        }
+                    });
+
+                    cargarComentarios();
+
 
                 }
                 else
                 {
-                    Toast.makeText(getApplicationContext(),"Ha ocurrido un error al intentar agregar el comentario, intenta de nuevo",Toast.LENGTH_SHORT).show();
+                    mensajeSnack = "Ha ocurrido un error al intentar agregar el comentario, intenta de nuevo";
                 }
-                mSwipeRefreshLayout.setRefreshing(false);
-                mSwipeRefreshLayout.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        mSwipeRefreshLayout.setRefreshing(true);
-                    }
-                });
 
-                cargarComentarios();
+                Snackbar.make(mRecyclerView, mensajeSnack, Snackbar.LENGTH_SHORT).show(); // Don’t forget to show!
+
+                mSwipeRefreshLayout.setRefreshing(false);
+
             }
         }.execute();
 
