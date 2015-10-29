@@ -39,6 +39,7 @@ dependencies {
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
     compile 'jp.wasabeef:blurry:1.0.4'
     compile 'com.bartoszlipinski.recyclerviewheader:library:1.2.0'
+
     compile files('libs/notification-hubs-0.3.jar')
     compile files('libs/notifications-1.0.1.jar')
 

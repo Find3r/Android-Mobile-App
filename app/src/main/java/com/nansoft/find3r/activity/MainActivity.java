@@ -32,6 +32,10 @@ import com.nansoft.find3r.models.UsuarioFacebook;
 import java.util.ArrayList;
 import java.util.List;
 import com.microsoft.windowsazure.notifications.NotificationsManager;
+
+
+
+
 public class MainActivity extends AppCompatActivity
 {
 
@@ -171,8 +175,12 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     protected Boolean doInBackground(Void... params) {
                         try {
+
+
+
                             // buscamos por el usuario
                             MobileServiceCustom.USUARIO_LOGUEADO = mUserTable.lookUp(objUsuarioFacebook.id).get();
+
 
 
                             return true;
@@ -197,6 +205,17 @@ public class MainActivity extends AppCompatActivity
                                 objUsuarioFacebook.data.PictureURL.PictureURL = "http://graph.facebook.com/" + objUsuarioFacebook.id + "/picture?type=large";
                                 MobileServiceCustom.USUARIO_LOGUEADO.setUrlimagen(objUsuarioFacebook.data.PictureURL.PictureURL);
 
+                                // verificamos si la imagen no está nula
+                                if(!objUsuarioFacebook.cover.PictureURL.isEmpty())
+                                {
+                                    MobileServiceCustom.USUARIO_LOGUEADO.setCover_picture(objUsuarioFacebook.cover.PictureURL);
+                                }
+                                else
+                                {
+
+                                    MobileServiceCustom.USUARIO_LOGUEADO.setCover_picture("https://wanted.blob.core.windows.net/img/Hakuna_Matata opacidad.jpg");
+                                }
+
                                 // agregamos el registro
                                 mUserTable.insert(MobileServiceCustom.USUARIO_LOGUEADO);
                             } catch (Exception exception2) {
@@ -208,6 +227,24 @@ public class MainActivity extends AppCompatActivity
                         } finally {
                             // obtenemos la imagen del usuario en caso que la haya cambiado
                             MobileServiceCustom.USUARIO_LOGUEADO.setUrlimagen("http://graph.facebook.com/" + MobileServiceCustom.USUARIO_LOGUEADO.getId() + "/picture?type=large");
+                            //MobileServiceCustom.USUARIO_LOGUEADO.setCover_picture(objUsuarioFacebook.cover.PictureURL);
+
+                            // verificamos si la imagen no está nula
+                            if(!objUsuarioFacebook.cover.PictureURL.isEmpty())
+                            {
+                                MobileServiceCustom.USUARIO_LOGUEADO.setCover_picture(objUsuarioFacebook.cover.PictureURL);
+                            }
+                            else
+                            {
+
+                                MobileServiceCustom.USUARIO_LOGUEADO.setCover_picture("https://wanted.blob.core.windows.net/img/Hakuna_Matata opacidad.jpg");
+                            }
+
+                            try {
+                                mUserTable.update(MobileServiceCustom.USUARIO_LOGUEADO).get();
+                            } catch (Exception exception) {
+
+                            }
 
                         }
 
