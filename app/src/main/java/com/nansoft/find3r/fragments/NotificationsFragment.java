@@ -159,13 +159,16 @@ public class NotificationsFragment extends Fragment
     private void estadoAdapter(boolean pEstadoError)
     {
         mSwipeRefreshLayout.setRefreshing(false);
-        if(!pEstadoError )
+        if(!pEstadoError || mAdapter.getItemCount() == 0 )
         {
             imgvSad.setVisibility(View.VISIBLE);
             txtvSad.setVisibility(View.VISIBLE);
             txtvSad.setVisibility(View.VISIBLE);
-            txtvSad.setText(getResources().getString(R.string.nodata));
 
+            if(mAdapter.getItemCount() == 0)
+            txtvSad.setText(getResources().getString(R.string.nodatanotifications));
+            else
+                txtvSad.setText(getResources().getString(R.string.nodata));
         }
         else
         {

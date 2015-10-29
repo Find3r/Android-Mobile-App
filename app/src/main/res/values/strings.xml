@@ -20,6 +20,7 @@
     <string name="found">Encontrad@</string>
     <string name="noconnection">Verifica la conexión a internet e intenta de nuevo</string>
     <string name="nodata">¡Vaya parece que aún no hay reportes de esta categoría!</string>
+    <string name="nodatanotifications">¡Vaya parece que aún no hay notificaciones para mostrar!</string>
     <string name="report">Reportar</string>
     <string name="ayudar">Ayudar</string>
     <string name="seguir">Seguir</string>
