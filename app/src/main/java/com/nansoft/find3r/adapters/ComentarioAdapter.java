@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.ComentarioActivity;
 import com.nansoft.find3r.activity.PerfilUsuarioActivity;
+import com.nansoft.find3r.activity.UserProfileActivity;
 import com.nansoft.find3r.helpers.CircularImageView;
 import com.nansoft.find3r.models.Comentario;
 import com.nansoft.find3r.models.ComentarioCompleto;
@@ -87,8 +88,9 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Co
 
     private void navegarPerfilUsuario(int position,Context context)
     {
-        Intent intent = new Intent(context, PerfilUsuarioActivity.class);
-        intent.putExtra("id",lstComentarios[position].getIdUsuario());
+
+        Intent intent = new Intent(context, UserProfileActivity.class);
+        intent.putExtra("ID_USUARIO",lstComentarios[position].getIdUsuario());
         context.startActivity(intent);
         ((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }

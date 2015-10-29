@@ -275,6 +275,7 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.action_user:
+
                 startMyActivity(new Intent(this,UserProfileActivity.class));
                 return true;
 

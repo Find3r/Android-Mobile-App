@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.ComentarioActivity;
 import com.nansoft.find3r.activity.PerfilUsuarioActivity;
+import com.nansoft.find3r.activity.UserProfileActivity;
 import com.nansoft.find3r.helpers.CircularImageView;
 import com.nansoft.find3r.models.NoticiaCompleta;
 
@@ -119,8 +120,11 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
 
     private void navegarPerfilUsuario(int position,Context context)
     {
-        Intent intent = new Intent(context, PerfilUsuarioActivity.class);
-        intent.putExtra("id",lstNoticias[position].getIdusuario());
+        //Intent intent = new Intent(context, PerfilUsuarioActivity.class);
+        //intent.putExtra("id",lstNoticias[position].getIdusuario());
+        Intent intent = new Intent(context, UserProfileActivity.class);
+        intent.putExtra("ID_USUARIO",lstNoticias[position].getIdusuario());
+
         context.startActivity(intent);
         ((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }
@@ -140,7 +144,7 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
     }
 
 
-    static class NoticiaCompletaViewHolder extends RecyclerView.ViewHolder
+    public static class NoticiaCompletaViewHolder extends RecyclerView.ViewHolder
     {
 
         public TextView txtvTitulo;
