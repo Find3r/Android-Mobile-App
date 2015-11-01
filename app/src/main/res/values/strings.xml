@@ -2,6 +2,7 @@
 <resources>
     <string name="comentar">Comentar</string>
     <string name="app_name">Find3r</string>
+    <string name="action_sign_out">Cerrar Sesión</string>
     <string name="action_contact">Contact</string>
     <string name="insComentario">Ingrese su comentario</string>
     <string name="agregar_noticia">Agregar Noticia</string>
@@ -70,6 +71,7 @@
 
     <string name="errorCarga">Ha ocurrido un error con la conexión a internet , pulsa acá para volver a intentar</string>
     <string name="lblTipoReporte">Tipo de reporte</string>
+    <string name="action_search">buscar</string>
 
 
     <string-array name="provincias_array">

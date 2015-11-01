@@ -11,10 +11,13 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.ComentarioActivity;
+import com.nansoft.find3r.activity.NoticiasCategoriaActivity;
 import com.nansoft.find3r.activity.PerfilUsuarioActivity;
 import com.nansoft.find3r.activity.UserProfileActivity;
+import com.nansoft.find3r.holder.CategoriaViewHolder;
 import com.nansoft.find3r.holder.ViewHolder1;
 import com.nansoft.find3r.holder.UserProfileViewHolder;
+import com.nansoft.find3r.models.Categoria;
 import com.nansoft.find3r.models.NoticiaCompleta;
 import com.nansoft.find3r.models.User;
 import com.nansoft.find3r.models.Usuario;
@@ -29,13 +32,15 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     // The items to display in your RecyclerView
     private List<Object> items;
 
-    private final int USER = 0, HEADER_USERPROFILE = 1, NEW = 2;
+    private final int USER = 0, HEADER_USERPROFILE = 1, NEW = 2, CATEGORY = 3;
     Context context;
     // Provide a suitable constructor (depends on the kind of dataset)
     public ComplexRecyclerViewAdapter(List<Object> items,Context pcontext) {
         this.items = items;
         context = pcontext;
     }
+
+
 
     // Return the size of your dataset (invoked by the layout manager)
     @Override
@@ -55,6 +60,11 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         {
             return NEW;
         }
+        else if ( items.get(position) instanceof Categoria)
+        {
+            return CATEGORY;
+        }
+
         return -1;
     }
     /**
@@ -69,25 +79,30 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
         RecyclerView.ViewHolder viewHolder;
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
-
+        View view;
         switch (viewType) {
             case USER:
-                View v1 = inflater.inflate(R.layout.layout_viewholder1, viewGroup, false);
-                viewHolder = new ViewHolder1(v1);
+                view = inflater.inflate(R.layout.layout_viewholder1, viewGroup, false);
+                viewHolder = new ViewHolder1(view);
                 break;
             case HEADER_USERPROFILE:
-                View v2 = inflater.inflate(R.layout.header_userprofile, viewGroup, false);
-                viewHolder = new UserProfileViewHolder(v2,context);
+                view = inflater.inflate(R.layout.header_userprofile, viewGroup, false);
+                viewHolder = new UserProfileViewHolder(view,context);
                 break;
 
             case NEW:
-                View v3 = inflater.inflate(R.layout.new_item, viewGroup, false);
-                viewHolder = new NoticiaCompletaAdapter.NoticiaCompletaViewHolder(v3);
+                view = inflater.inflate(R.layout.new_item, viewGroup, false);
+                viewHolder = new NoticiaCompletaAdapter.NoticiaCompletaViewHolder(view);
+                break;
+
+            case CATEGORY:
+                view = inflater.inflate(R.layout.categoria_item, viewGroup, false);
+                viewHolder = new CategoriaViewHolder(view);
                 break;
 
             default:
-                View v = inflater.inflate(R.layout.layout_viewholder1, viewGroup, false);
-                viewHolder = new ViewHolder1(v);
+                view = inflater.inflate(R.layout.layout_viewholder1, viewGroup, false);
+                viewHolder = new ViewHolder1(view);
                 break;
         }
         return viewHolder;
@@ -103,7 +118,9 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
      */
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
+
         switch (viewHolder.getItemViewType()) {
+
             case USER:
                 ViewHolder1 vh1 = (ViewHolder1) viewHolder;
                 configureViewHolder1(vh1, position);
@@ -111,12 +128,17 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
             case HEADER_USERPROFILE:
                 UserProfileViewHolder vh2 = (UserProfileViewHolder) viewHolder;
-                configureHeaderProfileViewHolder(vh2,position);
+                configureHeaderProfileViewHolder(vh2, position);
                 break;
 
             case NEW:
                 NoticiaCompletaAdapter.NoticiaCompletaViewHolder vh3 = (NoticiaCompletaAdapter.NoticiaCompletaViewHolder) viewHolder;
                 configureNewViewHolder(vh3, position);
+                break;
+
+            case CATEGORY:
+                CategoriaViewHolder vh4 = (CategoriaViewHolder) viewHolder;
+                configureCategoryViewHolder(vh4, position);
                 break;
         }
     }
@@ -229,6 +251,32 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 .placeholder(R.drawable.picture_default)
                 .error(R.drawable.error_image)
                 .into(viewHolder.imgvUserProfilePhoto);
+    }
+
+    private void configureCategoryViewHolder(CategoriaViewHolder viewHolder,int position)
+    {
+        final Categoria objCategoria = (Categoria) items.get(position);
+
+        viewHolder.layItemCategoria.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, NoticiasCategoriaActivity.class);
+                intent.putExtra("idCategoria", objCategoria.getId());
+                intent.putExtra("nombreCategoria", objCategoria.getNombre());
+                context.startActivity(intent);
+                ((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+            }
+        });
+
+        viewHolder.txtvTitulo.setText(objCategoria.getNombre());
+
+        Glide.with(context)
+                .load(objCategoria.getUrlimagen().trim())
+                .asBitmap()
+                .fitCenter()
+                .placeholder(R.drawable.picture_default)
+                .error(R.drawable.error_image)
+                .into(viewHolder.imgvImagen);
 
 
     }

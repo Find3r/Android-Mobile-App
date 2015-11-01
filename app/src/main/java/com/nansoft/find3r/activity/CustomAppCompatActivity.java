@@ -67,7 +67,7 @@ public class CustomAppCompatActivity extends AppCompatActivity
                 startMyActivity(new Intent(this,NotificationsActivity.class));
                 break;
 
-            case R.id.action_search:
+            case R.id.action_categories:
                 startMyActivity(new Intent(this, CategoriesActivity.class));
                 break;
 

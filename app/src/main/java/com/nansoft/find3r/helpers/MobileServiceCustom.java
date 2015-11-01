@@ -50,6 +50,7 @@ public class MobileServiceCustom
     // guarda el id de usuario y token con acceso privado
     public void cacheUserToken(MobileServiceUser user)
     {
+
         SharedPreferences prefs = contex.getSharedPreferences(SHAREDPREFFILE, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putString(USERIDPREF, user.getUserId());
@@ -72,6 +73,14 @@ public class MobileServiceCustom
         client.setCurrentUser(user);
 
         return true;
+    }
+
+    public void deleteUserToken()
+    {
+
+        SharedPreferences prefs = contex.getSharedPreferences(SHAREDPREFFILE, Context.MODE_PRIVATE);
+        prefs.edit().clear().apply();
+
     }
 
 

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -21,6 +22,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.melnykov.fab.FloatingActionButton;
 import com.nansoft.find3r.R;
+import com.nansoft.find3r.adapters.ComplexRecyclerViewAdapter;
 import com.nansoft.find3r.adapters.NoticiaCompletaAdapter;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.NoticiaCompleta;
@@ -28,7 +30,7 @@ import com.nansoft.find3r.models.NoticiaCompleta;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NoticiasCategoriaActivity extends AppCompatActivity {
+public class NoticiasCategoriaActivity extends CustomAppCompatActivity {
 
     String idCategoria = "";
     SwipeRefreshLayout mSwipeRefreshLayout;
@@ -42,6 +44,9 @@ public class NoticiasCategoriaActivity extends AppCompatActivity {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
+    boolean ESTADO_BUSQUEDA = false;
+
+    ArrayList<Object> itemsCollection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,13 +70,8 @@ public class NoticiasCategoriaActivity extends AppCompatActivity {
         //now you must initialize your list view
         mRecyclerView = (RecyclerView) findViewById(R.id.lstvNoticias);
 
-        // use this setting to improve performance if you know that changes
-        // in content do not change the layout size of the RecyclerView
-        //mRecyclerView.setHasFixedSize(true);
-
-        // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
-        mRecyclerView.setLayoutManager(mLayoutManager);
+        itemsCollection = new ArrayList<Object>();
+        mAdapter = new ComplexRecyclerViewAdapter(itemsCollection, NoticiasCategoriaActivity.this);
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAgregarNoticia);
@@ -107,47 +107,63 @@ public class NoticiasCategoriaActivity extends AppCompatActivity {
         cargarNoticias();
     }
 
-
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        //getMenuInflater().inflate(R.menu.menu_noticias_categoria, menu);
-        return true;
+        // Inflate menu from menu resource (res/menu/main)
+        getMenuInflater().inflate(R.menu.search_menu, menu);
+
+        //SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.actionview_search));
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        searchView.setFocusable(true);
+        searchView.setIconified(false);
+        searchView.clearFocus();
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                mSwipeRefreshLayout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        mSwipeRefreshLayout.setRefreshing(true);
+                    }
+                });
+
+                if (!s.trim().isEmpty()) {
+
+                    cargarNoticias(s);
+                    ESTADO_BUSQUEDA = true;
+                }
+                else
+                {
+                    cargarNoticias();
+                    ESTADO_BUSQUEDA = false;
+                }
+
+                mAdapter.notifyDataSetChanged();
+
+                return false;
+            }
+        });
+
+
+        return super.onCreateOptionsMenu(menu);
+
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
 
-
-        switch(item.getItemId())
-        {
-
-
-
-            case android.R.id.home:
-                finish();
-                overridePendingTransition( R.anim.slide_in_left,R.anim.slide_out_left);
-                return true;
-        }
-
-
-
-    return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        finish();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_left);
-    }
 
     public void cargarNoticias() {
         imgvSad.setVisibility(View.GONE);
         txtvSad.setVisibility(View.GONE);
+
+        itemsCollection = new ArrayList<>();
 
         try {
 
@@ -159,7 +175,7 @@ public class NoticiasCategoriaActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Throwable exc) {
 
-                    estadoAdapter(true);
+                    estadoAdapter(false);
 
                 }
 
@@ -175,12 +191,15 @@ public class NoticiasCategoriaActivity extends AppCompatActivity {
                         // se deserializa el array
                         final NoticiaCompleta[] myTypes = objGson.fromJson(jsonArray,NoticiaCompleta[].class);
 
-                        mAdapter = new NoticiaCompletaAdapter(myTypes,NoticiasCategoriaActivity.this);
-                        mRecyclerView.setAdapter(mAdapter);
+                        for (NoticiaCompleta item:myTypes )
+                        {
+                            itemsCollection.add(item);
 
-                        estadoAdapter(false);
-                    } else {
+                        }
+
                         estadoAdapter(true);
+                    } else {
+                        estadoAdapter(false);
                     }
 
 
@@ -190,13 +209,65 @@ public class NoticiasCategoriaActivity extends AppCompatActivity {
         }
         catch (Exception e )
         {
-            estadoAdapter(true);
+            estadoAdapter(false);
         }
 
+    }
+
+    public void cargarNoticias(String searchTerm) {
+
+        itemsCollection = new ArrayList<>();
+        try {
 
 
+            List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
+            parameters.add(new Pair<String, String>("searchTerm",searchTerm));
+            ListenableFuture<JsonElement> lst = mobileServiceCustom.mClient.invokeApi("search", "GET", parameters);
+
+            Futures.addCallback(lst, new FutureCallback<JsonElement>() {
+                @Override
+                public void onFailure(Throwable exc) {
+
+                    estadoAdapter(false);
+
+                }
+
+                @Override
+                public void onSuccess(JsonElement result) {
+
+                    // se verifica si el resultado es un array Json
+                    if (result.isJsonArray()) {
+                        // obtenemos el resultado como un JsonArray
+                        JsonArray jsonArray = result.getAsJsonArray();
+                        Gson objGson = new Gson();
+
+                        // se deserializa el array
+                        final NoticiaCompleta[] myTypes = objGson.fromJson(jsonArray, NoticiaCompleta[].class);
+
+                        for (NoticiaCompleta item:myTypes )
+                        {
+                            itemsCollection.add(item);
+
+                        }
 
 
+                        estadoAdapter(true);
+
+                    }
+                    else
+                    {
+                        estadoAdapter(false);
+                    }
+
+
+                }
+            });
+
+        }
+        catch (Exception e )
+        {
+            estadoAdapter(false);
+        }
     }
 
 
@@ -205,7 +276,12 @@ public class NoticiasCategoriaActivity extends AppCompatActivity {
     {
         mSwipeRefreshLayout.setRefreshing(false);
 
-        if(pEstadoError)
+        mRecyclerView.setAdapter(new ComplexRecyclerViewAdapter(itemsCollection, NoticiasCategoriaActivity.this));
+
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(NoticiasCategoriaActivity.this));
+
+
+        if(!pEstadoError)
         {
             imgvSad.setVisibility(View.VISIBLE);
             txtvSad.setVisibility(View.VISIBLE);

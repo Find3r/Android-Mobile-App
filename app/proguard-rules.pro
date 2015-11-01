@@ -51,4 +51,8 @@
 -dontwarn javax.annotation.**
 -dontwarn sun.misc.Unsafe
 
+-keep class android.support.v7.widget.SearchView { *; }
+
+
+
 ##---------------End: proguard configuration for Gson ----------

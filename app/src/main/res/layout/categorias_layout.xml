@@ -3,14 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/alternative_background">
+    android:background="@color/alternative_background"
+    android:padding="10dp">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swprlCategorias"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="10dp">
+        android:layout_height="match_parent">
 
+        <!--
         <GridView
             android:numColumns="auto_fit"
             android:gravity="center"
@@ -20,7 +21,13 @@
             android:layout_height="fill_parent"
             android:verticalSpacing="10dp"
             android:horizontalSpacing="10dp"
-            android:id="@+id/gridAreas" />
+            android:id="@+id/gridAreas" /> -->
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/gridAreas"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
 
 
 

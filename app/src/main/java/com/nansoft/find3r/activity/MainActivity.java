@@ -1,6 +1,8 @@
 package com.nansoft.find3r.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
@@ -118,6 +120,7 @@ public class MainActivity extends AppCompatActivity
 
                     /// unregister
                     //mHub.register(mRegistrationId,MobileServiceCustom.USUARIO_LOGUEADO.getId(),"All");
+
 
 
                     mHub.registerTemplate(mRegistrationId, "notificationTemplate", "{\"data\":{\"id\":\"$(id)\", \"message\":\"$(message)\"}}",
@@ -304,10 +307,10 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.action_notifications:
-                startMyActivity(new Intent(this,NotificationsActivity.class));
+                startMyActivity(new Intent(this, NotificationsActivity.class));
                 return true;
 
-            case R.id.action_search:
+            case R.id.action_categories:
                 startMyActivity(new Intent(this,CategoriesActivity.class));
                 return true;
 
@@ -315,6 +318,8 @@ public class MainActivity extends AppCompatActivity
 
                 startMyActivity(new Intent(this,UserProfileActivity.class));
                 return true;
+
+
 
         }
 

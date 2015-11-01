@@ -21,7 +21,7 @@
         />
 
     <item
-        android:id="@+id/action_search"
+        android:id="@+id/action_categories"
         android:icon="@drawable/search_bar"
         app:showAsAction="always"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
@@ -36,6 +36,11 @@
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
         android:title="@string/action_contact"
         android:orderInCategory="3"/>
+
+    <!-- Settings, should always be in the overflow -->
+    <item android:id="@+id/action_sign_out"
+        android:title="@string/action_sign_out"
+        app:showAsAction="never"/>
 
 
 </menu>

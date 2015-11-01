@@ -13,7 +13,7 @@
         />
 
     <item
-        android:id="@+id/action_search"
+        android:id="@+id/action_categories"
         android:icon="@drawable/search_bar"
         app:showAsAction="always"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
