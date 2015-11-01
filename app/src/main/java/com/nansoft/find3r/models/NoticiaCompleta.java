@@ -17,6 +17,9 @@ public class NoticiaCompleta extends Noticia implements Parcelable {
     private String urlImagenUsuario;
 
     @SerializedName("Column15")
+    private String nombreProvincia;
+
+    @SerializedName("Column16")
     private int cantidadComentarios;
 
     @SerializedName("estado_seguimiento")
@@ -25,6 +28,9 @@ public class NoticiaCompleta extends Noticia implements Parcelable {
     public NoticiaCompleta() {
         estadoSeguimiento = false;
         cantidadComentarios = 0;
+        nombreUsuario = "Sin definir";
+        urlImagenUsuario = "Sin definir";
+        nombreProvincia = "Sin definir";
     }
 
     public String getNombreUsuario() {
@@ -60,6 +66,13 @@ public class NoticiaCompleta extends Noticia implements Parcelable {
         this.cantidadComentarios = cantidadComentarios;
     }
 
+    public String getNombreProvincia() {
+        return nombreProvincia;
+    }
+
+    public void setNombreProvincia(String nombreProvincia) {
+        this.nombreProvincia = nombreProvincia;
+    }
 
     @Override
     public int describeContents() {
@@ -77,9 +90,13 @@ public class NoticiaCompleta extends Noticia implements Parcelable {
         dest.writeString(super.getIdestado());
         dest.writeString(super.getIdCategoria());
         dest.writeString(super.getIdProvincia());
+        dest.writeString(super.getLatitud());
+        dest.writeString(super.getLongitud());
+        dest.writeInt(super.getCantidadReportes());
         dest.writeString(this.nombreUsuario);
         dest.writeString(this.urlImagenUsuario);
         dest.writeInt(this.cantidadComentarios);
+        dest.writeString(this.nombreProvincia);
         dest.writeByte(estadoSeguimiento ? (byte) 1 : (byte) 0);
     }
 
@@ -93,10 +110,15 @@ public class NoticiaCompleta extends Noticia implements Parcelable {
         super.setIdestado(in.readString());
         super.setIdCategoria(in.readString());
         super.setIdProvincia(in.readString());
+        super.setLongitud(in.readString());
+        super.setLatitud(in.readString());
+        super.setCantidadReportes(in.readInt());
         this.nombreUsuario = in.readString();
         this.urlImagenUsuario = in.readString();
         this.cantidadComentarios = in.readInt();
+        this.nombreProvincia = in.readString();
         this.estadoSeguimiento = in.readByte() != 0;
+
     }
 
     public static final Parcelable.Creator<NoticiaCompleta> CREATOR = new Parcelable.Creator<NoticiaCompleta>() {
