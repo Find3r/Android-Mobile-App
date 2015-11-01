@@ -222,6 +222,7 @@ public class NoticiasCategoriaActivity extends CustomAppCompatActivity {
 
             List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
             parameters.add(new Pair<String, String>("searchTerm",searchTerm));
+            parameters.add(new Pair<String, String>("idCategory",idCategoria));
             ListenableFuture<JsonElement> lst = mobileServiceCustom.mClient.invokeApi("search", "GET", parameters);
 
             Futures.addCallback(lst, new FutureCallback<JsonElement>() {
