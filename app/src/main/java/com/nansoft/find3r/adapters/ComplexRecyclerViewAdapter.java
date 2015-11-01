@@ -12,7 +12,6 @@ import com.bumptech.glide.Glide;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.ComentarioActivity;
 import com.nansoft.find3r.activity.NoticiasCategoriaActivity;
-import com.nansoft.find3r.activity.PerfilUsuarioActivity;
 import com.nansoft.find3r.activity.UserProfileActivity;
 import com.nansoft.find3r.holder.CategoriaViewHolder;
 import com.nansoft.find3r.holder.ViewHolder1;
@@ -158,7 +157,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                     .into(viewHolder.imgvFotoPerfilUsuario);
 
             Glide.with(context)
-                    .load(objNoticia.getUrlimagen().trim())
+                    .load(objNoticia.getUrlImagen().trim())
                     .asBitmap()
                     .fitCenter()
                     .placeholder(R.drawable.picture_default)

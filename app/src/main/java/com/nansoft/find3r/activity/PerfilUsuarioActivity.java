@@ -24,6 +24,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 import com.melnykov.fab.FloatingActionButton;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nansoft.find3r.R;
@@ -32,6 +33,7 @@ import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.NoticiaCompleta;
 import com.nansoft.find3r.models.Usuario;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -234,10 +236,16 @@ public class PerfilUsuarioActivity extends AppCompatActivity
                                 Gson objGson = new Gson();
 
                                 // se deserializa el array
-                                final NoticiaCompleta[] myTypes = objGson.fromJson(jsonArray,NoticiaCompleta[].class);
+                                //final NoticiaCompleta[] myTypes = objGson.fromJson(jsonArray, NoticiaCompleta[].class);
+
+                                Type collectionType = new TypeToken<List<NoticiaCompleta>>(){}.getType();
+
+                                List<NoticiaCompleta> imageResults = objGson.fromJson(jsonArray, collectionType);
 
                                 headerRecyclerView.attachTo(mRecyclerView,true);
-                                mAdapter = new NoticiaCompletaAdapter(myTypes,PerfilUsuarioActivity.this);
+                                mAdapter = new NoticiaCompletaAdapter(imageResults,PerfilUsuarioActivity.this);
+
+
 
 
                                 mRecyclerView.setAdapter(mAdapter);

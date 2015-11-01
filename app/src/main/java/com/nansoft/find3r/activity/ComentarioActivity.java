@@ -197,7 +197,7 @@ public class ComentarioActivity extends AppCompatActivity {
 
 
         Glide.with(this)
-                .load(MobileServiceCustom.USUARIO_LOGUEADO.getUrlimagen().trim())
+                .load(MobileServiceCustom.USUARIO_LOGUEADO.getUrlImagen().trim())
                 .asBitmap()
                 .fitCenter()
                 .placeholder(R.drawable.picture_default)

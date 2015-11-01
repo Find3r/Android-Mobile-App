@@ -67,7 +67,7 @@ public class Noticia
         this.descripcion = descripcion;
     }
 
-    public String getUrlimagen() {
+    public String getUrlImagen() {
         if(urlimagen == null)
         {
             urlimagen = "www.bing.com";

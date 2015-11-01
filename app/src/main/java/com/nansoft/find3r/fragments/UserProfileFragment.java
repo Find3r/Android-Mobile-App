@@ -28,6 +28,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.reflect.TypeToken;
 import com.melnykov.fab.FloatingActionButton;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.AgregarNoticia;
@@ -35,6 +36,7 @@ import com.nansoft.find3r.adapters.NoticiaCompletaAdapter;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.NoticiaCompleta;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -219,17 +221,18 @@ public class UserProfileFragment extends Fragment
                     // se verifica si el resultado es un array Json
                     if (result.isJsonArray()) {
 
-
-
                         // obtenemos el resultado como un JsonArray
                         JsonArray jsonArray = result.getAsJsonArray();
                         Gson objGson = new Gson();
 
                         // se deserializa el array
-                        final NoticiaCompleta[] myTypes = objGson.fromJson(jsonArray,NoticiaCompleta[].class);
+                        //final NoticiaCompleta[] myTypes = objGson.fromJson(jsonArray, NoticiaCompleta[].class);
+                        Type collectionType = new TypeToken<List<NoticiaCompleta>>(){}.getType();
+
+                        List<NoticiaCompleta> imageResults = objGson.fromJson(jsonArray, collectionType);
 
                         headerRecyclerView.attachTo(mRecyclerView,true);
-                        mAdapter = new NoticiaCompletaAdapter(myTypes,getActivity());
+                        mAdapter = new NoticiaCompletaAdapter(imageResults,getActivity());
 
 
                         mRecyclerView.setAdapter(mAdapter);
