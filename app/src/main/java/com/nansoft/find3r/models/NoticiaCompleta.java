@@ -10,13 +10,13 @@ import com.google.gson.annotations.SerializedName;
  */
 public class NoticiaCompleta extends Noticia implements Parcelable {
 
-    @SerializedName("Column8")
+    @SerializedName("Column13")
     private String nombreUsuario;
 
-    @SerializedName("Column9")
+    @SerializedName("Column14")
     private String urlImagenUsuario;
 
-    @SerializedName("Column10")
+    @SerializedName("Column15")
     private int cantidadComentarios;
 
     @SerializedName("estado_seguimiento")

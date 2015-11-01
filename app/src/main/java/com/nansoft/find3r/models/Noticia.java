@@ -36,6 +36,14 @@ public class Noticia
     @SerializedName("idprovincia")
     private String idProvincia;
 
+    @SerializedName("cantidad_reportes")
+    private int cantidadReportes;
+
+    @SerializedName("latitud")
+    private String latitud;
+
+    @SerializedName("longitud")
+    private String longitud;
 
 
     public Noticia() {
@@ -156,5 +164,29 @@ public class Noticia
 
     public void setIdProvincia(String idProvincia) {
         this.idProvincia = idProvincia;
+    }
+
+    public int getCantidadReportes() {
+        return cantidadReportes;
+    }
+
+    public void setCantidadReportes(int cantidadReportes) {
+        this.cantidadReportes = cantidadReportes;
+    }
+
+    public String getLatitud() {
+        return latitud;
+    }
+
+    public void setLatitud(String latitud) {
+        this.latitud = latitud;
+    }
+
+    public String getLongitud() {
+        return longitud;
+    }
+
+    public void setLongitud(String longitud) {
+        this.longitud = longitud;
     }
 }
