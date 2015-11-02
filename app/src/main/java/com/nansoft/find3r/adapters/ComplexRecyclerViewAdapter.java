@@ -3,6 +3,9 @@ package com.nansoft.find3r.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +14,10 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.ComentarioActivity;
+import com.nansoft.find3r.activity.NewDescriptionActivity;
 import com.nansoft.find3r.activity.NoticiasCategoriaActivity;
 import com.nansoft.find3r.activity.UserProfileActivity;
+import com.nansoft.find3r.fragments.ItemOptionsDialog;
 import com.nansoft.find3r.holder.CategoriaViewHolder;
 import com.nansoft.find3r.holder.ViewHolder1;
 import com.nansoft.find3r.holder.UserProfileViewHolder;
@@ -164,6 +169,20 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                     .error(R.drawable.error_image)
                     .into(viewHolder.imgvImagen);
 
+            viewHolder.imgvImagen.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    Intent intent = new Intent(context, NewDescriptionActivity.class);
+                    //intent.putExtra("URL_IMAGEN",lstNoticias.get(position).getUrlImagen());
+                    intent.putExtra("obj", objNoticia);
+                    context.startActivity(intent);
+                    ((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+
+
+                }
+            });
+
             // establecemos los atributos
             viewHolder.txtvTitulo.setText(objNoticia.getNombre());
             viewHolder.txtvDescripcion.setText(objNoticia.getDescripcion());
@@ -209,7 +228,29 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 }
             });
 
+            viewHolder.imgvNoticiaOptions.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showItemOptionsDialog(objNoticia);
+                }
+            });
+
         }
+    }
+
+    private void showItemOptionsDialog(NoticiaCompleta pobjNoticia) {
+        FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
+
+        // enviamos por parámetros el objeto noticia en el que se dió click
+        Bundle args = new Bundle();
+        args.putParcelable("objNoticia", pobjNoticia);
+
+        ItemOptionsDialog itemOptionsDialog = ItemOptionsDialog.newInstance("Some Title");
+
+        // establecemos los parámetros
+        itemOptionsDialog.setArguments(args);
+        itemOptionsDialog.show(fm, "fragment_edit_name");
+
     }
 
     private void navegarPerfilUsuario(String pIdUsuario,Context context)

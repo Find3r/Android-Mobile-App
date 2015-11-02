@@ -3,6 +3,7 @@ package com.nansoft.find3r.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -18,6 +19,7 @@ import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.ComentarioActivity;
 import com.nansoft.find3r.activity.NewDescriptionActivity;
 import com.nansoft.find3r.activity.UserProfileActivity;
+import com.nansoft.find3r.fragments.ItemOptionsDialog;
 import com.nansoft.find3r.helpers.CircularImageView;
 import com.nansoft.find3r.models.NoticiaCompleta;
 
@@ -124,7 +126,7 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
         viewHolder.txtvNombreUsuarioNoticia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                navegarPerfilUsuario(position,v.getContext());
+                navegarPerfilUsuario(position, v.getContext());
             }
         });
         viewHolder.imgvFotoPerfilUsuario.setOnClickListener(new View.OnClickListener() {
@@ -133,6 +135,28 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
                 navegarPerfilUsuario(position,v.getContext());
             }
         });
+
+        viewHolder.imgvNoticiaOptions.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showItemOptionsDialog(lstNoticias.get(position));
+            }
+        });
+
+    }
+
+    private void showItemOptionsDialog(NoticiaCompleta pobjNoticia) {
+        FragmentManager fm = ((AppCompatActivity)context).getSupportFragmentManager();
+
+        // enviamos por parámetros el objeto noticia en el que se dió click
+        Bundle args = new Bundle();
+        args.putParcelable("objNoticia", pobjNoticia);
+
+        ItemOptionsDialog itemOptionsDialog = ItemOptionsDialog.newInstance("Some Title");
+
+        // establecemos los parámetros
+        itemOptionsDialog.setArguments(args);
+        itemOptionsDialog.show(fm, "fragment_edit_name");
 
     }
 
@@ -181,6 +205,7 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
         public ImageView imgvEstado;
         public ImageView imgvSeguimiento;
         public ImageView imgvComentario;
+        public ImageView imgvNoticiaOptions;
 
         public NoticiaCompletaViewHolder(View view)
         {
@@ -211,6 +236,8 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
             txtvFecha = (TextView) view.findViewById(R.id.txtvFechaNoticia);
 
             layImagenComentario = (LinearLayout) view.findViewById(R.id.layImagenComentario);
+
+            imgvNoticiaOptions = (ImageView) view.findViewById(R.id.imgvNoticiaOptions);
         }
 
 
