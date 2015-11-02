@@ -3,7 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/alternative_background"
-    tools:context="com.nansoft.find3r.activity.AgregarNoticia">
+    tools:context="com.nansoft.find3r.activity.AgregarNoticia"
+    android:paddingBottom="20dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -56,12 +57,12 @@
             style="@style/stlLetrasIndicacion"
             android:text="@string/lblProvincia" />
 
-        <com.weiwangcn.betterspinner.library.BetterSpinner
+        <Spinner
             android:id="@+id/spnrProvincias"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin"
-            android:hint="@string/insLocalizacion" />
+             />
 
         <TextView
             style="@style/stlLetrasIndicacion"
@@ -140,19 +141,27 @@
             android:text="@string/lblTipoReporte"/>
 
 
-        <com.weiwangcn.betterspinner.library.BetterSpinner
+        <Spinner
             android:id="@+id/spnrTipoReporte"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/activity_vertical_margin"
             android:hint="Auto, Mascota, entre otros..." />
 
+        <TextView
+            style="@style/stlLetrasIndicacion"
+            android:text="@string/lblEstadoReporte"/>
 
+
+        <Spinner
+            android:id="@+id/spnrEstadoReporte"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/btnAgregarReporte"
             style="@style/stlBotonClick"
-            android:text="@string/sendReport"/>
+            android:text="@string/sendReport"
+            android:layout_marginBottom="20dp"/>
 
     </LinearLayout>
 </ScrollView>
