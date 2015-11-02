@@ -3,6 +3,9 @@
     <string name="comentar">Comentar</string>
     <string name="app_name">Find3r</string>
 
+    <!-- Opciones de menú -->
+    <string name="reportarContenido">Reportar contenido</string>
+    <string name="editarContenido">Editar contenido</string>
 
     <string name="action_sign_out">Cerrar Sesión</string>
     <string name="action_contact">Contact</string>
@@ -87,10 +90,15 @@
     </string-array>
 
     <string-array name="tipo_reporte_array">
-        <item>Mascotas</item>
-        <item>Otros</item>
         <item>Personas</item>
         <item>Vehículos</item>
+        <item>Mascotas</item>
+        <item>Otros</item>
+    </string-array>
+
+    <string-array name="estado_reporte">
+        <item>Perdid@</item>
+        <item>Encontrad@</item>
     </string-array>
 
     <string name="lorem">
@@ -127,5 +135,6 @@ Meatloaf ribeye leberkas capicola. Spare ribs jerky boudin, t-bone hamburger bil
 
 Does your lorem ipsum text long for something a little meatier? Give our generator a try… it’s tasty!
     </string>
+    <string name="lblEstadoReporte">Estado</string>
 
 </resources>
