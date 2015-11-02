@@ -85,7 +85,7 @@ public class NoticiaCompleta extends Noticia implements Parcelable {
         dest.writeString(super.getNombre());
         dest.writeString(super.getDescripcion());
         dest.writeString(super.getUrlImagen());
-        dest.writeString(super.getFechadesaparicion());
+        dest.writeString(super.getFechadesaparicionCompleta());
         dest.writeString(super.getIdusuario());
         dest.writeString(super.getIdestado());
         dest.writeString(super.getIdCategoria());
