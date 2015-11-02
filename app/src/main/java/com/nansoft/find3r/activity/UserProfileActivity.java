@@ -11,7 +11,9 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
+import android.view.ContextMenu;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -82,6 +84,9 @@ public class UserProfileActivity extends CustomAppCompatActivity {
 
         // Lookup the recyclerview in activity layout
         mRecyclerView = (RecyclerView) findViewById(R.id.lstvPublicacionesUsuario);
+
+
+
         // Create adapter passing in the sample user data
 
         /********************* FLOATING ACTION BUTTON ************/
@@ -129,6 +134,8 @@ public class UserProfileActivity extends CustomAppCompatActivity {
 
 
     }
+
+
 
     public void cargarUsuario() {
 
