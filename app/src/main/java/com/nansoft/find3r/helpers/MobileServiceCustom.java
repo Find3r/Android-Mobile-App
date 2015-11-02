@@ -75,6 +75,21 @@ public class MobileServiceCustom
         return true;
     }
 
+    public String getUserId()
+    {
+        SharedPreferences prefs = contex.getSharedPreferences(SHAREDPREFFILE, Context.MODE_PRIVATE);
+        String userId = prefs.getString(USERIDPREF, "undefined");
+        if (userId == "undefined")
+            return "";
+        else
+        {
+            String[] separated = userId.split(":");
+
+            return separated[1];
+        }
+
+    }
+
     public void deleteUserToken()
     {
 
