@@ -1,6 +1,5 @@
 package com.nansoft.find3r.activity;
 
-
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -8,10 +7,10 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 
-import android.util.Pair;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,16 +18,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
-import com.google.common.util.concurrent.FutureCallback;
-import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.microsoft.azure.storage.CloudStorageAccount;
 import com.microsoft.azure.storage.StorageException;
 import com.microsoft.azure.storage.blob.BlobContainerPermissions;
@@ -36,22 +31,15 @@ import com.microsoft.azure.storage.blob.BlobContainerPublicAccessType;
 import com.microsoft.azure.storage.blob.CloudBlobClient;
 import com.microsoft.azure.storage.blob.CloudBlobContainer;
 import com.microsoft.azure.storage.blob.CloudBlockBlob;
-import com.microsoft.windowsazure.mobileservices.MobileServiceList;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
-import com.microsoft.windowsazure.mobileservices.table.query.QueryOrder;
 import com.nansoft.find3r.R;
-import com.nansoft.find3r.adapters.NoticiaCompletaAdapter;
-import com.nansoft.find3r.adapters.NotificacionAdapter;
 import com.nansoft.find3r.helpers.CustomDate;
 import com.nansoft.find3r.helpers.CustomFilePicker;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
-import com.nansoft.find3r.models.Categoria;
 import com.nansoft.find3r.models.Noticia;
 import com.nansoft.find3r.models.NoticiaCompleta;
-import com.nansoft.find3r.models.Notificacion;
 import com.sleepbot.datetimepicker.time.RadialPickerLayout;
 import com.sleepbot.datetimepicker.time.TimePickerDialog;
-import com.weiwangcn.betterspinner.library.BetterSpinner;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -59,10 +47,8 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 
 public class AgregarNoticia extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
@@ -72,7 +58,6 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
     static String PATH_IMAGEN = "";
     static String NOMBRE_IMAGEN = "";
     static String EXTENSION_IMAGEN = "";
-    String mCurrentPhotoPath;
 
     MobileServiceCustom mobileServiceCustom;
 
@@ -86,16 +71,25 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
     TextView txtvInfoFecha;
     TextView txtvInfoHora;
 
+    int DIA_ACTUAL;
+    int MES_ACTUAL;
+    int ANIO_ACTUAL;
+
     int DIA_SELECCIONADO;
     int MES_SELECCIONADO;
     int ANIO_SELECCIONADO;
     int MINUTO_SELECCIONADO;
     int HORA_SELECCIONADO;
 
-    BetterSpinner spinner;
-    BetterSpinner spinnerTipoReporte;
+    Spinner spnrProvincia;
+    Spinner spinnerTipoReporte;
+    Spinner spnrEstadoReporte;
+    ImageView imgvNoticiaPreview;
+    EditText edtNombreNoticia;
+    EditText edtDescripcionNoticia;
 
-    ArrayAdapter<CharSequence> adapterTipoReporte;
+
+    NoticiaCompleta objNoticiaCompleta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,7 +105,7 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
         txtvInfoHora  = (TextView) findViewById(R.id.txtvInfoHora);
 
         // onClick listener de image view
-        ImageView imgvNoticiaPreview = (ImageView) findViewById(R.id.imgvNoticiaPreview);
+        imgvNoticiaPreview = (ImageView) findViewById(R.id.imgvNoticiaPreview);
         imgvNoticiaPreview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,26 +128,38 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
             }
         });
 
+        imgvNoticiaPreview = (ImageView) findViewById(R.id.imgvNoticiaPreview);
+
+        edtNombreNoticia = (EditText) findViewById(R.id.edtNombreNoticia);
+
+        edtDescripcionNoticia = (EditText) findViewById(R.id.edtDescripion);
 
 
-        spinner = (BetterSpinner)findViewById(R.id.spnrProvincias);
-        spinnerTipoReporte = (BetterSpinner)findViewById(R.id.spnrTipoReporte);
+        spnrProvincia = (Spinner)findViewById(R.id.spnrProvincias);
+        spinnerTipoReporte = (Spinner)findViewById(R.id.spnrTipoReporte);
+        spnrEstadoReporte = (Spinner) findViewById(R.id.spnrEstadoReporte);
 
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        adapterTipoReporte = ArrayAdapter.createFromResource(AgregarNoticia.this,
-                R.array.tipo_reporte_array, android.R.layout.simple_dropdown_item_1line);
-        spinnerTipoReporte.setAdapter(adapterTipoReporte);
-
-        // Create an ArrayAdapter using the string array and a default spinner layout
+        // Cargamos el spinner con el array de strings
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(AgregarNoticia.this,
-                R.array.provincias_array, android.R.layout.simple_dropdown_item_1line);
-        // Specify the layout to use when the list of choices appears
-        //adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        spinner.setAdapter(adapter);
+                R.array.tipo_reporte_array, android.R.layout.simple_dropdown_item_1line);
 
-        spinner.setSelection(0);
+        spinnerTipoReporte.setAdapter(adapter);
+
+        // Cargamos el spinner con el array de strings
+        ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(AgregarNoticia.this,
+                R.array.provincias_array, android.R.layout.simple_dropdown_item_1line);
+
+        spnrProvincia.setAdapter(adapter1);
+
+        ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(AgregarNoticia.this,
+                R.array.estado_reporte, android.R.layout.simple_dropdown_item_1line);
+
+        spnrEstadoReporte.setAdapter(adapter2);
+
+
+        spnrProvincia.setSelection(0);
         spinnerTipoReporte.setSelection(0);
+        spnrEstadoReporte.setSelection(0);
 
         spinnerTipoReporte.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -168,7 +174,7 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
         });
 
 
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spnrProvincia.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 PROVINCIA_SELECCIONADA = position;
@@ -191,10 +197,13 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
         MINUTO_SELECCIONADO = calendar.get(Calendar.MINUTE);
         HORA_SELECCIONADO = calendar.get(Calendar.HOUR_OF_DAY);
 
-        // establecemos el texto en los text view que informan al usuario del valor seleccionado
-        txtvInfoFecha.setText(DIA_SELECCIONADO + "/" + MES_SELECCIONADO + "/" + ANIO_SELECCIONADO);
-        txtvInfoHora.setText(HORA_SELECCIONADO + ":" + MINUTO_SELECCIONADO);
+        DIA_ACTUAL = DIA_SELECCIONADO;
+        MES_ACTUAL = MES_SELECCIONADO;
+        ANIO_ACTUAL = ANIO_SELECCIONADO;
 
+        // establecemos el texto en los text view que informan al usuario del valor seleccionado
+        txtvInfoFecha.setText(customDate(DIA_SELECCIONADO,MES_SELECCIONADO,ANIO_SELECCIONADO));
+        txtvInfoHora.setText(customHour(HORA_SELECCIONADO,MINUTO_SELECCIONADO));
 
         final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), false);
         final TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY) ,calendar.get(Calendar.MINUTE), false, false);
@@ -221,73 +230,59 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
         mobileServiceCustom = new MobileServiceCustom(this);
 
         //cargarTipoReportes();
+
+        // se instenta obtener el objeto que se envía en caso que se acceda a editar una noticia
+        try {
+
+
+            objNoticiaCompleta = (NoticiaCompleta) getIntent().getParcelableExtra("obj");
+
+
+
+            cargarDatos();
+
+        } catch (Exception exception) {
+            // si ocurre un error al cargar el objeto es porque no se envío el objeto entonces deshabilitamos
+            spnrEstadoReporte.setEnabled(false);
+        }
     }
 
-    private void cargarTipoReportes()
+    private void cargarDatos()
     {
-        new AsyncTask<Void, Void, Boolean>() {
+
+        //imgView.setBackgroundResource(R.drawable.emptyimage);
+        Glide.with(this)
+                .load(objNoticiaCompleta.getUrlImagen().trim())
+                .asBitmap()
+                .fitCenter()
+                .placeholder(R.drawable.picture_default)
+                .error(R.drawable.error_image)
+                .into(imgvNoticiaPreview);
+
+        txtvInfoFecha.setText(objNoticiaCompleta.getFechadesaparicion());
 
 
-            MobileServiceTable<Categoria> mCategoriaTable;
+        edtNombreNoticia.setText(objNoticiaCompleta.getNombre());
+        edtDescripcionNoticia.setText(objNoticiaCompleta.getDescripcion());
 
-            @Override
-            protected void onPreExecute()
-            {
+        spinnerTipoReporte.setSelection(Integer.parseInt(objNoticiaCompleta.getIdCategoria()) - 1);
+        spnrProvincia.setSelection(Integer.parseInt(objNoticiaCompleta.getIdProvincia()) - 1);
 
-                MobileServiceCustom mobileServiceCustom = new MobileServiceCustom(AgregarNoticia.this);
+        spnrEstadoReporte.setSelection(Integer.parseInt(objNoticiaCompleta.getIdestado()));
 
-                mCategoriaTable = mobileServiceCustom.mClient.getTable("categoria", Categoria.class);
-            }
+        // establecemos la fecha y hora
+        txtvInfoFecha.setText(objNoticiaCompleta.getFechadesaparicion());
+        txtvInfoHora.setText(objNoticiaCompleta.getHoraDesaparicion());
 
-            @Override
-            protected Boolean doInBackground(Void... params) {
-                try {
-
-                    final MobileServiceList<Categoria> result = mCategoriaTable.orderBy("nombre", QueryOrder.Ascending).execute().get();
-
-                    adapterTipoReporte.clear();
-                    runOnUiThread(new Runnable() {
-
-                        @Override
-                        public void run() {
-
-                            for (Categoria categoria : result) {
-                                adapterTipoReporte.add(categoria.getNombre());
-                            }
-
-                        }
-                    });
-
-
-
-                    return true;
-                } catch (Exception exception) {
-
-                }
-                return false;
-            }
-
-            @Override
-            protected void onPostExecute(Boolean success)
-            {
-
-                //estadoAdapter(success);
-
-            }
-
-            @Override
-            protected void onCancelled()
-            {
-                super.onCancelled();
-            }
-        }.execute();
-
+        Button btnAgregar = (Button) findViewById(R.id.btnAgregarReporte);
+        btnAgregar.setText("Actualizar");
     }
+
 
     @Override
     public void onBackPressed() {
         finish();
-        overridePendingTransition(R.anim.push_down_in,R.anim.push_down_out);
+        overridePendingTransition(R.anim.push_down_in, R.anim.push_down_out);
     }
 
     @Override
@@ -334,11 +329,8 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
                 // creamos un bitmap de la url que enviamos
                 bitmap = CustomFilePicker.loadPrescaledBitmap(urlImagen);
 
-                ImageView imageView = (ImageView) findViewById(R.id.imgvNoticiaPreview);
-
-
                 // seteamos la imagen con el bitmap
-                imageView.setImageBitmap(bitmap);
+                imgvNoticiaPreview.setImageBitmap(bitmap);
 
 
             } catch (Exception e) {
@@ -360,91 +352,95 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
 
     private void resetActivity()
     {
-        ImageView imgView = (ImageView) findViewById(R.id.imgvNoticiaPreview);
-        //imgView.setBackgroundResource(R.drawable.emptyimage);
-        imgView.setImageResource(R.drawable.emptyimage);
 
-        EditText edt = (EditText) findViewById(R.id.edtDescripion);
-        edt.setText(" ");
+        imgvNoticiaPreview.setImageResource(R.drawable.emptyimage);
 
-        EditText edtNombreReporte = (EditText) findViewById(R.id.edtNombreNoticia);
-        edtNombreReporte.setText(" ");
+
+        edtNombreNoticia.setText(" ");
+
+        edtDescripcionNoticia.setText(" ");
         PATH_IMAGEN = "";
 
-        spinner.setSelection(0);
+        spnrProvincia.setSelection(0);
 
 
     }
 
     public void EnviarReporte()
     {
-
         Noticia objNoticia = new Noticia();
-
-
-        EditText editText = (EditText) findViewById(R.id.edtDescripion);
-        EditText edtNombreReporte = (EditText) findViewById(R.id.edtNombreNoticia);
-        String nombreNoticia = edtNombreReporte.getText().toString();
-        String descripcion = editText.getText().toString().trim();
-
-        if(PATH_IMAGEN.trim().equals(""))
+        objNoticia.setUrlImagen("");
+        objNoticia.setIdestado("0");
+        if(objNoticiaCompleta != null)
         {
-            Toast.makeText(getApplicationContext(),"Debe adjuntar una imagen",Toast.LENGTH_SHORT).show();
+            objNoticia = objNoticiaCompleta;
+            objNoticia.setIdestado(String.valueOf(spnrEstadoReporte.getSelectedItemPosition()));
+        }
+
+        String nombreNoticia = edtNombreNoticia.getText().toString();
+        String descripcion = edtDescripcionNoticia.getText().toString().trim();
+
+        if(PATH_IMAGEN.trim().equals("") && objNoticia.getUrlImagen().trim().isEmpty())
+        {
+            Snackbar.make(imgvNoticiaPreview, "Debe adjuntar una imagen", Snackbar.LENGTH_SHORT).show(); // Don’t forget to show!
 
         }
         else
         {
             if(descripcion.isEmpty() || nombreNoticia.isEmpty())
             {
-                Toast.makeText(getApplicationContext(),"Debe completar todos los datos",Toast.LENGTH_SHORT).show();
+                Snackbar.make(imgvNoticiaPreview, "Debe completar todos los datos", Snackbar.LENGTH_SHORT).show(); // Don’t forget to show!
+
             }
             else
             {
-                try{
 
-
-
-
-                    int idProvincia = Integer.parseInt(String.valueOf(PROVINCIA_SELECCIONADA)) + 1;
-                    int idTipoReporte = Integer.parseInt(String.valueOf(TIPO_REPORTE_SELECCIONADO)) + 1;
-
-
-                    String fecha = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date(ANIO_SELECCIONADO - 1900, MES_SELECCIONADO, DIA_SELECCIONADO, HORA_SELECCIONADO, MINUTO_SELECCIONADO));
-
-
-                    objNoticia.setIdusuario(MobileServiceCustom.USUARIO_LOGUEADO.getId());
-                    objNoticia.setNombre(nombreNoticia);
-                    objNoticia.setDescripcion(descripcion);
-                    objNoticia.setIdestado("0");
-                    objNoticia.setIdCategoria(String.valueOf(idTipoReporte));
-
-                    objNoticia.setIdProvincia(String.valueOf(idProvincia));
-
-                    objNoticia.setFechadesaparicion(fecha);
-
-
-
-                    EXTENSION_IMAGEN =  "." + PATH_IMAGEN.substring(PATH_IMAGEN.lastIndexOf(".")+1);
-                    NOMBRE_IMAGEN = CustomDate.getNewDate() + EXTENSION_IMAGEN;
-
-
-                    objNoticia.setUrlImagen("https://purisinfo.blob.core.windows.net/img/" + NOMBRE_IMAGEN);
-
-
-                    //objReporte.setTipoReporte(ID_TIPO_REPORTE);
-                    UploadReportAsyncTask objTarea = new UploadReportAsyncTask(objNoticia);
-                    objTarea.execute();
-
-
-                }catch(Exception e)
+                // se verifica que no sea una fecha futura
+                if(checkDate())
                 {
-                    Toast.makeText(getApplicationContext(), "error location " + e.toString(), Toast.LENGTH_SHORT).show();
 
+                    try
+                    {
+
+                        int idProvincia = Integer.parseInt(String.valueOf(PROVINCIA_SELECCIONADA)) + 1;
+                        int idTipoReporte = Integer.parseInt(String.valueOf(TIPO_REPORTE_SELECCIONADO)) + 1;
+
+
+                        String fecha = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date(ANIO_SELECCIONADO - 1900, MES_SELECCIONADO, DIA_SELECCIONADO, HORA_SELECCIONADO, MINUTO_SELECCIONADO));
+
+                        objNoticia.setIdusuario(MobileServiceCustom.USUARIO_LOGUEADO.getId());
+                        objNoticia.setNombre(nombreNoticia);
+                        objNoticia.setDescripcion(descripcion);
+                        objNoticia.setIdCategoria(String.valueOf(idTipoReporte));
+                        objNoticia.setIdProvincia(String.valueOf(idProvincia));
+                        objNoticia.setFechadesaparicion(fecha);
+
+                        // se verifica si el path inicia con https, eso quiere decir que no se ha seleccionado una nueva imagen y debe quedar
+                        // con la que está
+                        if(!PATH_IMAGEN.trim().isEmpty())
+                        {
+                            EXTENSION_IMAGEN =  "." + PATH_IMAGEN.substring(PATH_IMAGEN.lastIndexOf(".")+1);
+                            NOMBRE_IMAGEN = CustomDate.getNewDate() + EXTENSION_IMAGEN;
+
+                            objNoticia.setUrlImagen("https://purisinfo.blob.core.windows.net/img/" + NOMBRE_IMAGEN);
+                        }
+
+
+
+                        UploadReportAsyncTask objTarea = new UploadReportAsyncTask(objNoticia);
+                        objTarea.execute();
+
+
+                    }catch(Exception e)
+                    {
+                        Toast.makeText(getApplicationContext(), "error location " + e.toString(), Toast.LENGTH_SHORT).show();
+
+                    }
                 }
-
-
-
-
+                else
+                {
+                    Snackbar.make(imgvNoticiaPreview, "Verifique la fecha seleccionada", Snackbar.LENGTH_SHORT).show(); // Don’t forget to show!
+                }
 
             }
 
@@ -453,24 +449,105 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
 
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
-        txtvInfoFecha.setText(day + "/" + month + "/" + year);
 
         DIA_SELECCIONADO = day;
-        MES_SELECCIONADO = month;
+        MES_SELECCIONADO = month + 1;
         ANIO_SELECCIONADO = year;
+
+
+        // se verifica que haya seleccionado una fecha que sea menor o igual a la de hoy
+        if(checkDate())
+        {
+            txtvInfoFecha.setText(customDate(DIA_SELECCIONADO, MES_SELECCIONADO, ANIO_SELECCIONADO));
+        }
+        else
+        {
+            Snackbar.make(imgvNoticiaPreview, "Verifique la fecha seleccionada", Snackbar.LENGTH_SHORT).show(); // Don’t forget to show!
+        }
 
 
     }
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-        txtvInfoHora.setText(hourOfDay + ":" + minute);
 
 
         HORA_SELECCIONADO = hourOfDay;
         MINUTO_SELECCIONADO = minute;
+
+        txtvInfoHora.setText(customHour(HORA_SELECCIONADO,MINUTO_SELECCIONADO));
+
     }
 
+    private String customDate(int pDay,int pMonth, int pYear)
+    {
+        String fecha = "Sin definir";
+
+        if (pDay < 10)
+        {
+            fecha = "0" + pDay;
+        }
+        else
+        {
+            fecha = String.valueOf(pDay);
+        }
+
+        fecha += "/";
+
+        if (pMonth < 10)
+        {
+            fecha += "0" + pMonth;
+        }
+        else
+        {
+            fecha += String.valueOf(pMonth);
+        }
+
+        fecha += "/" + pYear;
+
+        return fecha;
+    }
+
+    private String customHour(int pHour,int pMinute)
+    {
+        String hora = "Sin definir";
+
+        if(pHour < 10)
+        {
+            hora = "0" + pHour;
+        }
+        else
+        {
+            hora = String.valueOf(pHour);
+        }
+
+        hora += ":";
+
+        if(pMinute < 10)
+        {
+            hora += "0" + pMinute;
+        }
+        else
+        {
+            hora += String.valueOf(pMinute);
+        }
+
+        return hora;
+    }
+
+    private boolean checkDate()
+    {
+        // se verifica que haya seleccionado una fecha que sea menor o igual a la de hoy
+        if(DIA_SELECCIONADO <= DIA_ACTUAL && MES_SELECCIONADO <= MES_ACTUAL)
+        {
+            return true;
+
+        }
+        else
+        {
+            return false;
+        }
+    }
 
     class UploadReportAsyncTask extends AsyncTask<Void, Integer, Boolean>
     {
@@ -510,6 +587,13 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
         protected Boolean doInBackground(Void... params) {
 
             try{
+
+                // se verifica si es un nuevo registro
+                if(!PATH_IMAGEN.trim().isEmpty())
+                {
+
+
+
                 // Setup the cloud storage account.
                 CloudStorageAccount account = CloudStorageAccount
                         .parse(storageConnectionString);
@@ -560,8 +644,19 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
                 */
                 blob.upload(new FileInputStream(sourceFile), sourceFile.length());
 
-                mNoticiaTable.insert(objNoticia).get();
+                }
 
+                // se verifica si el id está vacío, eso indica que es un nuevo registro
+                if(objNoticiaCompleta == null)
+                {
+                    mNoticiaTable.insert(objNoticia).get();
+                }
+                else
+                {
+                    mNoticiaTable.update(objNoticia);
+                }
+
+                return true;
             /*
             // Download the image file.
             File destinationFile = new File(sourceFile.getParentFile(), "image1Download.tmp");
@@ -601,7 +696,7 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
                 */
                 return false;
             }
-            return true;
+
         }
 
         @Override
@@ -617,17 +712,27 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
 
         @Override
         protected void onPostExecute(Boolean result) {
+
+            String mensajeSnack = "";
             if(result)
             {
-                Toast.makeText(getApplicationContext(), "Noticia agregada exitosamente",
-                        Toast.LENGTH_SHORT).show();
+                if(objNoticiaCompleta == null)
+                {
+                    mensajeSnack =  "Noticia agregada exitosamente";
+                }
+                else
+                {
+                    mensajeSnack =  "Noticia actualizada exitosamente";
+                }
+
                 resetActivity();
             }
             else
             {
-                Toast.makeText(getApplicationContext(), "Error al agregar la noticia",
-                        Toast.LENGTH_SHORT).show();
+                mensajeSnack = "Error al agregar la noticia";
             }
+
+            Snackbar.make(imgvNoticiaPreview, mensajeSnack, Snackbar.LENGTH_SHORT).show(); // Don’t forget to show!
 
             progressDialog.dismiss();
         }
