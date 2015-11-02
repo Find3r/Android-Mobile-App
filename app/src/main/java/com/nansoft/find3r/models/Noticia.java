@@ -105,10 +105,23 @@ public class Noticia
 
     }
 
-    public String getFechadesaparicion(int a) {
+    public String getHoraDesaparicion() {
 
+        SimpleDateFormat myFormat = new SimpleDateFormat("HH:mm");
+        SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        String fecha = "Sin definir";
+        try {
 
+            //fecha = myFormat.format(fromUser.parse(fechadesaparicion.substring(11,15)));
+            fecha = myFormat.format(fromUser.parse(fechadesaparicion));
+        } catch (Exception e) {
 
+        }
+        return fecha;
+
+    }
+
+    public String getFechadesaparicionCompleta() {
 
         return fechadesaparicion;
 
