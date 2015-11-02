@@ -9,9 +9,12 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Pair;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,7 +54,7 @@ public class NewsFragment extends Fragment
     private RecyclerView.LayoutManager mLayoutManager;
 
     MobileServiceList<NoticiaCompleta> mobileServiceList;
-
+    List<NoticiaCompleta> imageResults;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -65,6 +68,7 @@ public class NewsFragment extends Fragment
 
         //now you must initialize your list view
         mRecyclerView = (RecyclerView) view.findViewById(R.id.lstvNoticias);
+
 
         // use this setting to improve performance if you know that changes
         // in content do not change the layout size of the RecyclerView
@@ -114,6 +118,8 @@ public class NewsFragment extends Fragment
         return view;
     }
 
+
+
     public void cargarNoticias(final FragmentActivity activity) {
         imgvSad.setVisibility(View.GONE);
         txtvSad.setVisibility(View.GONE);
@@ -148,7 +154,7 @@ public class NewsFragment extends Fragment
 
                         Type collectionType = new TypeToken<List<NoticiaCompleta>>(){}.getType();
 
-                        List<NoticiaCompleta> imageResults = objGson.fromJson(jsonArray, collectionType);
+                        imageResults = objGson.fromJson(jsonArray, collectionType);
 
                         mAdapter = new NoticiaCompletaAdapter(imageResults,mContext);
                         mRecyclerView.setAdapter(mAdapter);
