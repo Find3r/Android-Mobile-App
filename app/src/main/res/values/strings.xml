@@ -3,6 +3,10 @@
     <string name="comentar">Comentar</string>
     <string name="app_name">Find3r</string>
 
+    <string name="action_notifications">Notificaciones</string>
+    <string name="action_search">Buscar</string>
+    <string name="action_myprofile">Mi Perfil</string>
+
     <!-- Opciones de menú -->
     <string name="reportarContenido">Reportar contenido</string>
     <string name="editarContenido">Editar contenido</string>
@@ -76,7 +80,7 @@
 
     <string name="errorCarga">Ha ocurrido un error con la conexión a internet , pulsa acá para volver a intentar</string>
     <string name="lblTipoReporte">Tipo de reporte</string>
-    <string name="action_search">buscar</string>
+
 
 
     <string-array name="provincias_array">

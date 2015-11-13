@@ -3,13 +3,11 @@ package com.nansoft.find3r.activity;
 import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Pair;
 import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,6 +37,8 @@ public class NoticiasCategoriaActivity extends CustomAppCompatActivity {
     NoticiaCompletaAdapter adapter;
     ImageView imgvSad;
     TextView txtvSad;
+    String nombreCategoria = "";
+    String searchTermEntered = "";
 
     MobileServiceCustom mobileServiceCustom;
 
@@ -57,6 +57,7 @@ public class NoticiasCategoriaActivity extends CustomAppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
         View includedLayout = findViewById(R.id.sindatos);
         imgvSad = (ImageView) includedLayout.findViewById(R.id.imgvInfoProblema);
         txtvSad = (TextView) includedLayout.findViewById(R.id.txtvInfoProblema);
@@ -66,7 +67,7 @@ public class NoticiasCategoriaActivity extends CustomAppCompatActivity {
 
         //getActionBar().setDisplayHomeAsUpEnabled(true);
         idCategoria = getIntent().getExtras().getString("idCategoria");
-        String nombreCategoria = getIntent().getExtras().getString("nombreCategoria");
+        nombreCategoria = getIntent().getExtras().getString("nombreCategoria");
         setTitle(nombreCategoria);
 
         //now you must initialize your list view
@@ -93,7 +94,15 @@ public class NoticiasCategoriaActivity extends CustomAppCompatActivity {
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                cargarNoticias();
+
+                // se verifica si hya un criterio de búsqueda establecido para que actualice las noticias que cumplen ese criterio
+                if (!searchTermEntered.trim().isEmpty()) {
+                    cargarNoticias(searchTermEntered);
+                }
+                else
+                {
+                    cargarNoticias();
+                }
             }
         });
 
@@ -138,12 +147,13 @@ public class NoticiasCategoriaActivity extends CustomAppCompatActivity {
                 });
 
                 if (!s.trim().isEmpty()) {
-
+                    searchTermEntered = s;
                     cargarNoticias(s);
                     ESTADO_BUSQUEDA = true;
                 }
                 else
                 {
+                    searchTermEntered = "";
                     cargarNoticias();
                     ESTADO_BUSQUEDA = false;
                 }
@@ -200,6 +210,7 @@ public class NoticiasCategoriaActivity extends CustomAppCompatActivity {
                         estadoAdapter(false);
                     }
 
+                    setTitle(nombreCategoria);
 
                 }
             });
@@ -212,7 +223,7 @@ public class NoticiasCategoriaActivity extends CustomAppCompatActivity {
 
     }
 
-    public void cargarNoticias(String searchTerm) {
+    public void cargarNoticias(final String searchTerm) {
 
         itemsCollection = new ArrayList<>();
         try {
@@ -246,6 +257,7 @@ public class NoticiasCategoriaActivity extends CustomAppCompatActivity {
                         itemsCollection = objGson.fromJson(jsonArray, collectionType);
 
                         estadoAdapter(true);
+                        setTitle("Resultados para \"" + searchTerm + "\"");
 
                     }
                     else
