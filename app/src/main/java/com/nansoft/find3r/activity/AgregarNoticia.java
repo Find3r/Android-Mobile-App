@@ -198,7 +198,7 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
         HORA_SELECCIONADO = calendar.get(Calendar.HOUR_OF_DAY);
 
         DIA_ACTUAL = DIA_SELECCIONADO;
-        MES_ACTUAL = MES_SELECCIONADO;
+        MES_ACTUAL = MES_SELECCIONADO + 1;
         ANIO_ACTUAL = ANIO_SELECCIONADO;
 
         // establecemos el texto en los text view que informan al usuario del valor seleccionado
@@ -207,12 +207,12 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
 
         final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), false);
         final TimePickerDialog timePickerDialog = TimePickerDialog.newInstance(this, calendar.get(Calendar.HOUR_OF_DAY) ,calendar.get(Calendar.MINUTE), false, false);
-
+        datePickerDialog.setYearRange(1985, calendar.get(Calendar.YEAR)+1);
         findViewById(R.id.btnFecha).setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                datePickerDialog.setYearRange(1985, calendar.get(Calendar.YEAR));
+
                 datePickerDialog.setCloseOnSingleTapDay(false);
                 datePickerDialog.show(getSupportFragmentManager(), DATEPICKER_TAG);
             }
