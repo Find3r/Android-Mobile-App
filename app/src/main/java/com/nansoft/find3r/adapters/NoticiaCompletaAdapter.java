@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.nansoft.find3r.R;
@@ -68,6 +69,7 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
                 .error(R.drawable.error_image)
                 .into(viewHolder.imgvFotoPerfilUsuario);
 
+
         Glide.with(context)
                 .load(objNoticia.getUrlImagen().trim())
                 .asBitmap()
@@ -76,13 +78,22 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
                 .error(R.drawable.error_image)
                 .into(viewHolder.imgvImagen);
 
+        /*
+        Picasso.with(context).load(objNoticia.getUrlImagen().trim())
+                .placeholder(R.drawable.picture_default)
+                .error(R.drawable.error_image)
+
+                .into(viewHolder.imgvImagen);
+        */
+
+
         viewHolder.imgvImagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Intent intent = new Intent(context, NewDescriptionActivity.class);
                 //intent.putExtra("URL_IMAGEN",lstNoticias.get(position).getUrlImagen());
-                intent.putExtra("obj",lstNoticias.get(position));
+                intent.putExtra("obj", lstNoticias.get(position));
                 context.startActivity(intent);
                 ((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
 

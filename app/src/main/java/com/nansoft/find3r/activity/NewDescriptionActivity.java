@@ -18,7 +18,6 @@ import uk.co.senab.photoview.PhotoView;
 
 public class NewDescriptionActivity extends CustomAppCompatActivity {
 
-    SwipeRefreshLayout swipeRefreshLayout;
     TextView txtvNewName;
     TextView txtvNewDescription;
     PhotoView imgvNewDescription;
@@ -35,7 +34,6 @@ public class NewDescriptionActivity extends CustomAppCompatActivity {
         setContentView(R.layout.new_description);
 
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swprlNewDescription);
         txtvNewName = (TextView) findViewById(R.id.txtvNewName);
         txtvNewDescription = (TextView) findViewById(R.id.txtvNewDescription);
         imgvNewDescription = (PhotoView) findViewById(R.id.imgvNewDescription);
@@ -66,14 +64,6 @@ public class NewDescriptionActivity extends CustomAppCompatActivity {
 
         }
 
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                cargarDatos();
-            }
-        });
-
-
     }
 
     private void cargarDatos()
@@ -103,6 +93,6 @@ public class NewDescriptionActivity extends CustomAppCompatActivity {
 
         }
 
-        swipeRefreshLayout.setRefreshing(false);
+
     }
 }
