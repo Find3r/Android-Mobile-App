@@ -85,10 +85,12 @@ public class ItemOptionsDialog extends DialogFragment {
         if (objNoticia.getIdusuario().equalsIgnoreCase(mobileServiceCustom.getUserId()))
         {
             layEditar.setVisibility(View.VISIBLE);
+            layReportar.setVisibility(View.GONE);
         }
         else
         {
             layEditar.setVisibility(View.GONE);
+            layReportar.setVisibility(View.VISIBLE);
         }
 
         // on click listeners de editar y reportar noticias

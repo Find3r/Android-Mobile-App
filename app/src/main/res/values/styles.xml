@@ -71,6 +71,7 @@
         <item name="android:background">@color/verdeoscuro</item>
         <item name="background">@color/verdeoscuro</item>
         <item name="android:icon">@mipmap/ic_launcher</item>
+        <item name="android:layout_marginLeft">-10dp</item>
 
     </style>
 

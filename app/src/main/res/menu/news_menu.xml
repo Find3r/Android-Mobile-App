@@ -1,15 +1,23 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools" >
-    <!--
+
     <item
-        android:id="@+id/action_news"
-        android:icon="@drawable/news_bar"
+        android:id="@+id/action_lost"
+        android:icon="@drawable/lost_bar"
         app:showAsAction="always"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
         android:title="@string/action_contact"
         android:orderInCategory="0" />
-    -->
+
+    <item
+        android:id="@+id/action_found"
+        android:icon="@drawable/found_bar"
+        app:showAsAction="always"
+        app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
+        android:title="@string/action_contact"
+        android:orderInCategory="1" />
+
 
     <item
         android:id="@+id/action_notifications"
@@ -17,7 +25,7 @@
         app:showAsAction="always"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
         android:title="@string/action_contact"
-        android:orderInCategory="1"
+        android:orderInCategory="2"
         />
 
     <item
@@ -26,16 +34,16 @@
         app:showAsAction="always"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
         android:title="@string/action_contact"
-        android:orderInCategory="2"
+        android:orderInCategory="3"
         />
 
     <item
         android:id="@+id/action_user"
         android:icon="@drawable/user_bar"
-        app:showAsAction="always"
+        app:showAsAction="never"
         app:actionProviderClass="android.support.v7.widget.ShareActionProvider"
         android:title="@string/action_contact"
-        android:orderInCategory="3"/>
+        android:orderInCategory="4"/>
 
     <!-- Settings, should always be in the overflow -->
     <item android:id="@+id/action_sign_out"
