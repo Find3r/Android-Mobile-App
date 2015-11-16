@@ -110,6 +110,7 @@ public class NotificationsFragment extends Fragment
                 MobileServiceCustom mobileServiceCustom = new MobileServiceCustom(activity.getApplicationContext());
 
                 mNotificacionTable = mobileServiceCustom.mClient.getTable("notificacionusuario", NotificacionUsuario.class);
+
             }
 
             @Override

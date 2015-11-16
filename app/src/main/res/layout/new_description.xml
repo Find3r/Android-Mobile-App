@@ -15,16 +15,17 @@
         android:layout_height="wrap_content"
         android:textColor="@color/white"
         android:textSize="25dp"
+        android:layout_alignParentTop="true"
 
         android:layout_centerHorizontal="true" />
 
     <uk.co.senab.photoview.PhotoView
         android:id="@+id/imgvNewDescription"
-        android:layout_below="@id/txtvNewName"
         android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true"
         android:scaleType="fitXY"
         android:adjustViewBounds="true"
         />

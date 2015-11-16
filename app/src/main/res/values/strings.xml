@@ -2,7 +2,10 @@
 <resources>
     <string name="comentar">Comentar</string>
     <string name="app_name">Find3r</string>
-
+    <string name="solved">Resuelto</string>
+    <string name="unsolved">Pendiente</string>
+    <string name="save">Seguir</string>
+    <string name="discard">Descartar</string>
     <string name="action_notifications">Notificaciones</string>
     <string name="action_search">Buscar</string>
     <string name="action_myprofile">Mi Perfil</string>

@@ -54,10 +54,10 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
     }
 
     @Override
-    public void onBindViewHolder(NoticiaCompletaViewHolder viewHolder,final int position)
+    public void onBindViewHolder(final NoticiaCompletaViewHolder viewHolder,final int position)
     {
         // se obtiene el objeto actual
-        NoticiaCompleta objNoticia = lstNoticias.get(position);
+        final NoticiaCompleta objNoticia = lstNoticias.get(position);
 
         viewHolder.txtvNombreUsuarioNoticia.setText(objNoticia.getNombreUsuario());
 
@@ -111,15 +111,20 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
 
         if(objNoticia.getIdestado().trim().equals("0"))
         {
-            viewHolder.txtvEstado.setText(context.getString(R.string.lost));
-            viewHolder.imgvEstado.setImageResource(context.getResources().getIdentifier("lost","drawable", context.getPackageName()));
+            viewHolder.txtvEstado.setText(context.getString(R.string.solved));
+            viewHolder.imgvEstado.setImageResource(context.getResources().getIdentifier("solved", "drawable", context.getPackageName()));
+
+            viewHolder.txtvTipo.setText(context.getString(R.string.lost));
+            viewHolder.imgvTipo.setImageResource(context.getResources().getIdentifier("lost", "drawable", context.getPackageName()));
 
         }
         else
         {
-            viewHolder.txtvEstado.setText(context.getString(R.string.found));
-            viewHolder.imgvEstado.setImageResource(context.getResources().getIdentifier("found","drawable", context.getPackageName()));
+            viewHolder.txtvEstado.setText(context.getString(R.string.unsolved));
+            viewHolder.imgvEstado.setImageResource(context.getResources().getIdentifier("unsolved","drawable", context.getPackageName()));
 
+            viewHolder.txtvTipo.setText(context.getString(R.string.found));
+            viewHolder.imgvTipo.setImageResource(context.getResources().getIdentifier("found", "drawable", context.getPackageName()));
         }
 
         // se establece onClickListener en el componente de cada vista
@@ -151,6 +156,25 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
             @Override
             public void onClick(View v) {
                 showItemOptionsDialog(lstNoticias.get(position));
+            }
+        });
+
+        viewHolder.imgvFollow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if(objNoticia.getIdestado().trim().equals("0"))
+                {
+                    lstNoticias.get(position).setIdestado("1");
+                    viewHolder.txtvFollow.setText(context.getString(R.string.discard));
+                    viewHolder.imgvFollow.setImageResource(context.getResources().getIdentifier("unfollow", "drawable", context.getPackageName()));
+                }
+                else
+                {
+                    lstNoticias.get(position).setIdestado("0");
+                    viewHolder.txtvFollow.setText(context.getString(R.string.save));
+                    viewHolder.imgvFollow.setImageResource(context.getResources().getIdentifier("follow", "drawable", context.getPackageName()));
+                }
             }
         });
 
@@ -208,21 +232,22 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
         public TextView txtvDescripcion;
         public TextView txtvEstado;
         public TextView txtvFecha;
+        public TextView txtvTipo;
+        public TextView txtvFollow;
         public TextView txtvCantidadComentarios;
         public TextView txtvNombreUsuarioNoticia;
         public CircularImageView imgvFotoPerfilUsuario;
         public ImageView imgvImagen;
         public LinearLayout layImagenComentario;
         public ImageView imgvEstado;
-        public ImageView imgvSeguimiento;
+        public ImageView imgvTipo;
+        public ImageView imgvFollow;
         public ImageView imgvComentario;
         public ImageView imgvNoticiaOptions;
 
         public NoticiaCompletaViewHolder(View view)
         {
             super(view);
-
-
 
             imgvFotoPerfilUsuario = (CircularImageView) view.findViewById(R.id.imgvPerfilUsuarioNoticia);
 
@@ -236,13 +261,19 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
 
             imgvEstado = (ImageView) view.findViewById(R.id.imgvEstado);
 
+            imgvTipo = (ImageView) view.findViewById(R.id.imgvTipo);
+
             imgvComentario = (ImageView) view.findViewById(R.id.imgvComentario);
+
+            txtvTipo = (TextView) view.findViewById(R.id.txtvTipo);
 
             txtvCantidadComentarios = (TextView) view.findViewById(R.id.txtvCantidadComentarios);
 
-            //viewHolder.imgvSeguimiento = (ImageView) row.findViewById(R.id.imgvSeguimiento);
+            imgvFollow = (ImageView) view.findViewById(R.id.imgvFollow);
 
             txtvEstado = (TextView) view.findViewById(R.id.txtvEstado);
+
+            txtvFollow = (TextView) view.findViewById(R.id.txtvFollow);
 
             txtvFecha = (TextView) view.findViewById(R.id.txtvFechaNoticia);
 
