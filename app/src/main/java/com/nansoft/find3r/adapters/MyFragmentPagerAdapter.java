@@ -4,16 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-
-import com.astuetz.PagerSlidingTabStrip;
-import com.nansoft.find3r.R;
 import com.nansoft.find3r.fragments.FragmentSwipe;
 
 /**
  * Created by Carlos on 20/04/2015.
+ *
+ * Adapter de las pestañas usadas en el perfil de usuario
  */
 public class MyFragmentPagerAdapter extends FragmentPagerAdapter
 {
