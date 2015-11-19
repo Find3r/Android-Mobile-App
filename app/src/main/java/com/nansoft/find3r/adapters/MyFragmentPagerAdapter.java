@@ -10,62 +10,66 @@ import android.support.v4.app.FragmentPagerAdapter;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.nansoft.find3r.R;
+import com.nansoft.find3r.fragments.FragmentSwipe;
 
 /**
  * Created by Carlos on 20/04/2015.
  */
-public class MyFragmentPagerAdapter extends FragmentPagerAdapter implements PagerSlidingTabStrip.IconTabProvider
+public class MyFragmentPagerAdapter extends FragmentPagerAdapter
 {
 
-    // List of fragments which are going to set in the view pager widget
-    List<Fragment> fragments;
+    List<FragmentSwipe> fragments;
+    List<String> titles;
 
-    //private int tabIcons[] = {R.drawable.news, R.drawable.category, R.drawable.notification,R.drawable.user};
-    private int tabIcons[] = {R.drawable.news_active,R.drawable.notification, R.drawable.user};
     Context mContext;
-    /**
-     * Constructor
-     *
-     * @param fm
-     *            interface for interacting with Fragment objects inside of an
-     *            Activity
-     */
-    public MyFragmentPagerAdapter(FragmentManager fm ,Context pContexto) {
+
+    public MyFragmentPagerAdapter(FragmentManager fm ,Context pContexto)
+    {
         super(fm);
-        this.fragments = new ArrayList<Fragment>();
+        fragments = new ArrayList<FragmentSwipe>();
+        titles = new ArrayList<String>();
         mContext = pContexto;
     }
 
     /**
-     * Add a new fragment in the list.
      *
-     * @param fragment
-     *            a new fragment
+     * @param pFragment fragment a agregar
+     * @param pTitle título del fragment a agregar
      */
-    public void addFragment(Fragment fragment) {
-        this.fragments.add(fragment);
+    public void addFragment(FragmentSwipe pFragment,String pTitle)
+    {
+        fragments.add(pFragment);
+        titles.add(pTitle);
     }
 
+    /**
+     *
+     * @param position entero que indica la posición
+     * @return fragment en la posición recibida
+     */
     @Override
-    public Fragment getItem(int position) {
-        return this.fragments.get(position);
+    public FragmentSwipe getItem(int position)
+    {
+        return fragments.get(position);
     }
 
+    /**
+     *
+     * @return cantidad de fragments
+     */
     @Override
     public int getCount() {
-        return this.fragments.size();
+        return fragments.size();
     }
 
-    /*
+    /**
+     *
+     * @param position posición del título a consultar
+     * @return título en la posición indicada
+     */
     @Override
-    public CharSequence getPageTitle(int position)
-    {
-        return TITLES[position];
+    public CharSequence getPageTitle(int position) {
+        return titles.get(position);
     }
-    */
 
-    @Override
-    public int getPageIconResId(int position) {
-        return tabIcons[position];
-    }
 }
