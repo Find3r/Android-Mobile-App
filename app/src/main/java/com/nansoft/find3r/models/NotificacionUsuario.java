@@ -11,25 +11,25 @@ import java.text.SimpleDateFormat;
 public class NotificacionUsuario
 {
     @SerializedName("id")
-    private String id;
+    public String id;
 
     @SerializedName("idusuario")
-    private String idusuario;
+    public String idusuario;
 
     @SerializedName("idnoticia")
-    private String idnoticia;
+    public String idnoticia;
 
     @SerializedName("__createdAt")
-    private String __createdAt;
+    public String __createdAt;
 
     @SerializedName("idnotificacion")
-    private String idnotificacion;
+    public String idnotificacion;
 
     @SerializedName("estadoleido")
-    private boolean estadoleido;
+    public boolean estadoleido;
 
     @SerializedName("descripcion")
-    private String descripcion;
+    public String descripcion;
 
     public NotificacionUsuario(String id,String idusuario, String idnotificacion, boolean estadoleido,String descripcion) {
         this.id = id;
@@ -39,53 +39,6 @@ public class NotificacionUsuario
         this.descripcion = descripcion;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getIdusuario() {
-        return idusuario;
-    }
-
-    public void setIdusuario(String idusuario) {
-        this.idusuario = idusuario;
-    }
-
-    public String getIdnotificacion() {
-        return idnotificacion;
-    }
-
-    public void setIdnotificacion(String idnotificacion) {
-        this.idnotificacion = idnotificacion;
-    }
-
-    public boolean isEstadoleido() {
-        return estadoleido;
-    }
-
-    public void setEstadoleido(boolean estadoleido) {
-        this.estadoleido = estadoleido;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getIdnoticia() {
-        return idnoticia;
-    }
-
-    public void setIdnoticia(String idnoticia) {
-        this.idnoticia = idnoticia;
-    }
 
     public String getFechaCreacion() {
 

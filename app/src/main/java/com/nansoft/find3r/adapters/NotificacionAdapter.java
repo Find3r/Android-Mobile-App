@@ -46,7 +46,7 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
         NotificacionUsuario objNotificacion = lstNotifications.get(position);
 
         // establecemos los atributos
-        contactViewHolder.txtvTitulo.setText(objNotificacion.getDescripcion());
+        contactViewHolder.txtvTitulo.setText(objNotificacion.descripcion);
         contactViewHolder.txtvSubtitulo.setText(objNotificacion.getFechaCreacion());
 
         // se establece onClickListener en el componente de cada vista
@@ -55,7 +55,7 @@ public class NotificacionAdapter extends RecyclerView.Adapter<NotificacionAdapte
             public void onClick(View v) {
 
                 Intent intent = new Intent(v.getContext(), ComentarioActivity.class);
-                intent.putExtra("idNoticia", lstNotifications.get(position).getIdnoticia());
+                intent.putExtra("idNoticia", lstNotifications.get(position).idnoticia);
                 v.getContext().startActivity(intent);
                 ((Activity) v.getContext()).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
             }
