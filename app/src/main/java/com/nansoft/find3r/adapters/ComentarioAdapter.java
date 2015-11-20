@@ -11,8 +11,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.nansoft.find3r.R;
+import com.nansoft.find3r.activity.MyProfileActivity;
 import com.nansoft.find3r.activity.UserProfileActivity;
 import com.nansoft.find3r.helpers.CircularImageView;
+import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.ComentarioCompleto;
 
 /**
@@ -76,9 +78,21 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Co
 
     private void navegarPerfilUsuario(int position,Context context)
     {
+        ComentarioCompleto comentario = lstComentarios[position];
 
-        Intent intent = new Intent(context, UserProfileActivity.class);
-        intent.putExtra("ID_USUARIO",lstComentarios[position].idUsuario);
+        Intent intent;
+
+        // se verifica si es mi perfil
+        if(comentario.idUsuario.equals(MobileServiceCustom.USUARIO_LOGUEADO.id))
+        {
+            intent = new Intent(context, MyProfileActivity.class);
+        }
+        else
+        {
+            intent = new Intent(context, UserProfileActivity.class);
+            intent.putExtra("ID_USUARIO",comentario.idUsuario);
+        }
+
         context.startActivity(intent);
         ((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }

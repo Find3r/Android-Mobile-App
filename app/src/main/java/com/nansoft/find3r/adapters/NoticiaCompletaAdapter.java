@@ -18,10 +18,12 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.ComentarioActivity;
+import com.nansoft.find3r.activity.MyProfileActivity;
 import com.nansoft.find3r.activity.NewDescriptionActivity;
 import com.nansoft.find3r.activity.UserProfileActivity;
 import com.nansoft.find3r.fragments.ItemOptionsDialog;
 import com.nansoft.find3r.helpers.CircularImageView;
+import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.NoticiaCompleta;
 
 import java.util.List;
@@ -210,10 +212,18 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
 
     private void navegarPerfilUsuario(int position,Context context)
     {
-        //Intent intent = new Intent(context, PerfilUsuarioActivity.class);
-        //intent.putExtra("id",lstNoticias[position].getIdusuario());
-        Intent intent = new Intent(context, UserProfileActivity.class);
-        intent.putExtra("ID_USUARIO",lstNoticias.get(position).idusuario);
+        String idUsuario = lstNoticias.get(position).idusuario;
+        Intent intent;
+        if(idUsuario.equals(MobileServiceCustom.USUARIO_LOGUEADO.id))
+        {
+            intent = new Intent(context, MyProfileActivity.class);
+        }
+        else
+        {
+            intent = new Intent(context, UserProfileActivity.class);
+            intent.putExtra("ID_USUARIO",idUsuario);
+        }
+
 
         context.startActivity(intent);
         ((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);

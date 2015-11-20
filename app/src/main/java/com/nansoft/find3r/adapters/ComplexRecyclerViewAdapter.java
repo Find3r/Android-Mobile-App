@@ -14,14 +14,17 @@ import android.view.ViewGroup;
 import com.bumptech.glide.Glide;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.ComentarioActivity;
+import com.nansoft.find3r.activity.MyProfileActivity;
 import com.nansoft.find3r.activity.NewDescriptionActivity;
 import com.nansoft.find3r.activity.NoticiasCategoriaActivity;
 import com.nansoft.find3r.activity.UserProfileActivity;
 import com.nansoft.find3r.fragments.ItemOptionsDialog;
+import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.holder.CategoriaViewHolder;
 import com.nansoft.find3r.holder.ViewHolder1;
 import com.nansoft.find3r.holder.UserProfileViewHolder;
 import com.nansoft.find3r.models.Categoria;
+import com.nansoft.find3r.models.ComentarioCompleto;
 import com.nansoft.find3r.models.NoticiaCompleta;
 import com.nansoft.find3r.models.Usuario;
 
@@ -255,10 +258,23 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
     private void navegarPerfilUsuario(String pIdUsuario,Context context)
     {
-        Intent intent = new Intent(context, UserProfileActivity.class);
-        intent.putExtra("ID_USUARIO",pIdUsuario);
+
+        Intent intent;
+
+        // se verifica si es mi perfil
+        if(pIdUsuario.equals(MobileServiceCustom.USUARIO_LOGUEADO.id))
+        {
+            intent = new Intent(context, MyProfileActivity.class);
+        }
+        else
+        {
+            intent = new Intent(context, UserProfileActivity.class);
+            intent.putExtra("ID_USUARIO",pIdUsuario);
+        }
+
         context.startActivity(intent);
         ((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
+
     }
 
 
