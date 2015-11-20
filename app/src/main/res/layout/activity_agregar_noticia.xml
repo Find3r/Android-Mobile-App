@@ -138,14 +138,24 @@
 
         <TextView
             style="@style/stlLetrasIndicacion"
+            android:text="@string/lblCategoria"/>
+
+
+        <Spinner
+            android:id="@+id/spnrCategoriaReporte"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Auto, Mascota, entre otros..." />
+
+        <TextView
+            style="@style/stlLetrasIndicacion"
             android:text="@string/lblTipoReporte"/>
 
 
         <Spinner
             android:id="@+id/spnrTipoReporte"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Auto, Mascota, entre otros..." />
+            android:layout_height="wrap_content"/>
 
         <TextView
             style="@style/stlLetrasIndicacion"

@@ -82,6 +82,7 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
     int HORA_SELECCIONADO;
 
     Spinner spnrProvincia;
+    Spinner spinnerCategoriaReporte;
     Spinner spinnerTipoReporte;
     Spinner spnrEstadoReporte;
     ImageView imgvNoticiaPreview;
@@ -136,32 +137,46 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
 
 
         spnrProvincia = (Spinner)findViewById(R.id.spnrProvincias);
+        spinnerCategoriaReporte = (Spinner)findViewById(R.id.spnrCategoriaReporte);
         spinnerTipoReporte = (Spinner)findViewById(R.id.spnrTipoReporte);
         spnrEstadoReporte = (Spinner) findViewById(R.id.spnrEstadoReporte);
 
-        // Cargamos el spinner con el array de strings
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(AgregarNoticia.this,
-                R.array.tipo_reporte_array, android.R.layout.simple_dropdown_item_1line);
-
-        spinnerTipoReporte.setAdapter(adapter);
-
+        //region adapter provincias
         // Cargamos el spinner con el array de strings
         ArrayAdapter<CharSequence> adapter1 = ArrayAdapter.createFromResource(AgregarNoticia.this,
                 R.array.provincias_array, android.R.layout.simple_dropdown_item_1line);
 
         spnrProvincia.setAdapter(adapter1);
+        //endregion
 
+        //region adapter categorías
+        // Cargamos el spinner con el array de strings
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(AgregarNoticia.this,
+                R.array.categoria_reporte_array, android.R.layout.simple_dropdown_item_1line);
+
+        spinnerCategoriaReporte.setAdapter(adapter);
+        //endregion
+
+        //region adapter tipo reporte
+        ArrayAdapter<CharSequence> adapterTipoReporte = ArrayAdapter.createFromResource(AgregarNoticia.this,
+                R.array.tipo_reporte_array, android.R.layout.simple_dropdown_item_1line);
+
+        spinnerTipoReporte.setAdapter(adapterTipoReporte);
+        //endregion
+
+        //region adapter estado reporte
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(AgregarNoticia.this,
-                R.array.estado_reporte, android.R.layout.simple_dropdown_item_1line);
+                R.array.estado_reporte_array, android.R.layout.simple_dropdown_item_1line);
 
         spnrEstadoReporte.setAdapter(adapter2);
-
+        //endregion
 
         spnrProvincia.setSelection(0);
+        spinnerCategoriaReporte.setSelection(0);
         spinnerTipoReporte.setSelection(0);
         spnrEstadoReporte.setSelection(0);
 
-        spinnerTipoReporte.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        spinnerCategoriaReporte.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 TIPO_REPORTE_SELECCIONADO = position;
@@ -265,10 +280,14 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
         edtNombreNoticia.setText(objNoticiaCompleta.nombre);
         edtDescripcionNoticia.setText(objNoticiaCompleta.descripcion);
 
-        spinnerTipoReporte.setSelection(Integer.parseInt(objNoticiaCompleta.idCategoria) - 1);
+        spinnerCategoriaReporte.setSelection(Integer.parseInt(objNoticiaCompleta.idCategoria) - 1);
         spnrProvincia.setSelection(Integer.parseInt(objNoticiaCompleta.idProvincia) - 1);
 
-        spnrEstadoReporte.setSelection(Integer.parseInt(objNoticiaCompleta.idestado));
+        spinnerTipoReporte.setSelection(Integer.parseInt(objNoticiaCompleta.idestado));
+
+        int position = objNoticiaCompleta.solved ? 1 : 0;
+
+        spnrEstadoReporte.setSelection(position);
 
         // establecemos la fecha y hora
         txtvInfoFecha.setText(objNoticiaCompleta.getFechadesaparicion());
@@ -362,7 +381,9 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
         PATH_IMAGEN = "";
 
         spnrProvincia.setSelection(0);
-
+        spnrEstadoReporte.setSelection(0);
+        spinnerTipoReporte.setSelection(0);
+        spinnerCategoriaReporte.setSelection(0);
 
     }
 
@@ -374,7 +395,7 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
         if(objNoticiaCompleta != null)
         {
             objNoticia = objNoticiaCompleta;
-            objNoticia.idestado = String.valueOf(spnrEstadoReporte.getSelectedItemPosition());
+            objNoticia.idestado = String.valueOf(spinnerTipoReporte.getSelectedItemPosition());
         }
 
         String nombreNoticia = edtNombreNoticia.getText().toString();
@@ -414,6 +435,9 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
                         objNoticia.idCategoria = String.valueOf(idTipoReporte);
                         objNoticia.idProvincia = String.valueOf(idProvincia);
                         objNoticia.fechadesaparicion = fecha;
+
+                        boolean status = spnrEstadoReporte.getSelectedItemPosition() == 0 ? false : true;
+                        objNoticia.solved = status;
 
                         // se verifica si el path inicia con https, eso quiere decir que no se ha seleccionado una nueva imagen y debe quedar
                         // con la que está

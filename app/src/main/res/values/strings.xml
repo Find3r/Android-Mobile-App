@@ -82,9 +82,13 @@
     <string name="lblinsshared">Has compartido una imagen, en la siguiente pantalla selecciona el tipo de reporte</string>
 
     <string name="errorCarga">Ha ocurrido un error con la conexión a internet , pulsa acá para volver a intentar</string>
+    <string name="lblCategoria">Categoría</string>
     <string name="lblTipoReporte">Tipo de reporte</string>
 
-
+    <string-array name="estado_reporte_array">
+        <item>Pendiente</item>
+        <item>Resuelto</item>
+    </string-array>
 
     <string-array name="provincias_array">
         <item>San José</item>
@@ -96,14 +100,14 @@
         <item>Limón</item>
     </string-array>
 
-    <string-array name="tipo_reporte_array">
+    <string-array name="categoria_reporte_array">
         <item>Personas</item>
         <item>Vehículos</item>
         <item>Mascotas</item>
         <item>Otros</item>
     </string-array>
 
-    <string-array name="estado_reporte">
+    <string-array name="tipo_reporte_array">
         <item>Perdid@</item>
         <item>Encontrad@</item>
     </string-array>
