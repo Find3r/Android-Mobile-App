@@ -39,6 +39,12 @@ public class MobileServiceCustom
                     ,KEY_MOBILE_SERVICES,
                     contex);
 
+            String id = getUserId();
+            if (!id.isEmpty())
+            {
+                USUARIO_LOGUEADO.setId(id);
+            }
+
         } catch (MalformedURLException e) {
             Toast.makeText(contex,"Error al conectar con el mobile services",Toast.LENGTH_SHORT).show();
         }
