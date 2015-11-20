@@ -7,25 +7,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.nansoft.find3r.R;
-import com.nansoft.find3r.activity.ComentarioActivity;
-import com.nansoft.find3r.activity.PerfilUsuarioActivity;
 import com.nansoft.find3r.activity.UserProfileActivity;
 import com.nansoft.find3r.helpers.CircularImageView;
-import com.nansoft.find3r.models.Comentario;
 import com.nansoft.find3r.models.ComentarioCompleto;
-import com.nansoft.find3r.models.NoticiaCompleta;
-import com.nansoft.find3r.models.Notificacion;
-
-import java.util.List;
-
-import uk.co.senab.photoview.PhotoViewAttacher;
 
 /**
  * Created by User on 7/4/2015.
