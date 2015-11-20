@@ -6,19 +6,24 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.view.MotionEventCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Pair;
-import android.view.ContextMenu;
-import android.view.Menu;
-import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.bumptech.glide.Glide;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -30,24 +35,27 @@ import com.melnykov.fab.FloatingActionButton;
 import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.adapters.ComplexRecyclerViewAdapter;
-import com.nansoft.find3r.adapters.NoticiaCompletaAdapter;
-import com.nansoft.find3r.fragments.UserProfileFragment;
+import com.nansoft.find3r.adapters.MyFragmentPagerAdapter;
+import com.nansoft.find3r.fragments.FragmentSwipe;
+import com.nansoft.find3r.fragments.NewsFragment;
+import com.nansoft.find3r.fragments.ProfileFragment;
+import com.nansoft.find3r.helpers.CircularImageView;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.NoticiaCompleta;
-import com.nansoft.find3r.models.User;
 import com.nansoft.find3r.models.Usuario;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UserProfileActivity extends CustomAppCompatActivity {
+public class UserProfileActivity extends CustomAppCompatActivity
+{
 
     ImageView imgvSad;
     TextView txtvSad;
 
     MobileServiceCustom customClient;
 
-    SwipeRefreshLayout mSwipeRefreshLayout;
+    static SwipeRefreshLayout mSwipeRefreshLayout;
 
     RecyclerView mRecyclerView;
 
@@ -61,9 +69,8 @@ public class UserProfileActivity extends CustomAppCompatActivity {
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.usuario_layout);
-        //loadFragment(new UserProfileFragment());
 
+        setContentView(R.layout.usuario_layout);
 
 
         try {
@@ -75,21 +82,24 @@ public class UserProfileActivity extends CustomAppCompatActivity {
         }
 
 
-        /**LAYOUT DE ERROR*****/
+        /////////LAYOUT DE ERROR////////////
         View includedLayout = findViewById(R.id.sindatos);
         imgvSad = (ImageView) includedLayout.findViewById(R.id.imgvInfoProblema);
         txtvSad = (TextView) includedLayout.findViewById(R.id.txtvInfoProblema);
         txtvSad.setText(getResources().getString(R.string.no_posts_user));
-        /*********************/
+        ///////////////////////
 
         // Lookup the recyclerview in activity layout
         mRecyclerView = (RecyclerView) findViewById(R.id.lstvPublicacionesUsuario);
 
+        // use a linear layout manager
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(this);
+        mRecyclerView.setLayoutManager(mLayoutManager);
 
 
         // Create adapter passing in the sample user data
 
-        /********************* FLOATING ACTION BUTTON ************/
+        ///////////// FLOATING ACTION BUTTON ////////////
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fabAgregarNoticiaPerfil);
         fab.attachToRecyclerView(mRecyclerView);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -100,10 +110,12 @@ public class UserProfileActivity extends CustomAppCompatActivity {
                 overridePendingTransition(R.anim.push_up_in, R.anim.push_up_out);
             }
         });
-        /*********************/
+        ///////////////
 
-        /************ SWIPE ********************/
+
+        /////////////// SWIPE ///////
         mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swprlPerfilUsuario);
+        mSwipeRefreshLayout.setEnabled(false);
         mSwipeRefreshLayout.setColorSchemeResources(R.color.android_darkorange, R.color.green, R.color.android_blue);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -113,7 +125,7 @@ public class UserProfileActivity extends CustomAppCompatActivity {
 
             }
         });
-        /*******************************/
+        //////////////
 
 
         customClient = new MobileServiceCustom(this);
@@ -130,7 +142,6 @@ public class UserProfileActivity extends CustomAppCompatActivity {
 
         // cargamos la información de usuario
         cargarUsuario();
-
 
 
     }
@@ -259,9 +270,9 @@ public class UserProfileActivity extends CustomAppCompatActivity {
 
     private void estadoAdapter(boolean pEstadoError)
     {
-        mRecyclerView.setAdapter(new ComplexRecyclerViewAdapter(itemsCollection,UserProfileActivity.this));
+        mRecyclerView.setAdapter(new ComplexRecyclerViewAdapter(itemsCollection, UserProfileActivity.this));
         // Set layout manager to position the items
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(UserProfileActivity.this));
+
         // That's all!
         mSwipeRefreshLayout.setRefreshing(false);
         if(pEstadoError)
@@ -310,38 +321,6 @@ public class UserProfileActivity extends CustomAppCompatActivity {
             Toast.makeText(pContexto, "Error verifique que tenga una aplicación de correo", Toast.LENGTH_SHORT).show();
 
         }
-    }
-
-    private ArrayList<Object> getSampleArrayList() {
-        ArrayList<Object> items = new ArrayList<>();
-
-        Usuario objUsuario = new Usuario();
-        objUsuario.setId("533047340181225");
-        objUsuario.setUrlimagen("http://graph.facebook.com/1209577962402395/picture?type=large");
-        objUsuario.setCover_picture("https://fbcdn-photos-b-a.akamaihd.net/hphotos-ak-xfa1/v/t1.0-0/p480x480/11903819_1190609607632564_2484786140909343007_n.jpg?oh=3eba07bc184fed185a6fd84acfbf8d56&oe=5686C69F&__gda__=1455575316_9232ddcaad08825a655ccadec5e45f75");
-        objUsuario.setNombre("Carlos Castro Brenes");
-        items.add(objUsuario);
-
-        NoticiaCompleta objNoticia = new NoticiaCompleta();
-
-        objNoticia.setCantidadComentarios(8);
-        objNoticia.setNombreUsuario("Paola Hidalgo");
-        objNoticia.setUrlImagenUsuario("http://graph.facebook.com/533047340181225/picture?type=large");
-        objNoticia.setDescripcion("可见在中国");
-        objNoticia.setFechadesaparicion("2015-10-16T13:10:00.000Z");
-        objNoticia.setId("169AAF52-0716-4627-8F1C-D16F21389070");
-        objNoticia.setIdCategoria("1");
-        objNoticia.setIdestado("0");
-        objNoticia.setIdusuario("533047340181225");
-        objNoticia.setNombre("Konichiwaaa");
-        objNoticia.setUrlImagen("https://purisinfo.blob.core.windows.net/img/20151016_131648.jpg");
-
-        for (int i = 0; i < 100; i++) {
-            items.add(objNoticia);
-        }
-
-
-        return items;
     }
 
 }
