@@ -52,10 +52,10 @@ public class CategoriaAdapter extends ArrayAdapter<Categoria>
         // en caso contrario la recuperamos
         ViewHolder holder = (ViewHolder) row.getTag();
 
-        holder.txtvTitulo.setText(currentItem.getNombre());
+        holder.txtvTitulo.setText(currentItem.nombre);
 
         Glide.with(mContext)
-                .load(currentItem.getUrlimagen().trim())
+                .load(currentItem.urlImagen.trim())
                 .asBitmap()
                 .fitCenter()
                 .placeholder(R.drawable.picture_default)

@@ -67,8 +67,8 @@ public class CategoriesFragment extends Fragment
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l)
             {
                 Intent intent = new Intent(view.getContext(), NoticiasCategoriaActivity.class);
-                intent.putExtra("idCategoria",adapter.getItem(position).getId());
-                intent.putExtra("nombreCategoria",adapter.getItem(position).getNombre());
+                intent.putExtra("idCategoria",adapter.getItem(position).id);
+                intent.putExtra("nombreCategoria",adapter.getItem(position).nombre);
                 startActivity(intent);
                 getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
 

@@ -312,17 +312,17 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, NoticiasCategoriaActivity.class);
-                intent.putExtra("idCategoria", objCategoria.getId());
-                intent.putExtra("nombreCategoria", objCategoria.getNombre());
+                intent.putExtra("idCategoria", objCategoria.id);
+                intent.putExtra("nombreCategoria", objCategoria.nombre);
                 context.startActivity(intent);
                 ((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
             }
         });
 
-        viewHolder.txtvTitulo.setText(objCategoria.getNombre());
+        viewHolder.txtvTitulo.setText(objCategoria.nombre);
 
         Glide.with(context)
-                .load(objCategoria.getUrlimagen().trim())
+                .load(objCategoria.urlImagen.trim())
                 .asBitmap()
                 .fitCenter()
                 .placeholder(R.drawable.picture_default)

@@ -1,43 +1,19 @@
 package com.nansoft.find3r.models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Carlos on 16/05/2015.
  */
 public class Categoria
 {
-    private String id;
+    @SerializedName("id")
+    public String id;
 
-    private String nombre;
+    @SerializedName("nombre")
+    public String nombre;
 
-    private String urlimagen;
+    @SerializedName("urlimagen")
+    public String urlImagen;
 
-    public Categoria(String id, String nombre, String urlimagen) {
-        this.id = id;
-        this.nombre = nombre;
-        this.urlimagen = urlimagen;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getUrlimagen() {
-        return urlimagen;
-    }
-
-    public void setUrlimagen(String urlimagen) {
-        this.urlimagen = urlimagen;
-    }
 }

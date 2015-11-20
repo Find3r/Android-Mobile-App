@@ -180,8 +180,9 @@ public class NoticiasCategoriaActivity extends CustomAppCompatActivity {
         try {
 
             List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
-            parameters.add(new Pair<String, String>("id",idCategoria));
-            ListenableFuture<JsonElement> lst = mobileServiceCustom.mClient.invokeApi("news_category", "GET", parameters);
+            parameters.add(new Pair<String, String>("iduser",MobileServiceCustom.USUARIO_LOGUEADO.getId()));
+            parameters.add(new Pair<String, String>("idcategory",idCategoria));
+            ListenableFuture<JsonElement> lst = mobileServiceCustom.mClient.invokeApi("news_category_aux", "GET", parameters);
 
             Futures.addCallback(lst, new FutureCallback<JsonElement>() {
                 @Override
@@ -230,9 +231,11 @@ public class NoticiasCategoriaActivity extends CustomAppCompatActivity {
 
 
             List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
+            parameters.add(new Pair<String, String>("iduser",MobileServiceCustom.USUARIO_LOGUEADO.getId()));
+            parameters.add(new Pair<String, String>("idcategory",idCategoria));
             parameters.add(new Pair<String, String>("searchTerm",searchTerm));
-            parameters.add(new Pair<String, String>("idCategory",idCategoria));
-            ListenableFuture<JsonElement> lst = mobileServiceCustom.mClient.invokeApi("search", "GET", parameters);
+
+            ListenableFuture<JsonElement> lst = mobileServiceCustom.mClient.invokeApi("search_news_aux", "GET", parameters);
 
             Futures.addCallback(lst, new FutureCallback<JsonElement>() {
                 @Override
