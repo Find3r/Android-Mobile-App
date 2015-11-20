@@ -130,7 +130,7 @@ public class NewsFragment extends Fragment
 
 
             List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
-            parameters.add(new Pair<String, String>("id",MobileServiceCustom.USUARIO_LOGUEADO.getId()));
+            parameters.add(new Pair<String, String>("id",MobileServiceCustom.USUARIO_LOGUEADO.id));
             ListenableFuture<JsonElement> lst = mobileService.mClient.invokeApi("last_newsaux", "GET", parameters);
 
             Futures.addCallback(lst, new FutureCallback<JsonElement>() {

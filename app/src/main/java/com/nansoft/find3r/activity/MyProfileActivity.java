@@ -108,10 +108,10 @@ public class MyProfileActivity extends AppCompatActivity implements AppBarLayout
     public static void loadUserInformation() {
 
 
-        txtvUserName.setText(MobileServiceCustom.USUARIO_LOGUEADO.getNombre());
+        txtvUserName.setText(MobileServiceCustom.USUARIO_LOGUEADO.nombre);
 
         Glide.with(context)
-                .load(MobileServiceCustom.USUARIO_LOGUEADO.getUrlimagen().trim())
+                .load(MobileServiceCustom.USUARIO_LOGUEADO.urlimagen.trim())
                 .asBitmap()
                 .fitCenter()
                 .placeholder(R.drawable.picture_default)
@@ -119,7 +119,7 @@ public class MyProfileActivity extends AppCompatActivity implements AppBarLayout
                 .into(imgvUserProfile);
 
         Glide.with(context)
-                .load(MobileServiceCustom.USUARIO_LOGUEADO.getCover_picture().trim())
+                .load(MobileServiceCustom.USUARIO_LOGUEADO.cover_picture.trim())
                 .asBitmap()
                 .fitCenter()
                 .placeholder(R.drawable.picture_default)
@@ -262,7 +262,7 @@ public class MyProfileActivity extends AppCompatActivity implements AppBarLayout
 
     public void AbrirCorreo(Context pContexto)
     {
-        String [] correoDestino = {MobileServiceCustom.USUARIO_LOGUEADO.getEmail()};
+        String [] correoDestino = {MobileServiceCustom.USUARIO_LOGUEADO.email};
         try {
             Intent Correo = new Intent(Intent.ACTION_SEND);
             Correo.setData(Uri.parse("mailto:"));

@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity
 
 
                     mHub.registerTemplate(mRegistrationId, "notificationTemplate", "{\"data\":{\"id\":\"$(id)\", \"message\":\"$(message)\"}}",
-                            MobileServiceCustom.USUARIO_LOGUEADO.getId(),"All");
+                            MobileServiceCustom.USUARIO_LOGUEADO.id,"All");
 
 
 
@@ -196,20 +196,20 @@ public class MainActivity extends AppCompatActivity
                                 // debemos de insertar el registro
 
                                 // establecemos primero los atributos
-                                MobileServiceCustom.USUARIO_LOGUEADO.setId(objUsuarioFacebook.id);
-                                MobileServiceCustom.USUARIO_LOGUEADO.setNombre(objUsuarioFacebook.name);
+                                MobileServiceCustom.USUARIO_LOGUEADO.id = objUsuarioFacebook.id;
+                                MobileServiceCustom.USUARIO_LOGUEADO.nombre = objUsuarioFacebook.name;
                                 objUsuarioFacebook.data.PictureURL.PictureURL = "http://graph.facebook.com/" + objUsuarioFacebook.id + "/picture?type=large";
-                                MobileServiceCustom.USUARIO_LOGUEADO.setUrlimagen(objUsuarioFacebook.data.PictureURL.PictureURL);
+                                MobileServiceCustom.USUARIO_LOGUEADO.urlimagen = objUsuarioFacebook.data.PictureURL.PictureURL;
 
                                 // verificamos si la imagen no está nula
                                 if(!objUsuarioFacebook.cover.PictureURL.isEmpty())
                                 {
-                                    MobileServiceCustom.USUARIO_LOGUEADO.setCover_picture(objUsuarioFacebook.cover.PictureURL);
+                                    MobileServiceCustom.USUARIO_LOGUEADO.cover_picture = objUsuarioFacebook.cover.PictureURL;
                                 }
                                 else
                                 {
 
-                                    MobileServiceCustom.USUARIO_LOGUEADO.setCover_picture("https://wanted.blob.core.windows.net/img/Hakuna_Matata opacidad.jpg");
+                                    MobileServiceCustom.USUARIO_LOGUEADO.cover_picture = "https://wanted.blob.core.windows.net/img/Hakuna_Matata opacidad.jpg";
                                 }
 
                                 // agregamos el registro
@@ -228,18 +228,18 @@ public class MainActivity extends AppCompatActivity
 
                         } finally {
                             // obtenemos la imagen del usuario en caso que la haya cambiado
-                            MobileServiceCustom.USUARIO_LOGUEADO.setUrlimagen("http://graph.facebook.com/" + MobileServiceCustom.USUARIO_LOGUEADO.getId() + "/picture?type=large");
+                            MobileServiceCustom.USUARIO_LOGUEADO.urlimagen = "http://graph.facebook.com/" + MobileServiceCustom.USUARIO_LOGUEADO.id + "/picture?type=large";
                             //MobileServiceCustom.USUARIO_LOGUEADO.setCover_picture(objUsuarioFacebook.cover.PictureURL);
 
                             // verificamos si la imagen no está nula
                             if(!objUsuarioFacebook.cover.PictureURL.isEmpty())
                             {
-                                MobileServiceCustom.USUARIO_LOGUEADO.setCover_picture(objUsuarioFacebook.cover.PictureURL);
+                                MobileServiceCustom.USUARIO_LOGUEADO.cover_picture = objUsuarioFacebook.cover.PictureURL;
                             }
                             else
                             {
 
-                                MobileServiceCustom.USUARIO_LOGUEADO.setCover_picture("https://wanted.blob.core.windows.net/img/Hakuna_Matata opacidad.jpg");
+                                MobileServiceCustom.USUARIO_LOGUEADO.cover_picture = "https://wanted.blob.core.windows.net/img/Hakuna_Matata opacidad.jpg";
                             }
 
                             try {

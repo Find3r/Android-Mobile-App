@@ -117,7 +117,7 @@ public class NotificationsFragment extends Fragment
             protected Boolean doInBackground(Void... params) {
                 try {
 
-                    final MobileServiceList<NotificacionUsuario> result = mNotificacionTable.where().field("idusuario").eq(MobileServiceCustom.USUARIO_LOGUEADO.getId()).orderBy("__createdAt", QueryOrder.Descending).execute().get();
+                    final MobileServiceList<NotificacionUsuario> result = mNotificacionTable.where().field("idusuario").eq(MobileServiceCustom.USUARIO_LOGUEADO.id).orderBy("__createdAt", QueryOrder.Descending).execute().get();
 
 
                     activity.runOnUiThread(new Runnable() {

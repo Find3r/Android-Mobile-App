@@ -42,7 +42,7 @@ public class MobileServiceCustom
             String id = getUserId();
             if (!id.isEmpty())
             {
-                USUARIO_LOGUEADO.setId(id);
+                USUARIO_LOGUEADO.id = id;
             }
 
         } catch (MalformedURLException e) {

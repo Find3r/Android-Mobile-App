@@ -219,7 +219,7 @@ public class UserProfileActivity extends CustomAppCompatActivity
     {
         List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
 
-        parameters.add(new Pair<String, String>("id",MobileServiceCustom.USUARIO_LOGUEADO.getId()));
+        parameters.add(new Pair<String, String>("id",MobileServiceCustom.USUARIO_LOGUEADO.id));
         parameters.add(new Pair<String, String>("idUserVisited",ID_USUARIO_AUX));
 
         ListenableFuture<JsonElement> lst = customClient.mClient.invokeApi("all_news_user", "GET", parameters);
@@ -299,7 +299,7 @@ public class UserProfileActivity extends CustomAppCompatActivity
 
     public void AbrirCorreo(Context pContexto)
     {
-        String [] correoDestino = {MobileServiceCustom.USUARIO_LOGUEADO.getEmail()};
+        String [] correoDestino = {MobileServiceCustom.USUARIO_LOGUEADO.email};
         try {
             Intent Correo = new Intent(Intent.ACTION_SEND);
             Correo.setData(Uri.parse("mailto:"));

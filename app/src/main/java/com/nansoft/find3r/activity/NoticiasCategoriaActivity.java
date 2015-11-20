@@ -180,7 +180,7 @@ public class NoticiasCategoriaActivity extends CustomAppCompatActivity {
         try {
 
             List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
-            parameters.add(new Pair<String, String>("iduser",MobileServiceCustom.USUARIO_LOGUEADO.getId()));
+            parameters.add(new Pair<String, String>("iduser",MobileServiceCustom.USUARIO_LOGUEADO.id));
             parameters.add(new Pair<String, String>("idcategory",idCategoria));
             ListenableFuture<JsonElement> lst = mobileServiceCustom.mClient.invokeApi("news_category_aux", "GET", parameters);
 
@@ -231,7 +231,7 @@ public class NoticiasCategoriaActivity extends CustomAppCompatActivity {
 
 
             List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
-            parameters.add(new Pair<String, String>("iduser",MobileServiceCustom.USUARIO_LOGUEADO.getId()));
+            parameters.add(new Pair<String, String>("iduser",MobileServiceCustom.USUARIO_LOGUEADO.id));
             parameters.add(new Pair<String, String>("idcategory",idCategoria));
             parameters.add(new Pair<String, String>("searchTerm",searchTerm));
 

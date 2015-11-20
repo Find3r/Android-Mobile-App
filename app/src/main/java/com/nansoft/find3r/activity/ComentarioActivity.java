@@ -94,7 +94,7 @@ public class ComentarioActivity extends AppCompatActivity {
 
                 /* Alert Dialog Code Start*/
                 AlertDialog.Builder alert = new AlertDialog.Builder(ComentarioActivity.this);
-                alert.setTitle(MobileServiceCustom.USUARIO_LOGUEADO.getNombre()); //Set Alert dialog title here
+                alert.setTitle(MobileServiceCustom.USUARIO_LOGUEADO.nombre); //Set Alert dialog title here
                 alert.setMessage("Ingrese su comentario"); //Message here
 
                 // Set an EditText view to get user input
@@ -111,7 +111,7 @@ public class ComentarioActivity extends AppCompatActivity {
                             Snackbar.make(mRecyclerView, "Debe ingresar datos en el comentario", Snackbar.LENGTH_SHORT).show(); // Don’t forget to show!
                         } else {
 
-                            agregarComentario(new Comentario("", srt, MobileServiceCustom.USUARIO_LOGUEADO.getId(), MyTime.getFecha(), MyTime.getHora(), ID_NOTICIA));
+                            agregarComentario(new Comentario("", srt, MobileServiceCustom.USUARIO_LOGUEADO.id, MyTime.getFecha(), MyTime.getHora(), ID_NOTICIA));
                         }
 
                     } // End of onClick(DialogInterface dialog, int whichButton)

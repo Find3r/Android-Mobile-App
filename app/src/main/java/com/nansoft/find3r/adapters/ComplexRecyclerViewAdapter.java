@@ -23,7 +23,6 @@ import com.nansoft.find3r.holder.ViewHolder1;
 import com.nansoft.find3r.holder.UserProfileViewHolder;
 import com.nansoft.find3r.models.Categoria;
 import com.nansoft.find3r.models.NoticiaCompleta;
-import com.nansoft.find3r.models.User;
 import com.nansoft.find3r.models.Usuario;
 
 import java.util.List;
@@ -55,9 +54,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     //Returns the view type of the item at position for the purposes of view recycling.
     @Override
     public int getItemViewType(int position) {
-        if (items.get(position) instanceof User) {
-            return USER;
-        } else if (items.get(position) instanceof Usuario) {
+        if (items.get(position) instanceof Usuario) {
             return HEADER_USERPROFILE;
         }
         else if ( items.get(position) instanceof NoticiaCompleta)
@@ -85,10 +82,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         LayoutInflater inflater = LayoutInflater.from(viewGroup.getContext());
         View view;
         switch (viewType) {
-            case USER:
-                view = inflater.inflate(R.layout.layout_viewholder1, viewGroup, false);
-                viewHolder = new ViewHolder1(view);
-                break;
+
             case HEADER_USERPROFILE:
                 view = inflater.inflate(R.layout.header_userprofile, viewGroup, false);
                 viewHolder = new UserProfileViewHolder(view,context);
@@ -124,11 +118,6 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     public void onBindViewHolder(RecyclerView.ViewHolder viewHolder, int position) {
 
         switch (viewHolder.getItemViewType()) {
-
-            case USER:
-                ViewHolder1 vh1 = (ViewHolder1) viewHolder;
-                configureViewHolder1(vh1, position);
-                break;
 
             case HEADER_USERPROFILE:
                 UserProfileViewHolder vh2 = (UserProfileViewHolder) viewHolder;
@@ -273,22 +262,15 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     }
 
 
-    private void configureViewHolder1(ViewHolder1 vh1, int position) {
-        User user = (User) items.get(position);
-        if (user != null) {
-            vh1.getLabel1().setText("Name: " + user.name);
-            vh1.getLabel2().setText("Hometown: " + user.hometown);
-        }
-    }
 
     private void configureHeaderProfileViewHolder(UserProfileViewHolder viewHolder,int position)
     {
         final Usuario objUsuario = (Usuario) items.get(position);
 
-        viewHolder.txtvUserProfileAddress.setText(objUsuario.getNombre());
+        viewHolder.txtvUserProfileAddress.setText(objUsuario.nombre);
 
         Glide.with(context)
-                .load(objUsuario.getCover_picture().trim())
+                .load(objUsuario.cover_picture.trim())
                 .asBitmap()
                 .fitCenter()
                 .placeholder(R.drawable.picture_default)
@@ -296,7 +278,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 .into(viewHolder.imgvUserProfileCover);
 
         Glide.with(context)
-                .load(objUsuario.getUrlimagen().trim())
+                .load(objUsuario.urlimagen.trim())
                 .asBitmap()
                 .fitCenter()
                 .placeholder(R.drawable.picture_default)

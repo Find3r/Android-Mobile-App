@@ -158,7 +158,7 @@ public class ProfileFragment extends FragmentSwipe
 
         List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
 
-        parameters.add(new Pair<String, String>("id",MobileServiceCustom.USUARIO_LOGUEADO.getId()));
+        parameters.add(new Pair<String, String>("id",MobileServiceCustom.USUARIO_LOGUEADO.id));
 
 
         ListenableFuture<JsonElement> lst = customClient.mClient.invokeApi("my_news", "GET", parameters);

@@ -114,7 +114,7 @@ public class ItemOptionsDialog extends DialogFragment {
 
                 /* Alert Dialog Code Start*/
                 AlertDialog.Builder alert = new AlertDialog.Builder(getActivity());
-                alert.setTitle(MobileServiceCustom.USUARIO_LOGUEADO.getNombre()); //Set Alert dialog title here
+                alert.setTitle(MobileServiceCustom.USUARIO_LOGUEADO.nombre); //Set Alert dialog title here
                 alert.setMessage("Coméntenos el problema de este contenido"); //Message here
 
                 // Set an EditText view to get user input
@@ -131,7 +131,7 @@ public class ItemOptionsDialog extends DialogFragment {
                             Snackbar.make(layReportar, "Debe ingresar datos en el comentario", Snackbar.LENGTH_SHORT).show(); // Don’t forget to show!
                         } else {
 
-                            agregarReporte(new Report(srt,objNoticia.id,MobileServiceCustom.USUARIO_LOGUEADO.getId()));
+                            agregarReporte(new Report(srt,objNoticia.id,MobileServiceCustom.USUARIO_LOGUEADO.id));
                             //agregarComentario(new Comentario("", srt, MobileServiceCustom.USUARIO_LOGUEADO.getId(), MyTime.getFecha(), MyTime.getHora(), ID_NOTICIA));
                         }
 

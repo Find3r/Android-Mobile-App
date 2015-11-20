@@ -7,15 +7,15 @@ import com.google.gson.annotations.SerializedName;
  */
 public class Usuario
 {
-    private String id;
-    private String nombre;
-    private String primerapellido;
-    private String segundoapellido;
-    private String email;
-    private String telefonocelular;
-    private String telefonocasa;
-    private String urlimagen;
-    private String cover_picture;
+    public String id;
+    public String nombre;
+    public String primerapellido;
+    public String segundoapellido;
+    public String email;
+    public String telefonocelular;
+    public String telefonocasa;
+    public String urlimagen;
+    public String cover_picture;
 
     @SerializedName("idpais")
     private String idPais;
@@ -45,83 +45,5 @@ public class Usuario
         this.urlimagen = urlImagen;
     }
 
-    public String getId() {
-        return id;
-    }
 
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public String getPrimerapellido() {
-        return primerapellido;
-    }
-
-    public void setPrimerapellido(String primerapellido) {
-        this.primerapellido = primerapellido;
-    }
-
-    public String getSegundoapellido() {
-        return segundoapellido;
-    }
-
-    public void setSegundoapellido(String segundoapellido) {
-        this.segundoapellido = segundoapellido;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getTelefonocelular() {
-        return telefonocelular;
-    }
-
-    public void setTelefonocelular(String telefonocelular) {
-        this.telefonocelular = telefonocelular;
-    }
-
-    public String getTelefonocasa() {
-        return telefonocasa;
-    }
-
-    public void setTelefonocasa(String telefonocasa) {
-        this.telefonocasa = telefonocasa;
-    }
-
-    public String getUrlimagen() {
-        return urlimagen;
-    }
-
-    public void setUrlimagen(String urlimagen) {
-        this.urlimagen = urlimagen;
-    }
-
-    public String getIdPais() {
-        return idPais;
-    }
-
-    public void setIdPais(String idPais) {
-        this.idPais = idPais;
-    }
-
-    public String getCover_picture() {
-        return cover_picture;
-    }
-
-    public void setCover_picture(String cover_picture) {
-        this.cover_picture = cover_picture;
-    }
 }

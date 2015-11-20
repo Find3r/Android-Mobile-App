@@ -408,7 +408,7 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
 
                         String fecha = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date(ANIO_SELECCIONADO - 1900, MES_SELECCIONADO, DIA_SELECCIONADO, HORA_SELECCIONADO, MINUTO_SELECCIONADO));
 
-                        objNoticia.idusuario = MobileServiceCustom.USUARIO_LOGUEADO.getId();
+                        objNoticia.idusuario = MobileServiceCustom.USUARIO_LOGUEADO.id;
                         objNoticia.nombre = nombreNoticia;
                         objNoticia.descripcion = descripcion;
                         objNoticia.idCategoria = String.valueOf(idTipoReporte);

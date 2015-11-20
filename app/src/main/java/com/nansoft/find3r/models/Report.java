@@ -8,16 +8,16 @@ import com.google.gson.annotations.SerializedName;
 public class Report
 {
     @SerializedName("id")
-    private String id;
+    public String id;
 
     @SerializedName("descripcion")
-    private String descripcion;
+    public String descripcion;
 
     @SerializedName("idnoticia")
-    private String idNoticia;
+    public String idNoticia;
 
     @SerializedName("idusuario")
-    private String idUsuario;
+    public String idUsuario;
 
     public Report(String descripcion, String idNoticia, String idUsuario) {
         this.descripcion = descripcion;
@@ -25,35 +25,4 @@ public class Report
         this.idUsuario = idUsuario;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getIdNoticia() {
-        return idNoticia;
-    }
-
-    public void setIdNoticia(String idNoticia) {
-        this.idNoticia = idNoticia;
-    }
-
-    public String getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(String idUsuario) {
-        this.idUsuario = idUsuario;
-    }
 }
