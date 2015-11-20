@@ -48,7 +48,6 @@ public class ComentarioActivity extends AppCompatActivity {
 
     public static RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
-    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -72,7 +71,7 @@ public class ComentarioActivity extends AppCompatActivity {
         //mRecyclerView.setHasFixedSize(true);
 
         // use a linear layout manager
-        mLayoutManager = new LinearLayoutManager(this);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         ID_NOTICIA = getIntent().getExtras().getString("idNoticia");
