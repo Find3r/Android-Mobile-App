@@ -283,7 +283,6 @@ public class UserProfileActivity extends CustomAppCompatActivity
             txtvSad.setVisibility(View.GONE);
             txtvSad.setVisibility(View.GONE);
         }
-        MyProfileActivity.loadUserInformation();
     }
 
 

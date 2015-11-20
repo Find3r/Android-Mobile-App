@@ -59,10 +59,10 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
         // se obtiene el objeto actual
         final NoticiaCompleta objNoticia = lstNoticias.get(position);
 
-        viewHolder.txtvNombreUsuarioNoticia.setText(objNoticia.getNombreUsuario());
+        viewHolder.txtvNombreUsuarioNoticia.setText(objNoticia.nombreUsuario);
 
         Glide.with(context)
-                .load(objNoticia.getUrlImagenUsuario().trim())
+                .load(objNoticia.urlImagenUsuario.trim())
                 .asBitmap()
                 .fitCenter()
                 .placeholder(R.drawable.picture_default)
@@ -103,16 +103,15 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
         });
 
         // establecemos los atributos
-        viewHolder.txtvTitulo.setText(objNoticia.getNombre());
-        viewHolder.txtvDescripcion.setText(objNoticia.getDescripcion());
+        viewHolder.txtvTitulo.setText(objNoticia.nombre);
+        viewHolder.txtvDescripcion.setText(objNoticia.descripcion);
         viewHolder.txtvFecha.setText("Desparecid@ el " + objNoticia.getFechadesaparicion());
 
-        viewHolder.txtvCantidadComentarios.setText(String.valueOf(objNoticia.getCantidadComentarios()));
+        viewHolder.txtvCantidadComentarios.setText(String.valueOf(objNoticia.cantidadComentarios));
 
-        if(objNoticia.getIdestado().trim().equals("0"))
+        if(objNoticia.idestado.trim().equals("0"))
         {
-            viewHolder.txtvEstado.setText(context.getString(R.string.solved));
-            viewHolder.imgvEstado.setImageResource(context.getResources().getIdentifier("solved", "drawable", context.getPackageName()));
+
 
             viewHolder.txtvTipo.setText(context.getString(R.string.lost));
             viewHolder.imgvTipo.setImageResource(context.getResources().getIdentifier("lost", "drawable", context.getPackageName()));
@@ -120,11 +119,21 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
         }
         else
         {
-            viewHolder.txtvEstado.setText(context.getString(R.string.unsolved));
-            viewHolder.imgvEstado.setImageResource(context.getResources().getIdentifier("unsolved","drawable", context.getPackageName()));
+
 
             viewHolder.txtvTipo.setText(context.getString(R.string.found));
             viewHolder.imgvTipo.setImageResource(context.getResources().getIdentifier("found", "drawable", context.getPackageName()));
+        }
+
+        if (objNoticia.solved)
+        {
+            viewHolder.txtvEstado.setText(context.getString(R.string.solved));
+            viewHolder.imgvEstado.setImageResource(context.getResources().getIdentifier("solved", "drawable", context.getPackageName()));
+        }
+        else
+        {
+            viewHolder.txtvEstado.setText(context.getString(R.string.unsolved));
+            viewHolder.imgvEstado.setImageResource(context.getResources().getIdentifier("unsolved","drawable", context.getPackageName()));
         }
 
         // se establece onClickListener en el componente de cada vista
@@ -133,7 +142,7 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(context, ComentarioActivity.class);
-                intent.putExtra("idNoticia", lstNoticias.get(position).getId());
+                intent.putExtra("idNoticia", lstNoticias.get(position).id);
                 context.startActivity(intent);
                 ((Activity) v.getContext()).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
             }
@@ -163,15 +172,15 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
             @Override
             public void onClick(View v) {
 
-                if(objNoticia.getIdestado().trim().equals("0"))
+                if(objNoticia.idestado.trim().equals("0"))
                 {
-                    lstNoticias.get(position).setIdestado("1");
+                    lstNoticias.get(position).idestado = "1";
                     viewHolder.txtvFollow.setText(context.getString(R.string.discard));
                     viewHolder.imgvFollow.setImageResource(context.getResources().getIdentifier("unfollow", "drawable", context.getPackageName()));
                 }
                 else
                 {
-                    lstNoticias.get(position).setIdestado("0");
+                    lstNoticias.get(position).idestado = "0";
                     viewHolder.txtvFollow.setText(context.getString(R.string.save));
                     viewHolder.imgvFollow.setImageResource(context.getResources().getIdentifier("follow", "drawable", context.getPackageName()));
                 }
@@ -204,7 +213,7 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
         //Intent intent = new Intent(context, PerfilUsuarioActivity.class);
         //intent.putExtra("id",lstNoticias[position].getIdusuario());
         Intent intent = new Intent(context, UserProfileActivity.class);
-        intent.putExtra("ID_USUARIO",lstNoticias.get(position).getIdusuario());
+        intent.putExtra("ID_USUARIO",lstNoticias.get(position).idusuario);
 
         context.startActivity(intent);
         ((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);

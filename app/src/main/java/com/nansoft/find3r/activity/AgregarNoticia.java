@@ -262,13 +262,13 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
         txtvInfoFecha.setText(objNoticiaCompleta.getFechadesaparicion());
 
 
-        edtNombreNoticia.setText(objNoticiaCompleta.getNombre());
-        edtDescripcionNoticia.setText(objNoticiaCompleta.getDescripcion());
+        edtNombreNoticia.setText(objNoticiaCompleta.nombre);
+        edtDescripcionNoticia.setText(objNoticiaCompleta.descripcion);
 
-        spinnerTipoReporte.setSelection(Integer.parseInt(objNoticiaCompleta.getIdCategoria()) - 1);
-        spnrProvincia.setSelection(Integer.parseInt(objNoticiaCompleta.getIdProvincia()) - 1);
+        spinnerTipoReporte.setSelection(Integer.parseInt(objNoticiaCompleta.idCategoria) - 1);
+        spnrProvincia.setSelection(Integer.parseInt(objNoticiaCompleta.idProvincia) - 1);
 
-        spnrEstadoReporte.setSelection(Integer.parseInt(objNoticiaCompleta.getIdestado()));
+        spnrEstadoReporte.setSelection(Integer.parseInt(objNoticiaCompleta.idestado));
 
         // establecemos la fecha y hora
         txtvInfoFecha.setText(objNoticiaCompleta.getFechadesaparicion());
@@ -369,12 +369,12 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
     public void EnviarReporte()
     {
         Noticia objNoticia = new Noticia();
-        objNoticia.setUrlImagen("");
-        objNoticia.setIdestado("0");
+        objNoticia.urlimagen = "";
+        objNoticia.idestado = "0";
         if(objNoticiaCompleta != null)
         {
             objNoticia = objNoticiaCompleta;
-            objNoticia.setIdestado(String.valueOf(spnrEstadoReporte.getSelectedItemPosition()));
+            objNoticia.idestado = String.valueOf(spnrEstadoReporte.getSelectedItemPosition());
         }
 
         String nombreNoticia = edtNombreNoticia.getText().toString();
@@ -408,12 +408,12 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
 
                         String fecha = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").format(new Date(ANIO_SELECCIONADO - 1900, MES_SELECCIONADO, DIA_SELECCIONADO, HORA_SELECCIONADO, MINUTO_SELECCIONADO));
 
-                        objNoticia.setIdusuario(MobileServiceCustom.USUARIO_LOGUEADO.getId());
-                        objNoticia.setNombre(nombreNoticia);
-                        objNoticia.setDescripcion(descripcion);
-                        objNoticia.setIdCategoria(String.valueOf(idTipoReporte));
-                        objNoticia.setIdProvincia(String.valueOf(idProvincia));
-                        objNoticia.setFechadesaparicion(fecha);
+                        objNoticia.idusuario = MobileServiceCustom.USUARIO_LOGUEADO.getId();
+                        objNoticia.nombre = nombreNoticia;
+                        objNoticia.descripcion = descripcion;
+                        objNoticia.idCategoria = String.valueOf(idTipoReporte);
+                        objNoticia.idProvincia = String.valueOf(idProvincia);
+                        objNoticia.fechadesaparicion = fecha;
 
                         // se verifica si el path inicia con https, eso quiere decir que no se ha seleccionado una nueva imagen y debe quedar
                         // con la que está
@@ -422,7 +422,7 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
                             EXTENSION_IMAGEN =  "." + PATH_IMAGEN.substring(PATH_IMAGEN.lastIndexOf(".")+1);
                             NOMBRE_IMAGEN = CustomDate.getNewDate() + EXTENSION_IMAGEN;
 
-                            objNoticia.setUrlImagen("https://purisinfo.blob.core.windows.net/img/" + NOMBRE_IMAGEN);
+                            objNoticia.urlimagen = "https://purisinfo.blob.core.windows.net/img/" + NOMBRE_IMAGEN;
                         }
 
 

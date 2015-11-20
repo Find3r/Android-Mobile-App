@@ -54,7 +54,7 @@ public class NewDescriptionActivity extends CustomAppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(NewDescriptionActivity.this, ComentarioActivity.class);
-                    intent.putExtra("idNoticia", objNoticiaCompleta.getId());
+                    intent.putExtra("idNoticia", objNoticiaCompleta.id);
                     startActivity(intent);
                     ((Activity) v.getContext()).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
                 }
@@ -68,9 +68,9 @@ public class NewDescriptionActivity extends CustomAppCompatActivity {
 
     private void cargarDatos()
     {
-        txtvNewName.setText(objNoticiaCompleta.getNombre());
+        txtvNewName.setText(objNoticiaCompleta.nombre);
 
-        txtvNewDescription.setText(objNoticiaCompleta.getDescripcion());
+        txtvNewDescription.setText(objNoticiaCompleta.descripcion);
 
         Glide.with(this)
                 .load(objNoticiaCompleta.getUrlImagen().trim())
@@ -80,7 +80,7 @@ public class NewDescriptionActivity extends CustomAppCompatActivity {
                 .error(R.drawable.error_image)
                 .into(imgvNewDescription);
 
-        if(objNoticiaCompleta.getIdestado().trim().equals("0"))
+        if(objNoticiaCompleta.idestado.trim().equals("0"))
         {
             txtvEstado.setText(getString(R.string.lost));
             imgvEstado.setImageResource(getResources().getIdentifier("lost","drawable", getPackageName()));

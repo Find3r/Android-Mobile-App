@@ -11,19 +11,19 @@ import com.google.gson.annotations.SerializedName;
 public class NoticiaCompleta extends Noticia implements Parcelable {
 
     @SerializedName("nombre_usuario")
-    private String nombreUsuario;
+    public String nombreUsuario;
 
     @SerializedName("urlimagen_perfil_usuario")
-    private String urlImagenUsuario;
+    public String urlImagenUsuario;
 
     @SerializedName("nombre_provincia")
-    private String nombreProvincia;
+    public String nombreProvincia;
 
     @SerializedName("cantidad_comentarios")
-    private int cantidadComentarios;
+    public int cantidadComentarios;
 
     @SerializedName("estado_follow")
-    private boolean estadoSeguimiento;
+    public boolean estadoSeguimiento;
 
     public NoticiaCompleta() {
         estadoSeguimiento = false;
@@ -33,46 +33,6 @@ public class NoticiaCompleta extends Noticia implements Parcelable {
         nombreProvincia = "Sin definir";
     }
 
-    public String getNombreUsuario() {
-        return nombreUsuario;
-    }
-
-    public void setNombreUsuario(String nombreUsuario) {
-        this.nombreUsuario = nombreUsuario;
-    }
-
-    public String getUrlImagenUsuario() {
-        return urlImagenUsuario;
-    }
-
-    public void setUrlImagenUsuario(String urlImagenUsuario) {
-        this.urlImagenUsuario = urlImagenUsuario;
-    }
-
-    public boolean isEstadoSeguimiento() {
-
-        return estadoSeguimiento;
-    }
-
-    public void setEstadoSeguimiento(boolean estadoSeguimiento) {
-        this.estadoSeguimiento = estadoSeguimiento;
-    }
-
-    public int getCantidadComentarios() {
-        return cantidadComentarios;
-    }
-
-    public void setCantidadComentarios(int cantidadComentarios) {
-        this.cantidadComentarios = cantidadComentarios;
-    }
-
-    public String getNombreProvincia() {
-        return nombreProvincia;
-    }
-
-    public void setNombreProvincia(String nombreProvincia) {
-        this.nombreProvincia = nombreProvincia;
-    }
 
     @Override
     public int describeContents() {
@@ -81,18 +41,18 @@ public class NoticiaCompleta extends Noticia implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(super.getId());
-        dest.writeString(super.getNombre());
-        dest.writeString(super.getDescripcion());
+        dest.writeString(super.id);
+        dest.writeString(super.nombre);
+        dest.writeString(super.descripcion);
         dest.writeString(super.getUrlImagen());
         dest.writeString(super.getFechadesaparicionCompleta());
-        dest.writeString(super.getIdusuario());
-        dest.writeString(super.getIdestado());
-        dest.writeString(super.getIdCategoria());
-        dest.writeString(super.getIdProvincia());
-        dest.writeString(super.getLatitud());
-        dest.writeString(super.getLongitud());
-        dest.writeInt(super.getCantidadReportes());
+        dest.writeString(super.idusuario);
+        dest.writeString(super.idestado);
+        dest.writeString(super.idCategoria);
+        dest.writeString(super.idProvincia);
+        dest.writeString(super.latitud);
+        dest.writeString(super.longitud);
+        dest.writeInt(super.cantidadReportes);
         dest.writeString(this.nombreUsuario);
         dest.writeString(this.urlImagenUsuario);
         dest.writeInt(this.cantidadComentarios);
@@ -101,18 +61,18 @@ public class NoticiaCompleta extends Noticia implements Parcelable {
     }
 
     protected NoticiaCompleta(Parcel in) {
-        super.setId(in.readString());
-        super.setNombre(in.readString());
-        super.setDescripcion(in.readString());
-        super.setUrlImagen(in.readString());
-        super.setFechadesaparicion(in.readString());
-        super.setIdusuario(in.readString());
-        super.setIdestado(in.readString());
-        super.setIdCategoria(in.readString());
-        super.setIdProvincia(in.readString());
-        super.setLongitud(in.readString());
-        super.setLatitud(in.readString());
-        super.setCantidadReportes(in.readInt());
+        super.id = in.readString();
+        super.nombre = in.readString();
+        super.descripcion = in.readString();
+        super.urlimagen = in.readString();
+        super.fechadesaparicion = in.readString();
+        super.idusuario = in.readString();
+        super.idestado = in.readString();
+        super.idCategoria = in.readString();
+        super.idProvincia = in.readString();
+        super.longitud = in.readString();
+        super.latitud = in.readString();
+        super.cantidadReportes = in.readInt();
         this.nombreUsuario = in.readString();
         this.urlImagenUsuario = in.readString();
         this.cantidadComentarios = in.readInt();

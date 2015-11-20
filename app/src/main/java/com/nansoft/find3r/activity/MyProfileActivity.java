@@ -126,10 +126,6 @@ public class MyProfileActivity extends AppCompatActivity implements AppBarLayout
                 .error(R.drawable.error_image)
                 .into(imgvCover);
 
-        Toast.makeText(context, "Id: " + MobileServiceCustom.USUARIO_LOGUEADO.getId() + "\n" +
-                "Name: " + MobileServiceCustom.USUARIO_LOGUEADO.getNombre() + "\n" +
-                "UrlImagen: " + MobileServiceCustom.USUARIO_LOGUEADO.getUrlimagen().trim() + "\n" +
-                "CoverPicture: " + MobileServiceCustom.USUARIO_LOGUEADO.getCover_picture().trim(), Toast.LENGTH_SHORT).show();
     }
 
 

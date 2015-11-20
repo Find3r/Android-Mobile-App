@@ -151,10 +151,10 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
     {
         final NoticiaCompleta objNoticia = (NoticiaCompleta) items.get(position);
         if (objNoticia != null) {
-            viewHolder.txtvNombreUsuarioNoticia.setText(objNoticia.getNombreUsuario());
+            viewHolder.txtvNombreUsuarioNoticia.setText(objNoticia.nombreUsuario);
 
             Glide.with(context)
-                    .load(objNoticia.getUrlImagenUsuario().trim())
+                    .load(objNoticia.urlImagenUsuario.trim())
                     .asBitmap()
                     .fitCenter()
                     .placeholder(R.drawable.picture_default)
@@ -184,23 +184,34 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             });
 
             // establecemos los atributos
-            viewHolder.txtvTitulo.setText(objNoticia.getNombre());
-            viewHolder.txtvDescripcion.setText(objNoticia.getDescripcion());
+            viewHolder.txtvTitulo.setText(objNoticia.nombre);
+            viewHolder.txtvDescripcion.setText(objNoticia.descripcion);
             viewHolder.txtvFecha.setText("Desparecid@ el " + objNoticia.getFechadesaparicion());
 
-            viewHolder.txtvCantidadComentarios.setText(String.valueOf(objNoticia.getCantidadComentarios()));
+            viewHolder.txtvCantidadComentarios.setText(String.valueOf(objNoticia.cantidadComentarios));
 
-            if(objNoticia.getIdestado().trim().equals("0"))
+            if(objNoticia.idestado.trim().equals("0"))
             {
-                viewHolder.txtvEstado.setText(context.getString(R.string.lost));
-                viewHolder.imgvEstado.setImageResource(context.getResources().getIdentifier("lost","drawable", context.getPackageName()));
+                viewHolder.txtvTipo.setText(context.getString(R.string.lost));
+                viewHolder.imgvTipo.setImageResource(context.getResources().getIdentifier("lost","drawable", context.getPackageName()));
 
             }
             else
             {
-                viewHolder.txtvEstado.setText(context.getString(R.string.found));
-                viewHolder.imgvEstado.setImageResource(context.getResources().getIdentifier("found","drawable", context.getPackageName()));
+                viewHolder.txtvTipo.setText(context.getString(R.string.found));
+                viewHolder.imgvTipo.setImageResource(context.getResources().getIdentifier("found","drawable", context.getPackageName()));
 
+            }
+
+            if (objNoticia.solved)
+            {
+                viewHolder.txtvEstado.setText(context.getString(R.string.solved));
+                viewHolder.imgvEstado.setImageResource(context.getResources().getIdentifier("solved", "drawable", context.getPackageName()));
+            }
+            else
+            {
+                viewHolder.txtvEstado.setText(context.getString(R.string.unsolved));
+                viewHolder.imgvEstado.setImageResource(context.getResources().getIdentifier("unsolved","drawable", context.getPackageName()));
             }
 
             // se establece onClickListener en el componente de cada vista
@@ -209,7 +220,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, ComentarioActivity.class);
-                    intent.putExtra("idNoticia", objNoticia.getId());
+                    intent.putExtra("idNoticia", objNoticia.id);
                     context.startActivity(intent);
                     ((Activity) v.getContext()).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
                 }
@@ -218,13 +229,13 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             viewHolder.txtvNombreUsuarioNoticia.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    navegarPerfilUsuario(objNoticia.getIdusuario(), v.getContext());
+                    navegarPerfilUsuario(objNoticia.idusuario, v.getContext());
                 }
             });
             viewHolder.imgvFotoPerfilUsuario.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    navegarPerfilUsuario(objNoticia.getIdusuario(), v.getContext());
+                    navegarPerfilUsuario(objNoticia.idusuario, v.getContext());
                 }
             });
 

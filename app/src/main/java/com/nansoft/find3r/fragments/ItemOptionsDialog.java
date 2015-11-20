@@ -82,7 +82,7 @@ public class ItemOptionsDialog extends DialogFragment {
         // verificamos si se debe mostrar el layout para editar una noticia
         // solo se debe mostrar cuando yo sea el dueño de la noticia
 
-        if (objNoticia.getIdusuario().equalsIgnoreCase(mobileServiceCustom.getUserId()))
+        if (objNoticia.idusuario.equalsIgnoreCase(mobileServiceCustom.getUserId()))
         {
             layEditar.setVisibility(View.VISIBLE);
             layReportar.setVisibility(View.GONE);
@@ -131,7 +131,7 @@ public class ItemOptionsDialog extends DialogFragment {
                             Snackbar.make(layReportar, "Debe ingresar datos en el comentario", Snackbar.LENGTH_SHORT).show(); // Don’t forget to show!
                         } else {
 
-                            agregarReporte(new Report(srt,objNoticia.getId(),MobileServiceCustom.USUARIO_LOGUEADO.getId()));
+                            agregarReporte(new Report(srt,objNoticia.id,MobileServiceCustom.USUARIO_LOGUEADO.getId()));
                             //agregarComentario(new Comentario("", srt, MobileServiceCustom.USUARIO_LOGUEADO.getId(), MyTime.getFecha(), MyTime.getHora(), ID_NOTICIA));
                         }
 
