@@ -219,16 +219,10 @@ public class UserProfileActivity extends CustomAppCompatActivity
     {
         List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
 
-        if (ID_USUARIO_AUX.isEmpty())
-        {
-            parameters.add(new Pair<String, String>("id",MobileServiceCustom.USUARIO_LOGUEADO.getId()));
-        }
-        else
-        {
-            parameters.add(new Pair<String, String>("id",ID_USUARIO_AUX));
-        }
+        parameters.add(new Pair<String, String>("id",MobileServiceCustom.USUARIO_LOGUEADO.getId()));
+        parameters.add(new Pair<String, String>("idUserVisited",ID_USUARIO_AUX));
 
-        ListenableFuture<JsonElement> lst = customClient.mClient.invokeApi("news_user", "GET", parameters);
+        ListenableFuture<JsonElement> lst = customClient.mClient.invokeApi("all_news_user", "GET", parameters);
 
         Futures.addCallback(lst, new FutureCallback<JsonElement>() {
             @Override
@@ -289,7 +283,7 @@ public class UserProfileActivity extends CustomAppCompatActivity
             txtvSad.setVisibility(View.GONE);
             txtvSad.setVisibility(View.GONE);
         }
-
+        MyProfileActivity.loadUserInformation();
     }
 
 

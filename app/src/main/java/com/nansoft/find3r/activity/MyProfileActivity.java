@@ -38,9 +38,10 @@ public class MyProfileActivity extends AppCompatActivity implements AppBarLayout
     MyFragmentPagerAdapter adapterViewPager;
     ViewPager viewPager;
     FloatingActionButton fab;
-    TextView txtvUserName;
-    CircularImageView imgvUserProfile;
-    ImageView imgvCover;
+    static TextView txtvUserName;
+    static CircularImageView imgvUserProfile;
+    static ImageView imgvCover;
+    static Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -48,6 +49,8 @@ public class MyProfileActivity extends AppCompatActivity implements AppBarLayout
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.my_profile);
+
+        context = getBaseContext();
 
         appBarLayout = (AppBarLayout) findViewById(R.id.appBar);
 
@@ -61,7 +64,7 @@ public class MyProfileActivity extends AppCompatActivity implements AppBarLayout
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         adapterViewPager = new MyFragmentPagerAdapter(getSupportFragmentManager(),this);
         adapterViewPager.addFragment(new ProfileFragment(), "Publicaciones");
-        adapterViewPager.addFragment(new NewsFragment(), "Seguimiento");
+        adapterViewPager.addFragment(new ProfileFragment(), "Seguimiento");
 
         viewPager.setAdapter(adapterViewPager);
 
@@ -96,9 +99,18 @@ public class MyProfileActivity extends AppCompatActivity implements AppBarLayout
         imgvUserProfile = (CircularImageView) includedLayout.findViewById(R.id.imgvUserProfilePhoto);
         imgvCover = (ImageView) includedLayout.findViewById(R.id.imgvUserProfileCover);
 
+
+
+        //endregion
+
+    }
+
+    public static void loadUserInformation() {
+
+
         txtvUserName.setText(MobileServiceCustom.USUARIO_LOGUEADO.getNombre());
 
-        Glide.with(this)
+        Glide.with(context)
                 .load(MobileServiceCustom.USUARIO_LOGUEADO.getUrlimagen().trim())
                 .asBitmap()
                 .fitCenter()
@@ -106,7 +118,7 @@ public class MyProfileActivity extends AppCompatActivity implements AppBarLayout
                 .error(R.drawable.error_image)
                 .into(imgvUserProfile);
 
-        Glide.with(this)
+        Glide.with(context)
                 .load(MobileServiceCustom.USUARIO_LOGUEADO.getCover_picture().trim())
                 .asBitmap()
                 .fitCenter()
@@ -114,8 +126,10 @@ public class MyProfileActivity extends AppCompatActivity implements AppBarLayout
                 .error(R.drawable.error_image)
                 .into(imgvCover);
 
-        //endregion
-
+        Toast.makeText(context, "Id: " + MobileServiceCustom.USUARIO_LOGUEADO.getId() + "\n" +
+                "Name: " + MobileServiceCustom.USUARIO_LOGUEADO.getNombre() + "\n" +
+                "UrlImagen: " + MobileServiceCustom.USUARIO_LOGUEADO.getUrlimagen().trim() + "\n" +
+                "CoverPicture: " + MobileServiceCustom.USUARIO_LOGUEADO.getCover_picture().trim(), Toast.LENGTH_SHORT).show();
     }
 
 

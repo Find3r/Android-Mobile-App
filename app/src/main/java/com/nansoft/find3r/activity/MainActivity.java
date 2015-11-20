@@ -22,7 +22,6 @@ import com.nansoft.find3r.R;
 import com.nansoft.find3r.fragments.NewsFragment;
 import com.nansoft.find3r.helpers.CustomNotificationHandler;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
-import com.nansoft.find3r.models.Noticia;
 import com.nansoft.find3r.models.Usuario;
 import com.nansoft.find3r.models.UsuarioFacebook;
 
@@ -136,7 +135,7 @@ public class MainActivity extends AppCompatActivity
 
             protected void onPostExecute(Object result) {
 
-            };
+            }
         }.execute(null, null, null);
     }
 
@@ -161,13 +160,12 @@ public class MainActivity extends AppCompatActivity
 
 
                     MobileServiceTable<Usuario> mUserTable;
-                    MobileServiceTable<Noticia> mNoticiaTable;
 
                     @Override
                     protected void onPreExecute() {
 
                         mUserTable = customClient.mClient.getTable("usuario", Usuario.class);
-                        mNoticiaTable = customClient.mClient.getTable("noticia", Noticia.class);
+
                     }
 
                     @Override
@@ -216,9 +214,15 @@ public class MainActivity extends AppCompatActivity
 
                                 // agregamos el registro
                                 mUserTable.insert(MobileServiceCustom.USUARIO_LOGUEADO);
-                            } catch (Exception exception2) {
-                                Toast.makeText(getApplicationContext(), "error al registrar el usuario " + exception.toString(), Toast.LENGTH_SHORT).show();
-
+                            } catch (final Exception exception2) {
+                                /*
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "error al registrar el usuario " + exception2.toString(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                */
                             }
 
 
@@ -240,11 +244,22 @@ public class MainActivity extends AppCompatActivity
 
                             try {
                                 mUserTable.update(MobileServiceCustom.USUARIO_LOGUEADO).get();
-                            } catch (Exception exception) {
 
+
+                            } catch (final Exception exception3) {
+                                /*
+                                runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        Toast.makeText(getApplicationContext(), "error al actualizar el usuario " + exception3.toString(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                */
                             }
 
                         }
+
+
 
                         return false;
                     }

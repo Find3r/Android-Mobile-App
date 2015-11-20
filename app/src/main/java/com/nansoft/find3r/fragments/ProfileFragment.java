@@ -23,6 +23,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.nansoft.find3r.R;
+import com.nansoft.find3r.activity.MyProfileActivity;
 import com.nansoft.find3r.adapters.ComplexRecyclerViewAdapter;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 import com.nansoft.find3r.models.NoticiaCompleta;
@@ -46,8 +47,6 @@ public class ProfileFragment extends FragmentSwipe
 
     RecyclerView mRecyclerView;
 
-    String ID_USUARIO_AUX = "";
-
     Usuario objUsuario;
 
     ArrayList<Object> itemsCollection;
@@ -64,16 +63,6 @@ public class ProfileFragment extends FragmentSwipe
 
 
         mContext = view.getContext();
-
-
-        try {
-            //ID_USUARIO_AUX = getActivity().getIntent().getExtras().getString("ID_USUARIO","").trim();
-        }
-        catch(Exception e)
-        {
-
-        }
-
 
         /////////LAYOUT DE ERROR////////////
         View includedLayout = view.findViewById(R.id.sindatos);
@@ -169,16 +158,10 @@ public class ProfileFragment extends FragmentSwipe
 
         List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
 
-        if (ID_USUARIO_AUX.isEmpty())
-        {
-            parameters.add(new Pair<String, String>("id",MobileServiceCustom.USUARIO_LOGUEADO.getId()));
-        }
-        else
-        {
-            parameters.add(new Pair<String, String>("id",ID_USUARIO_AUX));
-        }
+        parameters.add(new Pair<String, String>("id",MobileServiceCustom.USUARIO_LOGUEADO.getId()));
 
-        ListenableFuture<JsonElement> lst = customClient.mClient.invokeApi("news_user", "GET", parameters);
+
+        ListenableFuture<JsonElement> lst = customClient.mClient.invokeApi("my_news", "GET", parameters);
 
         Futures.addCallback(lst, new FutureCallback<JsonElement>() {
             @Override
@@ -239,6 +222,8 @@ public class ProfileFragment extends FragmentSwipe
             imgvSad.setVisibility(View.GONE);
             txtvSad.setVisibility(View.GONE);
             txtvSad.setVisibility(View.GONE);
+
+            MyProfileActivity.loadUserInformation();
         }
 
     }

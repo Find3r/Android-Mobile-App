@@ -9,40 +9,40 @@ import java.text.ParseException;
  */
 public class Noticia
 {
-    @SerializedName("id")
+    @SerializedName("id_noticia")
     private String id;
 
-    @SerializedName("nombre")
+    @SerializedName("nombre_noticia")
     private String nombre;
 
-    @SerializedName("descripcion")
+    @SerializedName("descripcion_noticia")
     private String descripcion;
 
-    @SerializedName("urlimagen")
+    @SerializedName("urlimagen_noticia")
     private String urlimagen;
 
-    @SerializedName("fechadesaparicion")
+    @SerializedName("fechadesaparicion_noticia")
     private String fechadesaparicion;
 
-    @SerializedName("idusuario")
+    @SerializedName("idusuario_noticia")
     private String idusuario;
 
-    @SerializedName("idestado")
+    @SerializedName("idestado_noticia")
     private String idestado;
 
-    @SerializedName("idcategoria")
+    @SerializedName("idcategoria_noticia")
     private String idCategoria;
 
-    @SerializedName("idprovincia")
+    @SerializedName("idprovincia_noticia")
     private String idProvincia;
 
-    @SerializedName("cantidad_reportes")
+    @SerializedName("cantidad_reportes_noticia")
     private int cantidadReportes;
 
-    @SerializedName("latitud")
+    @SerializedName("latitud_noticia")
     private String latitud;
 
-    @SerializedName("longitud")
+    @SerializedName("longitud_noticia")
     private String longitud;
 
 
