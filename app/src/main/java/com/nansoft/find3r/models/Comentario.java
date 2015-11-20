@@ -8,24 +8,30 @@ import com.google.gson.annotations.SerializedName;
 public class Comentario
 {
     @SerializedName("id")
-    private String id;
+    public String id;
 
     @SerializedName("descripcion")
-    private String descripcion;
+    public String descripcion;
 
     @SerializedName("idusuario")
-    private String idUsuario;
+    public String idUsuario;
 
     @SerializedName("idnoticia")
-    private String idNoticia;
+    public String idNoticia;
 
     @SerializedName("fecha")
-    private String fecha;
+    public String fecha;
 
     @SerializedName("hora")
-    private String hora;
+    public String hora;
 
     public Comentario() {
+        this.id = "Sin definir";
+        this.descripcion = "Sin definir";
+        this.idUsuario = "Sin definir";
+        this.fecha = "Sin definir";
+        this.hora= "Sin definir";
+        this.idNoticia = "Sin definir";
     }
 
     public Comentario(String id, String descripcion, String idUsuario,String fecha, String hora, String idNoticia) {
@@ -37,51 +43,4 @@ public class Comentario
         this.idNoticia = idNoticia;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
-
-    public String getIdUsuario() {
-        return idUsuario;
-    }
-
-    public void setIdUsuario(String idUsuario) {
-        this.idUsuario = idUsuario;
-    }
-
-    public String getIdNoticia() {
-        return idNoticia;
-    }
-
-    public void setIdNoticia(String idNoticia) {
-        this.idNoticia = idNoticia;
-    }
-
-    public String getFecha() {
-        return fecha;
-    }
-
-    public void setFecha(String fecha) {
-        this.fecha = fecha;
-    }
-
-    public String getHora() {
-        return hora;
-    }
-
-    public void setHora(String hora) {
-        this.hora = hora;
-    }
 }

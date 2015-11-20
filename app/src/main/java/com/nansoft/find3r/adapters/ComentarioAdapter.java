@@ -44,13 +44,13 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Co
         ComentarioCompleto objComentario= lstComentarios[position];
 
         // establecemos los atributos
-        contactViewHolder.txtvTitulo.setText(objComentario.getNombre());
-        contactViewHolder.txtvSubtitulo.setText(objComentario.getDescripcion());
+        contactViewHolder.txtvTitulo.setText(objComentario.nombre);
+        contactViewHolder.txtvSubtitulo.setText(objComentario.descripcion);
 
-        contactViewHolder.txtvFecha.setText(objComentario.getFecha());
+        contactViewHolder.txtvFecha.setText(objComentario.fecha);
 
         Glide.with(context)
-                .load(objComentario.getUrlImagen().trim())
+                .load(objComentario.urlImagen.trim())
                 .asBitmap()
                 .fitCenter()
                 .placeholder(R.drawable.picture_default)
@@ -78,7 +78,7 @@ public class ComentarioAdapter extends RecyclerView.Adapter<ComentarioAdapter.Co
     {
 
         Intent intent = new Intent(context, UserProfileActivity.class);
-        intent.putExtra("ID_USUARIO",lstComentarios[position].getIdUsuario());
+        intent.putExtra("ID_USUARIO",lstComentarios[position].idUsuario);
         context.startActivity(intent);
         ((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
     }

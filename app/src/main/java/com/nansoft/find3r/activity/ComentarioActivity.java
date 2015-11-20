@@ -209,9 +209,9 @@ public class ComentarioActivity extends AppCompatActivity {
 
 
             List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
-            parameters.add(new Pair<String, String>("id",ID_NOTICIA));
+            parameters.add(new Pair<String, String>("idnew",ID_NOTICIA));
 
-            ListenableFuture<JsonElement> lst = mobileServiceCustom.mClient.invokeApi("postcomments", "GET", parameters);
+            ListenableFuture<JsonElement> lst = mobileServiceCustom.mClient.invokeApi("comments_new_aux", "GET", parameters);
 
             Futures.addCallback(lst, new FutureCallback<JsonElement>() {
                 @Override

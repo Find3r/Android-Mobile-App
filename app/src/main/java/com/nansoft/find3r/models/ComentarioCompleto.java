@@ -8,24 +8,9 @@ import com.google.gson.annotations.SerializedName;
 public class ComentarioCompleto extends Comentario
 {
     @SerializedName("nombre")
-    private String nombre;
+    public String nombre;
 
     @SerializedName("urlimagen")
-    private String urlImagen;
+    public String urlImagen;
 
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String pNombre) {
-        nombre = pNombre;
-    }
-
-    public String getUrlImagen() {
-        return urlImagen;
-    }
-
-    public void setUrlImagen(String urlImagen) {
-        this.urlImagen = urlImagen;
-    }
 }
