@@ -41,7 +41,7 @@ import java.util.List;
 /**
  * Created by User on 6/20/2015.
  */
-public class NewsFragment extends FragmentSwipe implements FragmentSwipeListener
+public class NewsFragment extends Fragment
 {
     public static NoticiaCompletaAdapter adapter;
     public static SwipeRefreshLayout mSwipeRefreshLayout;
@@ -130,7 +130,8 @@ public class NewsFragment extends FragmentSwipe implements FragmentSwipeListener
 
 
             List<Pair<String, String>> parameters = new ArrayList<Pair<String, String>>();
-            ListenableFuture<JsonElement> lst = mobileService.mClient.invokeApi("last_news", "GET", parameters);
+            parameters.add(new Pair<String, String>("id",MobileServiceCustom.USUARIO_LOGUEADO.getId()));
+            ListenableFuture<JsonElement> lst = mobileService.mClient.invokeApi("last_newsaux", "GET", parameters);
 
             Futures.addCallback(lst, new FutureCallback<JsonElement>() {
                 @Override
@@ -203,9 +204,4 @@ public class NewsFragment extends FragmentSwipe implements FragmentSwipeListener
         }
     }
 
-    @Override
-    public  void setEnabledSwipe(boolean status)
-    {
-        mSwipeRefreshLayout.setEnabled(status);
-    }
 }
