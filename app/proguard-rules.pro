@@ -53,6 +53,31 @@
 
 -keep class android.support.v7.widget.SearchView { *; }
 
+-keep class com.squareup.okhttp.** { *; }
+-keepclassmembers class com.squareup.okhttp.** { *; }
+
+-dontwarn com.squareup.okhttp.**
+
+-keep class org.apache.http.** { *; }
+-keepclassmembers class org.apache.http.** { *; }
+
+-dontwarn org.apache.http.**
+
+-keep class android.net.http.** { *; }
+-keepclassmembers class android.net.http.** { *; }
+
+-dontwarn android.net.http.**
+
+-keep class com.microsoft.windowsazure.mobileservices.http.** { *; }
+-keepclassmembers class com.microsoft.windowsazure.mobileservices.http.** { *; }
+
+-dontwarn com.microsoft.windowsazure.mobileservices.http.**
+
+-keep class android.app.** { *; }
+-keepclassmembers class android.app.** { *; }
+
+-dontwarn android.app.**
+
 
 
 ##---------------End: proguard configuration for Gson ----------

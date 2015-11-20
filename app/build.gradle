@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 22
-    buildToolsVersion "21.1.2"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.1"
 
     defaultConfig {
         applicationId "com.nansoft.find3r"
         minSdkVersion 15
-        targetSdkVersion 22
+        targetSdkVersion 23
         versionCode 12
         versionName "12.0"
         renderscriptTargetApi 22
@@ -27,10 +27,10 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
-    compile 'com.android.support:appcompat-v7:22.2.1'
-    compile 'com.android.support:design:22.2.0'
-    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
-    compile 'com.android.support:cardview-v7:22.0.+'
+    compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.android.support:design:23.1.0'
+    compile 'com.android.support:recyclerview-v7:23.1.0'
+    compile 'com.android.support:cardview-v7:23.1.0'
     compile 'com.microsoft.azure:azure-mobile-services-android-sdk:2.0.2'
     compile 'com.github.bumptech.glide:glide:3.6.0'
     compile 'com.google.guava:guava:18.0'
@@ -41,9 +41,7 @@ dependencies {
     compile 'com.github.flavienlaurent.datetimepicker:library:0.0.2'
     compile 'jp.wasabeef:blurry:1.0.4'
     compile 'com.bartoszlipinski.recyclerviewheader:library:1.2.0'
-
-
-
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 
     compile files('libs/notification-hubs-0.3.jar')
     compile files('libs/notifications-1.0.1.jar')
