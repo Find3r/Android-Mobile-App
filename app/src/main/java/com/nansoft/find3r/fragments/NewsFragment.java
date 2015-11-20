@@ -31,6 +31,7 @@ import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.AgregarNoticia;
 import com.nansoft.find3r.adapters.NoticiaCompletaAdapter;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
+import com.nansoft.find3r.interfaces.FragmentSwipeListener;
 import com.nansoft.find3r.models.NoticiaCompleta;
 
 import java.lang.reflect.Type;
@@ -40,7 +41,7 @@ import java.util.List;
 /**
  * Created by User on 6/20/2015.
  */
-public class NewsFragment extends Fragment
+public class NewsFragment extends FragmentSwipe implements FragmentSwipeListener
 {
     public static NoticiaCompletaAdapter adapter;
     public static SwipeRefreshLayout mSwipeRefreshLayout;
@@ -53,7 +54,6 @@ public class NewsFragment extends Fragment
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    MobileServiceList<NoticiaCompleta> mobileServiceList;
     List<NoticiaCompleta> imageResults;
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -201,5 +201,11 @@ public class NewsFragment extends Fragment
             txtvSad.setVisibility(View.GONE);
             txtvSad.setVisibility(View.GONE);
         }
+    }
+
+    @Override
+    public  void setEnabledSwipe(boolean status)
+    {
+        mSwipeRefreshLayout.setEnabled(status);
     }
 }
