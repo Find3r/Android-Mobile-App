@@ -43,7 +43,7 @@ public class ProfileFragment extends FragmentSwipe
 
     MobileServiceCustom customClient;
 
-    static SwipeRefreshLayout mSwipeRefreshLayout;
+    SwipeRefreshLayout mSwipeRefreshLayout;
 
     RecyclerView mRecyclerView;
 
@@ -97,7 +97,7 @@ public class ProfileFragment extends FragmentSwipe
 
         /////////////// SWIPE ///////
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swprlPerfilUsuario);
-        mSwipeRefreshLayout.setEnabled(false);
+
         mSwipeRefreshLayout.setColorSchemeResources(R.color.android_darkorange, R.color.green, R.color.android_blue);
 
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {

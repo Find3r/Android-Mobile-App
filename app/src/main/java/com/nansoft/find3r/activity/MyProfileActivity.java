@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.melnykov.fab.FloatingActionButton;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.adapters.MyFragmentPagerAdapter;
+import com.nansoft.find3r.fragments.FollowingNewsFragment;
 import com.nansoft.find3r.fragments.FragmentSwipe;
 import com.nansoft.find3r.fragments.NewsFragment;
 import com.nansoft.find3r.fragments.ProfileFragment;
@@ -64,7 +65,7 @@ public class MyProfileActivity extends AppCompatActivity implements AppBarLayout
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         adapterViewPager = new MyFragmentPagerAdapter(getSupportFragmentManager(),this);
         adapterViewPager.addFragment(new ProfileFragment(), "Publicaciones");
-        adapterViewPager.addFragment(new ProfileFragment(), "Seguimiento");
+        adapterViewPager.addFragment(new FollowingNewsFragment(), "Seguimiento");
 
         viewPager.setAdapter(adapterViewPager);
 

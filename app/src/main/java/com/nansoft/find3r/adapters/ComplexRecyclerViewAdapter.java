@@ -139,7 +139,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
         }
     }
 
-    private void configureNewViewHolder(NoticiaCompletaAdapter.NoticiaCompletaViewHolder viewHolder, int position)
+    private void configureNewViewHolder(final NoticiaCompletaAdapter.NoticiaCompletaViewHolder viewHolder,final int position)
     {
         final NoticiaCompleta objNoticia = (NoticiaCompleta) items.get(position);
         if (objNoticia != null) {
@@ -182,6 +182,7 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
 
             viewHolder.txtvCantidadComentarios.setText(String.valueOf(objNoticia.cantidadComentarios));
 
+            //region encontrado/desaparecido
             if(objNoticia.idestado.trim().equals("0"))
             {
                 viewHolder.txtvTipo.setText(context.getString(R.string.lost));
@@ -194,7 +195,9 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 viewHolder.imgvTipo.setImageResource(context.getResources().getIdentifier("found","drawable", context.getPackageName()));
 
             }
+            //endregion
 
+            //region resuelto/sin resolver
             if (objNoticia.solved)
             {
                 viewHolder.txtvEstado.setText(context.getString(R.string.solved));
@@ -204,6 +207,20 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
             {
                 viewHolder.txtvEstado.setText(context.getString(R.string.unsolved));
                 viewHolder.imgvEstado.setImageResource(context.getResources().getIdentifier("unsolved","drawable", context.getPackageName()));
+            }
+            //endregion
+
+            if(objNoticia.estadoSeguimiento)
+            {
+
+                viewHolder.txtvFollow.setText(context.getString(R.string.discard));
+                viewHolder.imgvFollow.setImageResource(context.getResources().getIdentifier("unfollow", "drawable", context.getPackageName()));
+            }
+            else
+            {
+
+                viewHolder.txtvFollow.setText(context.getString(R.string.save));
+                viewHolder.imgvFollow.setImageResource(context.getResources().getIdentifier("follow", "drawable", context.getPackageName()));
             }
 
             // se establece onClickListener en el componente de cada vista
@@ -235,6 +252,25 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                 @Override
                 public void onClick(View v) {
                     showItemOptionsDialog(objNoticia);
+                }
+            });
+
+            viewHolder.imgvFollow.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    if(!objNoticia.estadoSeguimiento)
+                    {
+                        ((NoticiaCompleta) items.get(position)).estadoSeguimiento = true;
+                        viewHolder.txtvFollow.setText(context.getString(R.string.discard));
+                        viewHolder.imgvFollow.setImageResource(context.getResources().getIdentifier("unfollow", "drawable", context.getPackageName()));
+                    }
+                    else
+                    {
+                        ((NoticiaCompleta) items.get(position)).estadoSeguimiento = false;
+                        viewHolder.txtvFollow.setText(context.getString(R.string.save));
+                        viewHolder.imgvFollow.setImageResource(context.getResources().getIdentifier("follow", "drawable", context.getPackageName()));
+                    }
                 }
             });
 

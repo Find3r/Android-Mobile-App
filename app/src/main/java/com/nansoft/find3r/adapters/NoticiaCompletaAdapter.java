@@ -80,15 +80,6 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
                 .error(R.drawable.error_image)
                 .into(viewHolder.imgvImagen);
 
-        /*
-        Picasso.with(context).load(objNoticia.getUrlImagen().trim())
-                .placeholder(R.drawable.picture_default)
-                .error(R.drawable.error_image)
-
-                .into(viewHolder.imgvImagen);
-        */
-
-
         viewHolder.imgvImagen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -98,9 +89,6 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
                 intent.putExtra("obj", lstNoticias.get(position));
                 context.startActivity(intent);
                 ((Activity) context).overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_right);
-
-
-
             }
         });
 
@@ -111,22 +99,20 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
 
         viewHolder.txtvCantidadComentarios.setText(String.valueOf(objNoticia.cantidadComentarios));
 
+        //region estado perdido/desaparecido
         if(objNoticia.idestado.trim().equals("0"))
         {
-
-
             viewHolder.txtvTipo.setText(context.getString(R.string.lost));
             viewHolder.imgvTipo.setImageResource(context.getResources().getIdentifier("lost", "drawable", context.getPackageName()));
-
         }
         else
         {
-
-
             viewHolder.txtvTipo.setText(context.getString(R.string.found));
             viewHolder.imgvTipo.setImageResource(context.getResources().getIdentifier("found", "drawable", context.getPackageName()));
         }
+        //endregion
 
+        //region resuelto/sin resolver
         if (objNoticia.solved)
         {
             viewHolder.txtvEstado.setText(context.getString(R.string.solved));
@@ -136,6 +122,20 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
         {
             viewHolder.txtvEstado.setText(context.getString(R.string.unsolved));
             viewHolder.imgvEstado.setImageResource(context.getResources().getIdentifier("unsolved","drawable", context.getPackageName()));
+        }
+        //endregion
+
+        if(objNoticia.estadoSeguimiento)
+        {
+
+            viewHolder.txtvFollow.setText(context.getString(R.string.discard));
+            viewHolder.imgvFollow.setImageResource(context.getResources().getIdentifier("unfollow", "drawable", context.getPackageName()));
+        }
+        else
+        {
+
+            viewHolder.txtvFollow.setText(context.getString(R.string.save));
+            viewHolder.imgvFollow.setImageResource(context.getResources().getIdentifier("follow", "drawable", context.getPackageName()));
         }
 
         // se establece onClickListener en el componente de cada vista
@@ -174,15 +174,15 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
             @Override
             public void onClick(View v) {
 
-                if(objNoticia.idestado.trim().equals("0"))
+                if(!objNoticia.estadoSeguimiento)
                 {
-                    lstNoticias.get(position).idestado = "1";
+                    lstNoticias.get(position).estadoSeguimiento = true;
                     viewHolder.txtvFollow.setText(context.getString(R.string.discard));
                     viewHolder.imgvFollow.setImageResource(context.getResources().getIdentifier("unfollow", "drawable", context.getPackageName()));
                 }
                 else
                 {
-                    lstNoticias.get(position).idestado = "0";
+                    lstNoticias.get(position).estadoSeguimiento = false;
                     viewHolder.txtvFollow.setText(context.getString(R.string.save));
                     viewHolder.imgvFollow.setImageResource(context.getResources().getIdentifier("follow", "drawable", context.getPackageName()));
                 }
