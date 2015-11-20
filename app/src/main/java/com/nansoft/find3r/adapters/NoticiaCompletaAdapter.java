@@ -186,6 +186,8 @@ public class NoticiaCompletaAdapter extends RecyclerView.Adapter<NoticiaCompleta
                     viewHolder.txtvFollow.setText(context.getString(R.string.save));
                     viewHolder.imgvFollow.setImageResource(context.getResources().getIdentifier("follow", "drawable", context.getPackageName()));
                 }
+
+                MobileServiceCustom.updateFollowingNew(lstNoticias.get(position).id,lstNoticias.get(position).estadoSeguimiento);
             }
         });
 

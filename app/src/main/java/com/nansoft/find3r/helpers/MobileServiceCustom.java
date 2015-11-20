@@ -2,10 +2,13 @@ package com.nansoft.find3r.helpers;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 import com.microsoft.windowsazure.mobileservices.authentication.MobileServiceUser;
+import com.microsoft.windowsazure.mobileservices.table.MobileServiceTable;
+import com.nansoft.find3r.models.NoticiaUsuario;
 import com.nansoft.find3r.models.Usuario;
 import com.nansoft.find3r.models.UsuarioFacebook;
 
@@ -104,7 +107,47 @@ public class MobileServiceCustom
 
     }
 
+    public static void updateFollowingNew(String pidNoticia,boolean pStatus)
+    {
+        final NoticiaUsuario noticiaUsuario = new NoticiaUsuario(USUARIO_LOGUEADO.id,pidNoticia,pStatus);
 
+        new AsyncTask<Void, Void, Boolean>() {
+
+
+            MobileServiceTable<NoticiaUsuario> noticiaUsuarioTable;
+
+            @Override
+            protected void onPreExecute() {
+
+                noticiaUsuarioTable = mClient.getTable("noticia_usuario", NoticiaUsuario.class);
+
+            }
+
+            @Override
+            protected Boolean doInBackground(Void... params) {
+                try {
+
+                    noticiaUsuarioTable.insert(noticiaUsuario);
+
+                    return true;
+                } catch (final Exception exception) {
+                }
+
+                return false;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean success) {
+
+            }
+
+            @Override
+            protected void onCancelled() {
+                super.onCancelled();
+            }
+        }.execute();
+
+    }
 
 
 }

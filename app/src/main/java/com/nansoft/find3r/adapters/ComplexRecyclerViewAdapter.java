@@ -271,6 +271,8 @@ public class ComplexRecyclerViewAdapter extends RecyclerView.Adapter<RecyclerVie
                         viewHolder.txtvFollow.setText(context.getString(R.string.save));
                         viewHolder.imgvFollow.setImageResource(context.getResources().getIdentifier("follow", "drawable", context.getPackageName()));
                     }
+
+                    MobileServiceCustom.updateFollowingNew(((NoticiaCompleta) items.get(position)).id,((NoticiaCompleta) items.get(position)).estadoSeguimiento);
                 }
             });
 
