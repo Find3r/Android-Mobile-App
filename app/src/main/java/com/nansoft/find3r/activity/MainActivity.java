@@ -1,20 +1,15 @@
 package com.nansoft.find3r.activity;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.Pair;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.gcm.GoogleCloudMessaging;
@@ -315,8 +310,7 @@ public class MainActivity extends AppCompatActivity
                 return true;
 
             case R.id.action_user:
-
-                startMyActivity(new Intent(this,UserProfileActivity.class));
+                startMyActivity(new Intent(this,MyProfileActivity.class));
                 return true;
 
 
