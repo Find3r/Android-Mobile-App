@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
+import com.melnykov.fab.FloatingActionButton;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.MyProfileActivity;
 import com.nansoft.find3r.adapters.ComplexRecyclerViewAdapter;
@@ -80,9 +81,11 @@ public class ProfileFragment extends FragmentSwipe
 
 
         // Create adapter passing in the sample user data
-        /*
+
         ///////////// FLOATING ACTION BUTTON ////////////
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabAgregarNoticiaPerfil);
+        fab.setVisibility(View.INVISIBLE);
+        /*
         fab.attachToRecyclerView(mRecyclerView);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +102,7 @@ public class ProfileFragment extends FragmentSwipe
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swprlPerfilUsuario);
 
         mSwipeRefreshLayout.setColorSchemeResources(R.color.android_darkorange, R.color.green, R.color.android_blue);
-
+        mSwipeRefreshLayout.setEnabled(false);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -112,15 +115,6 @@ public class ProfileFragment extends FragmentSwipe
 
         customClient = new MobileServiceCustom(getActivity());
 
-
-
-
-        mSwipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(true);
-            }
-        });
 
         // cargamos la información de usuario
         cargarUsuario();

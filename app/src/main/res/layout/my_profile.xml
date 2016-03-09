@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/coord"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:fitsSystemWindows="true">
+
+
+    <com.nansoft.find3r.helpers.CustomSwipeToRefresh
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/swprlMyProfile"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true"
+
+        >
+
+    <android.support.design.widget.CoordinatorLayout
+        android:id="@+id/coord"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+
+
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBar"
@@ -15,14 +27,13 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
 
+
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapse_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
-
-            app:layout_scrollFlags="scroll|enterAlways"
-            >
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|enterAlwaysCollapsed" >
 
             <include
                 android:id="@+id/headerMyProfile"
@@ -39,8 +50,9 @@
                 android:background="@android:color/transparent"
                 app:titleMarginTop="15dp"/>
 
-
         </android.support.design.widget.CollapsingToolbarLayout>
+
+
 
         <com.astuetz.PagerSlidingTabStrip
             android:id="@+id/tabs"
@@ -56,12 +68,18 @@
     </android.support.design.widget.AppBarLayout>
 
 
+
     <android.support.v4.view.ViewPager
         android:id="@+id/viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        />
+/>
+
+
+
+
 
     <com.melnykov.fab.FloatingActionButton
         xmlns:fab="http://schemas.android.com/apk/res-auto"
@@ -79,5 +97,8 @@
         fab:fab_colorPressed="@color/anaranjado"
         fab:fab_colorRipple="@color/cafeoscuro"/>
 
+    </android.support.design.widget.CoordinatorLayout>
 
-</android.support.design.widget.CoordinatorLayout>
+
+</com.nansoft.find3r.helpers.CustomSwipeToRefresh>
+

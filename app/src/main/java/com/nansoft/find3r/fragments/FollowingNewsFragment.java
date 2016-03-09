@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
+import com.melnykov.fab.FloatingActionButton;
 import com.nansoft.find3r.R;
 import com.nansoft.find3r.activity.MyProfileActivity;
 import com.nansoft.find3r.adapters.ComplexRecyclerViewAdapter;
@@ -73,11 +74,14 @@ public class FollowingNewsFragment extends FragmentSwipe
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(view.getContext());
         mRecyclerView.setLayoutManager(mLayoutManager);
 
+        FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fabAgregarNoticiaPerfil);
+        fab.setVisibility(View.INVISIBLE);
+
         //region SwipeRefresh
         mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swprlPerfilUsuario);
 
         mSwipeRefreshLayout.setColorSchemeResources(R.color.android_darkorange, R.color.green, R.color.android_blue);
-
+        mSwipeRefreshLayout.setEnabled(false);
         mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -86,12 +90,7 @@ public class FollowingNewsFragment extends FragmentSwipe
             }
         });
 
-        mSwipeRefreshLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                mSwipeRefreshLayout.setRefreshing(true);
-            }
-        });
+
         //endregion
 
 
@@ -102,6 +101,8 @@ public class FollowingNewsFragment extends FragmentSwipe
 
         return view;
     }
+
+
 
     @Override
     public  void setEnabledSwipe(boolean status)
@@ -175,7 +176,7 @@ public class FollowingNewsFragment extends FragmentSwipe
     private void estadoAdapter(boolean pEstadoError)
     {
 
-
+       MyProfileActivity.mSwipeRefreshLayout.setRefreshing(false);
         // That's all!
         mSwipeRefreshLayout.setRefreshing(false);
         if(pEstadoError)

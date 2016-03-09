@@ -8,6 +8,7 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.view.MotionEventCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -28,6 +29,7 @@ import com.nansoft.find3r.fragments.FragmentSwipe;
 import com.nansoft.find3r.fragments.NewsFragment;
 import com.nansoft.find3r.fragments.ProfileFragment;
 import com.nansoft.find3r.helpers.CircularImageView;
+import com.nansoft.find3r.helpers.CustomSwipeToRefresh;
 import com.nansoft.find3r.helpers.MobileServiceCustom;
 
 public class MyProfileActivity extends AppCompatActivity implements AppBarLayout.OnOffsetChangedListener,ViewPager.OnPageChangeListener
@@ -43,6 +45,13 @@ public class MyProfileActivity extends AppCompatActivity implements AppBarLayout
     static CircularImageView imgvUserProfile;
     static ImageView imgvCover;
     static Context context;
+
+    ProfileFragment profileFragment;
+    FollowingNewsFragment followingNewsFragment;
+
+    public static CustomSwipeToRefresh mSwipeRefreshLayout;
+
+    View includedLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -61,13 +70,26 @@ public class MyProfileActivity extends AppCompatActivity implements AppBarLayout
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         //endregion
 
+        //region fragements
+        profileFragment = new ProfileFragment();
+        followingNewsFragment = new FollowingNewsFragment();
+        //endregion
+
+
         //region viewpager
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         adapterViewPager = new MyFragmentPagerAdapter(getSupportFragmentManager(),this);
-        adapterViewPager.addFragment(new ProfileFragment(), "Publicaciones");
-        adapterViewPager.addFragment(new FollowingNewsFragment(), "Seguimiento");
+        adapterViewPager.addFragment(profileFragment, "Publicaciones");
+        adapterViewPager.addFragment(followingNewsFragment, "Seguimiento");
 
         viewPager.setAdapter(adapterViewPager);
+
+
+        //region configurar fragments
+        // se deshabilitan los swipe de ellos
+        //profileFragment.setEnabledSwipe(false);
+        //followingNewsFragment.setEnabledSwipe(false);
+        //endregion
 
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabs.setViewPager(viewPager);
@@ -95,14 +117,38 @@ public class MyProfileActivity extends AppCompatActivity implements AppBarLayout
         //endregion
 
         //region header perfil
-        View includedLayout = findViewById(R.id.headerMyProfile);
+        includedLayout = findViewById(R.id.headerMyProfile);
         txtvUserName = (TextView) includedLayout.findViewById(R.id.txtvUserProfileName);
         imgvUserProfile = (CircularImageView) includedLayout.findViewById(R.id.imgvUserProfilePhoto);
         imgvCover = (ImageView) includedLayout.findViewById(R.id.imgvUserProfileCover);
 
-
-
         //endregion
+
+
+        //region swipe
+        mSwipeRefreshLayout = (CustomSwipeToRefresh) findViewById(R.id.swprlMyProfile);
+
+        mSwipeRefreshLayout.setColorSchemeResources(R.color.android_darkorange, R.color.green, R.color.android_blue);
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+
+                profileFragment.cargarUsuario();
+                followingNewsFragment.cargarUsuario();
+
+            }
+        });
+
+        mSwipeRefreshLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                mSwipeRefreshLayout.setRefreshing(true);
+            }
+        });
+        //endregion
+
+
 
     }
 
@@ -139,11 +185,17 @@ public class MyProfileActivity extends AppCompatActivity implements AppBarLayout
         if(index > -40)
         {
             fab.show();
+
         }
         else
         {
             fab.hide();
+
         }
+
+        //if()
+
+
 
 
     }
@@ -175,13 +227,15 @@ public class MyProfileActivity extends AppCompatActivity implements AppBarLayout
 
                     // de acuerdo al valor que tengamos activamos o desactivamos el swipe
                     // si está en el tope de la pantalla entonces se habilita
-                    pageFragment.setEnabledSwipe(statusSwipe);
-
+                    //pageFragment.setEnabledSwipe(statusSwipe);
+                    mSwipeRefreshLayout.setEnabled(statusSwipe);
 
 
 
                 }
                 break;
+
+
         }
         return super.dispatchTouchEvent(ev);
     }
@@ -203,7 +257,7 @@ public class MyProfileActivity extends AppCompatActivity implements AppBarLayout
     //region TabsListeners
     @Override
     public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
+        Toast.makeText(MyProfileActivity.this, "onPageScrolled", Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -215,7 +269,7 @@ public class MyProfileActivity extends AppCompatActivity implements AppBarLayout
 
     @Override
     public void onPageScrollStateChanged(int state) {
-
+        Toast.makeText(MyProfileActivity.this, "onPageScrollStateChanged", Toast.LENGTH_SHORT).show();
     }
 
     //endregion

@@ -315,12 +315,17 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
         switch(item.getItemId())
         {
             case android.R.id.home:
-                super.onBackPressed();
-                overridePendingTransition(R.anim.push_down_in,R.anim.push_down_out);
+                backToActivity();
                 break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void backToActivity()
+    {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.push_down_in,R.anim.push_down_out);
     }
 
     // se ejecuta cuando finaliza la acción de elegir un elemento
@@ -750,6 +755,9 @@ public class AgregarNoticia extends AppCompatActivity implements DatePickerDialo
                 }
 
                 resetActivity();
+
+                //backToActivity();
+
             }
             else
             {

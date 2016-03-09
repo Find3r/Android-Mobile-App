@@ -41,7 +41,7 @@ import java.util.List;
 /**
  * Created by User on 6/20/2015.
  */
-public class NewsFragment extends Fragment
+public class NewsFragment extends Fragment implements FragmentSwipeListener
 {
     public static NoticiaCompletaAdapter adapter;
     public static SwipeRefreshLayout mSwipeRefreshLayout;
@@ -118,6 +118,15 @@ public class NewsFragment extends Fragment
         return view;
     }
 
+    private void disableSwipe()
+    {
+        mSwipeRefreshLayout.setEnabled(false);
+    }
+
+    @Override
+    public void setEnabledSwipe(boolean status) {
+
+    }
 
 
     public void cargarNoticias(final FragmentActivity activity) {
@@ -203,5 +212,6 @@ public class NewsFragment extends Fragment
             txtvSad.setVisibility(View.GONE);
         }
     }
+
 
 }
